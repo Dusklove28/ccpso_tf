@@ -65,8 +65,8 @@ def main(processes=1):
     running_tasks = []
     wait_result_tasks = {}
     task_detail = {}
-    # need_run_tasks += generate_evaluate_tasks()
-    need_run_tasks += all_tasks_generate()
+    need_run_tasks += generate_evaluate_tasks()
+    # need_run_tasks += all_tasks_generate()
     # need_run_tasks += test_all_tasks_generate()
 
     mq = None
