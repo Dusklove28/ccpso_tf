@@ -1,4 +1,6 @@
 import os
+# os.environ['CUDA_VISIBLE_DEVICES'] = '-1'  # 强制屏蔽 GPU，让 12 个进程全部用纯 CPU 飞速推理
+# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import numpy as np
 
 # --- 魔法补丁：解决老代码 numpy 版本不兼容问题 ---
@@ -65,8 +67,10 @@ def main(processes=1):
     running_tasks = []
     wait_result_tasks = {}
     task_detail = {}
-    # need_run_tasks += generate_evaluate_tasks()
+    # 训练
     need_run_tasks += all_tasks_generate()
+    # 测试
+    need_run_tasks += generate_evaluate_tasks()
     # need_run_tasks += test_all_tasks_generate()
 
     mq = None
@@ -138,18 +142,6 @@ def main(processes=1):
                 time.sleep(1)
 
 
-import sys
-
-# if __name__ == '__main__':
-#     freeze_support()
-#     res = 'restart'
-#     # 根据 CPU 核心数设置进程数：i5-11260H 为 6 核 12 线程，建议使用 8-12 个进程
-#     processes_count = min(6, mp.cpu_count())
-#     while res == 'restart':
-#         res = main(processes_count)
-#         # res = main(1)        logger.info(f'main run finish res:{res}')
-#         time.sleep(60)
-
 if __name__ == '__main__':
     freeze_support()
     
@@ -162,7 +154,7 @@ if __name__ == '__main__':
     res = 'restart'
     
     # 强烈建议：先用 2 个进程探路，不要一上来就 6 个！
-    processes_count = 12
+    processes_count = 14
     
     while res == 'restart':
         res = main(processes_count)

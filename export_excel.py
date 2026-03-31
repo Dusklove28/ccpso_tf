@@ -18,48 +18,48 @@ except Exception:
     pass
 
 def generate_excel():
-    target_md5 = "e14070c2f46a4a1489ceaf9d3564ed75" # 你的任务哈希
+    # 已经为你替换好了最新的 50 维测试任务 MD5
+    target_md5 = "b598bae2ebc31d45b33b7bde3a3cfb1c" 
     task_dir = os.path.join("data", "task", target_md5)
     pickle_path = os.path.join(task_dir, "result.pickle")
 
     if not os.path.exists(pickle_path):
         print(f"❌ 还是没找到结果文件！")
         print(f"请检查这个路径是否存在: {os.path.abspath(pickle_path)}")
-        print("\n如果路径不存在，说明主进程还没计算完。请再等 1 分钟。")
         return
 
-    print(f"🚀 正在解析最终大决战结果: {target_md5}")
+    print(f"🚀 正在解析最终 50 维大决战结果: {target_md5}")
     
     try:
         with open(pickle_path, 'rb') as f:
             data = pickle.load(f)
             
-        # 提取汇总数据
-        # 结构：data['result'][0] 包含了 type, average_ranks, functions, result
-        summary = data['result'][0]
-        detailed_fits = summary['result'] # 字典: {f_num: {opt_name: result_matrix}}
-        avg_ranks = summary['average_ranks']
+        # 【核心修复】：绕过不存在的 0 号索引，直接获取字典
+        detailed_fits = data['result'] 
 
         # 1. 构造基础表格
         rows = []
         for f_num in sorted(detailed_fits.keys()):
             row = {'Function': f'F{f_num}'}
             for opt_name, res_data in detailed_fits[f_num].items():
-                # 获取最后一次运行的最终适应度 (result 矩阵的最后一行第3列)
-                # 原代码中 opt_data['result'] 是平均后的 trace，取最后一行
+                # 取最后一次运行的最终适应度 (result 矩阵的最后一行第3列)
                 final_val = res_data['result'][-1][2]
-                # 将对象转为类名字符串
-                name_str = getattr(opt_name, '__name__', str(opt_name))
+                
+                # 清洗类名，让 Excel 表头好看点
+                name_str = getattr(opt_name, '__name__', str(opt_name)).split('.')[-1].replace("'>", "").replace("train", "")
                 row[name_str] = final_val
             rows.append(row)
         
         df = pd.DataFrame(rows)
 
-        # 2. 插入平均排名行
+        # 2. 插入平均排名行（Pandas 手动计算，分值越小越好）
+        opt_cols = [c for c in df.columns if c != 'Function']
+        ranks = df[opt_cols].rank(axis=1, ascending=True)
+        mean_ranks = ranks.mean()
+
         rank_row = {'Function': '--- Average Rank ---'}
-        for opt_name, rank_val in avg_ranks.items():
-            name_str = getattr(opt_name, '__name__', str(opt_name))
-            rank_row[name_str] = round(rank_val, 4)
+        for col in opt_cols:
+            rank_row[col] = round(mean_ranks[col], 4)
         
         df = pd.concat([df, pd.DataFrame([rank_row])], ignore_index=True)
 
@@ -68,9 +68,9 @@ def generate_excel():
         df.to_excel(output_name, index=False)
         print(f"\n🎉 恭喜！你的学术成果已保存至: {output_name}")
         print("-" * 50)
-        print("最终平均排名（分值越低越牛）：")
-        for name, rank in sorted(avg_ranks.items(), key=lambda x: x[1]):
-            print(f"  {getattr(name, '__name__', name)}: {rank:.4f}")
+        print("🏆 最终平均排名（分值越低越牛）：")
+        for col in sorted(opt_cols, key=lambda c: mean_ranks[c]):
+            print(f"  {col}: {mean_ranks[col]:.4f}")
         print("-" * 50)
 
     except Exception as e:

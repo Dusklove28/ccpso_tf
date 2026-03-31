@@ -287,13 +287,17 @@ class FiftyDimCCPsoSwarm(TestpsoSwarm):
 
         new_xs = np.zeros_like(self.xs)
 
-        # 【核心修正 1：剥离 RL 控制，采用纯数学领域的黄金收敛常数】
-        # 这些参数保证了底层的二阶差分系统处于绝对稳定的收敛边界
-        c1_fixed = 1.49445
-        c2_fixed = 1.49445
-        # 惯性权重 w 采用随时间线性递减的经典策略 (或者固定为 0.729)
+        # 固定w,c1,c2
+        # c1 = 1.49445
+        # c2 = 1.49445
         # 这里为了配合动态寻优，我们采用标准的线性衰减 [0.9 -> 0.4]
-        w_fixed = 0.9 - 0.5 * (self.fe_num / self.fe_max)
+        # w_fixed = 0.9 - 0.5 * (self.fe_num / self.fe_max)
+
+        # 与作者保持一致
+        c1 = 2
+        c2 = 2
+        w = 0.5
+
 
         for i in range(self.n_part):
             # 提取动作
@@ -307,7 +311,6 @@ class FiftyDimCCPsoSwarm(TestpsoSwarm):
             # > 1 用于前期打破局部最优进行广度探索；< 1 用于后期精细收缩。
             Conv_a = action[0] * 0.7 + 0.8  
             
-            # (废弃 action 中的其他维度，让 RL 只学 action[0])
 
             for d in range(self.n_dim):
                 # 为每个粒子的每个维度生成独立的均匀分布随机数
@@ -317,19 +320,17 @@ class FiftyDimCCPsoSwarm(TestpsoSwarm):
                 pbest_target = self.p_best[i, d]
                 gbest_target = self.g_best[d]
 
-                # 计算真实的、带随机数的引力项 (使用固定的黄金常数)
-                c1_r1 = c1_fixed * r1
-                c2_r2 = c2_fixed * r2
-                
-                # 总引力 C_gravity
+                c1_r1 = c1 * r1
+                c2_r2 = c2 * r2
+
                 C_gravity = c1_r1 + c2_r2  
                 
                 # 计算严谨的等效引力中心 Q
                 Q = (c1_r1 * pbest_target + c2_r2 * gbest_target) / (C_gravity + 1e-16)
 
                 # 构建二阶差分方程的系数
-                a1 = 1 + w_fixed - C_gravity
-                a2 = -w_fixed
+                a1 = 1 + w - C_gravity
+                a2 = -w
 
                 # 计算基于稳定底座的自然偏移量 X_Q
                 X_Q = a1 * (self.xs[i, d] - Q) + a2 * (self.xs_old[i, d] - Q)

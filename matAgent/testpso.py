@@ -10,10 +10,6 @@ NSIZE = 3
 
 
 class TestpsoSwarm(MatSwarm):
-    optimizer_name = 'TESTPSO'
-    action_space = 10
-    obs_space = 1
-
     def __init__(self, n_run, n_part, show, fun, n_dim, pos_max, pos_min, config_dic):
         super().__init__(n_run, n_part, show, fun, n_dim, pos_max, pos_min, config_dic)
         self.name = 'TEST_PSO'
@@ -37,13 +33,13 @@ class TestpsoSwarm(MatSwarm):
         indexs = np.array(list(range(self.n_part)))
         self.atom_pci = 0.05 + 0.45 * np.exp(10 * indexs / (self.n_part - 1)) / (np.exp(10) - 1)
         self.flag = np.zeros(self.n_part)  # 与OLPSO共用
-        self.fid = np.zeros((self.n_part, self.n_dim), dtype=int)
+        self.fid = np.zeros((self.n_part, self.n_dim), dtype=np.int)
 
         self.atom_nearest_x = np.zeros((self.n_part, NSIZE, self.n_dim))
 
         # OLPSO
         self.oa = self.get_OA()
-        self.atom_orthogonal_target = np.zeros((self.n_part, self.n_dim), dtype=int)
+        self.atom_orthogonal_target = np.zeros((self.n_part, self.n_dim), dtype=np.int)
 
         self.old_data = {}
         self.old_data['mean'] = 0
@@ -57,9 +53,8 @@ class TestpsoSwarm(MatSwarm):
 
     def init(self):
         self.xs = np.random.uniform(self.pos_min, self.pos_max, self.xs.shape)
-        self.vs = np.random.uniform(self.min_v, self.max_v, self.xs.shape)
+        self.vs = np.random.uniform(self.max_v, self.min_v, self.xs.shape)
         self.fits = self.fun(self.xs)
-        self.fe_num += self.n_part
         self.init_finish = True
 
         self.gbest_index = np.argmin(self.fits)
@@ -113,11 +108,11 @@ class TestpsoSwarm(MatSwarm):
     def get_OA(self):
         # the method is from OLPSO paper appendix
         # step 1
-        m = int(np.power(2, np.ceil(np.log2(self.n_dim + 1))))
+        m = np.int(np.power(2, np.ceil(np.log2(self.n_dim + 1))))
         n = m - 1
-        u = int(np.ceil(np.log2(self.n_dim + 1)))
+        u = np.int(np.ceil(np.log2(self.n_dim + 1)))
         # print(m, n, u)
-        oa = np.zeros((m, n), dtype=int)
+        oa = np.zeros((m, n), dtype=np.int)
         k = 1
         # step 2
         for a in range(1, m + 1, 1):
@@ -131,7 +126,7 @@ class TestpsoSwarm(MatSwarm):
                 if np.floor(np.log2(b)) == np.log2(b):
                     continue
                 else:
-                    ori_b = int(np.power(2, np.floor(np.log2(b))))
+                    ori_b = np.int(np.power(2, np.floor(np.log2(b))))
                     s = b - ori_b
                     oa[a - 1, b - 1] = (oa[a - 1][s - 1] + oa[a - 1][ori_b - 1]) % 2
         # step 4
@@ -146,7 +141,7 @@ class TestpsoSwarm(MatSwarm):
         xs = [self.p_best[particle_index], self.p_best[target_index]]
         test_x = np.zeros(self.n_dim)
         test_num = self.oa.shape[0]
-        res = np.zeros(self.n_dim, dtype=int)
+        res = np.zeros(self.n_dim, dtype=np.int)
         test_ress = np.zeros(test_num)
         # 进行测试
         for i in range(test_num):
@@ -187,8 +182,6 @@ class TestpsoSwarm(MatSwarm):
 
     # r0 分群 r1 clpso r2 fdr r3 lips r4 oed r5 gbest r6 pbest r7 速度惯性 R8 没增长突变 R9 V=0突变概率
     def run_once(self, actions=np.zeros(50)):
-        if actions is None:
-            actions = np.zeros(self.action_space * self.n_group)
 
         if self.show:
             print('{}|best fit:{}'.format(self.fe_num / self.fe_max, self.history_best_fit))
@@ -204,8 +197,8 @@ class TestpsoSwarm(MatSwarm):
         for i in range(self.n_part):
             # 单粒子迭代
             fdr_deta_fitness = self.atom_history_best_fits[i] - self.atom_history_best_fits
-            # 按配置的 group 数对动作切片，保证训练和评估条件一致
-            action = actions[i % self.n_group * self.action_space:i % self.n_group * self.action_space + self.action_space]
+            # 将粒子分为5大群 分别进行处理
+            action = actions[i % 5 * 10:i % 5 * 10 + 10]
             w = action[7] * 0.4 + 0.5
             r1 = action[1] * 1.5 + 1.5
             r2 = action[2] * 1.5 + 1.5
@@ -216,7 +209,7 @@ class TestpsoSwarm(MatSwarm):
             r5 = action[5] * 1.5 + 1.5
             r6 = action[6] * 1.5 + 1.5
 
-            r = np.array([r1, r2, r3, r4, r5, r6], dtype=float)
+            r = [r1, r2, r3, r4, r5, r6]
             r = r / (np.sum(r) + 1e-10) * (action[8] + 1) * 4
             r1, r2, r3, r4, r5, r6 = r
 
