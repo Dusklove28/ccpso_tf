@@ -9,7 +9,8 @@ def get_logger(name="RL_PSO"):
     if not logger.handlers:
         # 定义日志格式：[时间] [日志级别] 消息
         formatter = logging.Formatter(
-            fmt='[%(asctime)s] [%(levelname)s] %(message)s',
+            # 加入 %(processName)s，让你在几百条日志里清晰分辨是哪个进程在跑
+            fmt='[%(asctime)s] [%(levelname)s] [%(processName)s] %(message)s',
             datefmt='%Y-%m-%d %H:%M:%S'
         )
 

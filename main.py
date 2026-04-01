@@ -49,13 +49,21 @@ def task_statistic(task, start=0, finish=0):
 
 def print_task_progress():
     global task_progress
+    # 汇总所有的进度信息成一个字符串
+    progress_summary = "--- 全局任务队列进度 --- | "
+    for k, v in task_progress.items():
+        task_type = k
+        all_num = v['all']
+        finish_num = v['finish']
+        progress_summary += f"[{task_type}] 进度: {finish_num}/{all_num} | "
+
+    # 打印到全局日志中！
+    logger.info(progress_summary)
+
+    # 保留写入 txt 的功能给习惯看面板的人
     with open('progress.txt', 'w') as f:
         for k, v in task_progress.items():
-            task_type = k
-            all_num = v['all']
-            finish_num = v['finish']
-            info = f'{task_type} finish/all:{finish_num}/{all_num}\r\n'
-            f.write(info)
+            f.write(f'{k} finish/all:{v["finish"]}/{v["all"]}\n')
 
 
 def main(processes=1):
