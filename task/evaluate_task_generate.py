@@ -1,120 +1,97 @@
 import os
-import re
-from pathlib import Path
+from utils.db.db import get_optimizer_train_result
 
+# --- 1. 精简且精准的依赖导入 ---
+# 只保留本次消融实验 (Ablation Study) 必须的三员大将
 try:
-    from matAgent.testpso import TestpsoSwarm
-    from matAgent.ccpso import FiftyDimCCPsoSwarm
-    from matAgent.rlepso import RlepsoSwarm
-    from matAgent.rl_ccpso_eval import RlCCPsoSwarm
     from matAgent.pso import PsoSwarm
-    from matAgent.clpso import ClpsoSwarm
-except Exception:
-    pass
+    from matAgent.ccpso import ConvPsoSwarm
+    from matAgent.rl_ccpso_eval import RlCCPsoSwarm
+except ImportError as e:
+    print(f"算法模块导入失败: {e}。请检查 matAgent 目录。")
+    raise e
 
-def build_model_dict_from_log():
-    log_file = "experiment.log"
-    task_dir = os.path.join("data", "task")
-    fun_model_rlepso = {}
-    fun_model_ccpso = {}
-    
-    if not os.path.exists(log_file):
-        print(f"❌ 找不到日志文件 {log_file}！")
-        return {}, {}
-        
-    latest_md5_map = {}
-    
-    with open(log_file, 'r', encoding='utf-8', errors='ignore') as f:
-        for line in f:
-            if 'run task' in line and 'single_train' in line:
-                md5_match = re.search(r'run task ([a-fA-F0-9]{32})', line)
-                if not md5_match: continue
-                md5 = md5_match.group(1)
-                
-                fun_match = re.search(r"(?:'fun_nums'|'evaluate_function'):\s*\[(\d+)\]", line)
-                if not fun_match: continue
-                fun_num = int(fun_match.group(1))
-                
-                opt_type = None
-                if 'FiftyDimCCPsoSwarm' in line or 'CCPSO_50D' in line or 'ccpso_50d' in line:
-                    opt_type = 'CCPSO'
-                elif 'TestpsoSwarm' in line or 'TESTPSO' in line or 'testpso' in line:
-                    opt_type = 'RLEPSO'
-                    
-                if opt_type and fun_num:
-                    latest_md5_map[(opt_type, fun_num)] = md5
 
-    for (opt_type, fun_num), md5 in latest_md5_map.items():
-        folder_path = os.path.join(task_dir, md5)
-        # 🔥 报警器：如果文件夹不在 data/task/ 下，直接打印警告！
-        if not os.path.isdir(folder_path): 
-            print(f"⚠️ 警告：日志说有 {opt_type} 的 F{fun_num} (MD5: {md5})，但在 data/task/ 目录下没找到这个文件夹！")
-            continue
-        
-        h5_files = [f for f in os.listdir(folder_path) if f.endswith('.h5')]
-        actor_files = [f for f in h5_files if 'actor' in f.lower()]
-        if actor_files: h5_files = actor_files
-        if not h5_files: continue
-        
-        h5_file = sorted(h5_files, key=lambda x: (len(x), x))[-1]
-        model_path = Path(folder_path) / h5_file
-        
-        if opt_type == 'CCPSO':
-            fun_model_ccpso.setdefault(fun_num, []).append(model_path)
-        elif opt_type == 'RLEPSO':
-            fun_model_rlepso.setdefault(fun_num, []).append(model_path)
-            
-    print(f"\n✅ 成功从硬盘找回 {len(fun_model_rlepso)} 个 RLEPSO 模型，{len(fun_model_ccpso)} 个 CCPSO 模型！")
-    return fun_model_rlepso, fun_model_ccpso
+funs = list(range(1, 29, 1))
+no_model_fun_model = {fun: [None] for fun in funs}
+
+dim = 30
+runtimes = 10
+max_fe = 10000
+group = 1
+separate_train = True
+n_part = 100
+
 
 def generate_evaluate_tasks():
-    fun_model_rlepso, fun_model_ccpso = build_model_dict_from_log()
-    
     optimizer_model_list = []
-    
-    if fun_model_rlepso:
-        optimizer_model_list.append({
-            'optimizer': RlepsoSwarm,
-            'fun_model': fun_model_rlepso,
-        })
+
+    # ==========================================
+    # 实验序列 1：传统基准组 (Native Baseline)
+    # ==========================================
+    # 纯 PSO 算法，剥离任何 RL 代理干预
+    optimizer_model_list.append({
+        'optimizer': PsoSwarm,
+        'fun_model': no_model_fun_model,
+    })
+
+    # ==========================================
+    # 实验序列 2：RL 消融对照组 (RL + 基础PSO)
+    # ==========================================
+    # 训练环境为 PsoSwarm，评估环境同为 PsoSwarm (带模型注入)
+    fun_model_rl_pso = get_optimizer_train_result(
+        PsoSwarm.optimizer_name, dim, group, separate_train, max_fe, n_part
+    )
+    if not fun_model_rl_pso:
+        print(f"未能在 DB 找到 【RL+基础PSO ({PsoSwarm.optimizer_name})】 的有效模型！")
     else:
-        print("❌ 严重警告：没有找到任何 RLEPSO 模型！")
-        
-    if fun_model_ccpso:
-        optimizer_model_list.append({
-            'optimizer': RlCCPsoSwarm,
-            'fun_model': fun_model_ccpso,
-        })
+        print(f"【RL+基础PSO】 模型就绪。")
+
+    optimizer_model_list.append({
+        'optimizer': PsoSwarm,
+        'fun_model': fun_model_rl_pso if fun_model_rl_pso else no_model_fun_model,
+    })
+
+    # ==========================================
+    # 实验序列 3：核心实验组 (RL + 基础PSO + 收敛策略)
+    # ==========================================
+    # 训练环境为 ConvPsoSwarm，评估代理类为 RlCCPsoSwarm
+    fun_model_rl_conv = get_optimizer_train_result(
+        ConvPsoSwarm.optimizer_name, dim, group, separate_train, max_fe, n_part
+    )
+    if not fun_model_rl_conv:
+        print(f"未能在 DB 找到 【RL+收敛策略 ({ConvPsoSwarm.optimizer_name})】 的有效模型！")
     else:
-        print("❌ 严重警告：没有找到任何 RL_CCPSO 模型！")
-        
-    if not fun_model_rlepso and not fun_model_ccpso:
-        print("🚨 致命错误：RL模型全部丢失！请确保你把包含 .h5 的文件夹移动回了 data/task/ 目录！\n任务已终止，系统只会跑传统算法！")
-        
-    # 为传统算法伪造一个空模型字典
-    dummy_fun_model = {i: [None] for i in range(1, 29)}
-    
-    optimizer_model_list.append({'optimizer': PsoSwarm, 'fun_model': dummy_fun_model})
-    optimizer_model_list.append({'optimizer': ClpsoSwarm, 'fun_model': dummy_fun_model})
-        
-    group = 5
-    max_fe = 10000
-    n_part = 100
-    real_eval_dim = 50   
-    runtimes = 5
-    
+        print(f"【RL+收敛策略】 模型就绪。")
+
+    optimizer_model_list.append({
+        'optimizer': RlCCPsoSwarm,
+        'fun_model': fun_model_rl_conv if fun_model_rl_conv else no_model_fun_model,
+    })
+
+    # --- 3. 封装评估任务 ---
     new_result_evaluate_task_dic = {
         'type': 'new_result_evaluate',
         'optimizer_model_list': optimizer_model_list,
-        'evaluate_function': list(range(1, 29, 1)),
+        'evaluate_function': funs,
         'group': group,
         'max_fe': max_fe,
         'n_part': n_part,
-        'dim': real_eval_dim,
+        'dim': dim,
         'runtimes': runtimes,
     }
-    
+
     return [new_result_evaluate_task_dic]
 
+
 if __name__ == '__main__':
-    generate_evaluate_tasks()
+    # 启动前的健康度检查预演
+    print("\n--- Rlpso(tf版) 评测任务生成校验 ---")
+    tasks = generate_evaluate_tasks()
+
+    print("\n[待评测算法序列]:")
+    for idx, opt_dict in enumerate(tasks[0]['optimizer_model_list']):
+        opt_name = opt_dict['optimizer'].__name__
+        model_status = "装备RL模型" if opt_dict['fun_model'] != no_model_fun_model else "纯传统启发式"
+        print(f"  {idx + 1}. 核心引擎: {opt_name.ljust(15)} | 驱动模式: {model_status}")
+    print("---------------------------------------\n")

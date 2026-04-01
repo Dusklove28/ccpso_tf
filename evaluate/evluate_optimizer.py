@@ -3,7 +3,6 @@ import os
 import numpy as np
 
 from functions import CEC_functions
-# from matAgent.hrlepso import HrlepsoSwarm
 from evaluate.common import *
 
 

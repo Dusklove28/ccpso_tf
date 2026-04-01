@@ -14,7 +14,7 @@ def all_tasks_generate():
         },
         {
             'train_optimizer': ConvPsoSwarm,
-            'evaluate_optimizer': RlCCPsoSwarm,
+            'evaluate_optimizer': ConvPsoSwarm,
             'train_profile': 'rlccpso',
             'train_al_type': 'rlccpso',
         },
