@@ -29,7 +29,7 @@ def all_tasks_generate():
         'runtimes': 5,
         # 'separate_trains': [False],
         'separate_trains': [True],
-        'groups': [5],
+        'groups': [1],
         'train_max_episode': 200,
         'train_max_steps': 8000,
         'dims': [30],
