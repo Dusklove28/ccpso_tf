@@ -7,6 +7,7 @@ C2 = 2
 class PsoSwarm(MatSwarm):
     optimizer_name = 'PSO'
     action_space = 5
+    obs_space = 15
 
     def __init__(self, n_run, n_part, show, fun, n_dim, pos_max, pos_min, config_dic):
         super().__init__(n_run, n_part, show, fun, n_dim, pos_max, pos_min, config_dic)
