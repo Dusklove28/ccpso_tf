@@ -901,3 +901,569 @@
 [2026-04-02 01:26:05] [INFO] [MainProcess] 任务运行结束75e7b8096fce7fc14db2d2d5a0ed73e9
 [2026-04-02 01:26:05] [INFO] [MainProcess] 条件满足 重启任务69aaf443259e8fdd175106812971f596
 [2026-04-02 01:26:09] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 0/80 | [single_evaluate] 进度: 34/80 | 
+[2026-04-02 01:26:19] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 0/80 | [single_evaluate] 进度: 34/80 | 
+[2026-04-02 01:26:24] [INFO] [SpawnPoolWorker-1] result write into:data/task/61d244bc9ab5228f6d0da192482f6b46/result.pickle
+[2026-04-02 01:26:24] [INFO] [SpawnPoolWorker-1] run task 7e99025753abac4ab66ef5206240d602-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_final_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:26:24] [INFO] [SpawnPoolWorker-1] result write into:data/task/7e99025753abac4ab66ef5206240d602/result.pickle
+[2026-04-02 01:26:24] [INFO] [SpawnPoolWorker-1] run task d83a4bcaa57e7b0e63fda16cfd2030e2-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode38_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:26:25] [INFO] [MainProcess] 任务运行结束61d244bc9ab5228f6d0da192482f6b46
+[2026-04-02 01:26:25] [INFO] [MainProcess] 任务运行结束7e99025753abac4ab66ef5206240d602
+[2026-04-02 01:26:27] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 1/80 | [single_evaluate] 进度: 35/80 | 
+[2026-04-02 01:26:34] [INFO] [SpawnPoolWorker-2] result write into:data/task/10fcd61d8005ffec96574dc9559fa324/result.pickle
+[2026-04-02 01:26:34] [INFO] [SpawnPoolWorker-2] run task a54d7a7dd2885f6549d01cb77ac357d6-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode38_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:26:35] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 1/80 | [single_evaluate] 进度: 35/80 | 
+[2026-04-02 01:26:35] [INFO] [MainProcess] 任务运行结束10fcd61d8005ffec96574dc9559fa324
+[2026-04-02 01:26:35] [INFO] [MainProcess] 条件满足 重启任务2cc585897cdaab6a8638e210dab285f6
+[2026-04-02 01:26:44] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 1/80 | [single_evaluate] 进度: 36/80 | 
+[2026-04-02 01:26:54] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 1/80 | [single_evaluate] 进度: 36/80 | 
+[2026-04-02 01:26:57] [INFO] [SpawnPoolWorker-1] result write into:data/task/d83a4bcaa57e7b0e63fda16cfd2030e2/result.pickle
+[2026-04-02 01:26:57] [INFO] [SpawnPoolWorker-1] run task ff229fd297fbd9d40d306beb356d07d4-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode40_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:26:57] [INFO] [MainProcess] 任务运行结束d83a4bcaa57e7b0e63fda16cfd2030e2
+[2026-04-02 01:27:02] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 1/80 | [single_evaluate] 进度: 37/80 | 
+[2026-04-02 01:27:06] [INFO] [SpawnPoolWorker-2] result write into:data/task/a54d7a7dd2885f6549d01cb77ac357d6/result.pickle
+[2026-04-02 01:27:06] [INFO] [SpawnPoolWorker-2] run task e80c177275a5b07d68f83f662267abbf-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode40_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:27:06] [INFO] [MainProcess] 任务运行结束a54d7a7dd2885f6549d01cb77ac357d6
+[2026-04-02 01:27:06] [INFO] [MainProcess] 条件满足 重启任务ef40417d1d75078c8ec9f9fd81a756e1
+[2026-04-02 01:27:11] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 1/80 | [single_evaluate] 进度: 38/80 | 
+[2026-04-02 01:27:21] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 1/80 | [single_evaluate] 进度: 38/80 | 
+[2026-04-02 01:27:24] [INFO] [SpawnPoolWorker-1] result write into:data/task/ff229fd297fbd9d40d306beb356d07d4/result.pickle
+[2026-04-02 01:27:24] [INFO] [SpawnPoolWorker-1] run task a6c078e741f87cc9e15c3bf204d04708-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode42_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:27:25] [INFO] [MainProcess] 任务运行结束ff229fd297fbd9d40d306beb356d07d4
+[2026-04-02 01:27:28] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 1/80 | [single_evaluate] 进度: 39/80 | 
+[2026-04-02 01:27:32] [INFO] [SpawnPoolWorker-2] result write into:data/task/e80c177275a5b07d68f83f662267abbf/result.pickle
+[2026-04-02 01:27:32] [INFO] [SpawnPoolWorker-2] run task 63801015b6c6e88b94d85376679f75e2-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode42_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:27:32] [INFO] [MainProcess] 任务运行结束e80c177275a5b07d68f83f662267abbf
+[2026-04-02 01:27:32] [INFO] [MainProcess] 条件满足 重启任务5b88762cd8aca70a4ab5b7d7280f40bb
+[2026-04-02 01:27:37] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 1/80 | [single_evaluate] 进度: 40/80 | 
+[2026-04-02 01:27:44] [INFO] [SpawnPoolWorker-1] result write into:data/task/a6c078e741f87cc9e15c3bf204d04708/result.pickle
+[2026-04-02 01:27:44] [INFO] [SpawnPoolWorker-1] run task 4636212ca26cd3461e27993b0dfe656a-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode44_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:27:44] [INFO] [MainProcess] 任务运行结束a6c078e741f87cc9e15c3bf204d04708
+[2026-04-02 01:27:46] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 1/80 | [single_evaluate] 进度: 41/80 | 
+[2026-04-02 01:27:50] [INFO] [SpawnPoolWorker-2] result write into:data/task/63801015b6c6e88b94d85376679f75e2/result.pickle
+[2026-04-02 01:27:50] [INFO] [SpawnPoolWorker-2] run task 8c5557b38b25ed8eeb397c0da593ac9c-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode44_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:27:50] [INFO] [MainProcess] 任务运行结束63801015b6c6e88b94d85376679f75e2
+[2026-04-02 01:27:50] [INFO] [MainProcess] 条件满足 重启任务9071c2d3cb226c606e98a76bf4f0c263
+[2026-04-02 01:27:55] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 1/80 | [single_evaluate] 进度: 42/80 | 
+[2026-04-02 01:28:03] [INFO] [SpawnPoolWorker-1] result write into:data/task/4636212ca26cd3461e27993b0dfe656a/result.pickle
+[2026-04-02 01:28:03] [INFO] [SpawnPoolWorker-1] run task 9ae08a54874326acc15b0c7791dc907e-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode46_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:28:04] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 1/80 | [single_evaluate] 进度: 42/80 | 
+[2026-04-02 01:28:04] [INFO] [MainProcess] 任务运行结束4636212ca26cd3461e27993b0dfe656a
+[2026-04-02 01:28:10] [INFO] [SpawnPoolWorker-2] result write into:data/task/8c5557b38b25ed8eeb397c0da593ac9c/result.pickle
+[2026-04-02 01:28:10] [INFO] [SpawnPoolWorker-2] run task e682b392709873d6002e485498ca45bc-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode46_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:28:10] [INFO] [MainProcess] 任务运行结束8c5557b38b25ed8eeb397c0da593ac9c
+[2026-04-02 01:28:10] [INFO] [MainProcess] 条件满足 重启任务46e92303994641ee3efa236121d892cb
+[2026-04-02 01:28:12] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 1/80 | [single_evaluate] 进度: 44/80 | 
+[2026-04-02 01:28:22] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 1/80 | [single_evaluate] 进度: 44/80 | 
+[2026-04-02 01:28:29] [INFO] [SpawnPoolWorker-1] result write into:data/task/9ae08a54874326acc15b0c7791dc907e/result.pickle
+[2026-04-02 01:28:29] [INFO] [SpawnPoolWorker-1] run task 53205481091233a05608f4f9badd48c0-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode48_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:28:29] [INFO] [MainProcess] 任务运行结束9ae08a54874326acc15b0c7791dc907e
+[2026-04-02 01:28:30] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 1/80 | [single_evaluate] 进度: 45/80 | 
+[2026-04-02 01:28:34] [INFO] [SpawnPoolWorker-2] result write into:data/task/e682b392709873d6002e485498ca45bc/result.pickle
+[2026-04-02 01:28:34] [INFO] [SpawnPoolWorker-2] run task 0c6aba3aae88b1484fdbef2c21f0cac6-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode48_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:28:35] [INFO] [MainProcess] 任务运行结束e682b392709873d6002e485498ca45bc
+[2026-04-02 01:28:35] [INFO] [MainProcess] 条件满足 重启任务ff49b5cec8d0bfcf4fa31dba6b3887fd
+[2026-04-02 01:28:39] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 1/80 | [single_evaluate] 进度: 46/80 | 
+[2026-04-02 01:28:49] [INFO] [SpawnPoolWorker-1] result write into:data/task/53205481091233a05608f4f9badd48c0/result.pickle
+[2026-04-02 01:28:49] [INFO] [SpawnPoolWorker-1] run task 46f043abbe86794d6cb2b3ec3089523a-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode4_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:28:49] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 1/80 | [single_evaluate] 进度: 46/80 | 
+[2026-04-02 01:28:49] [INFO] [MainProcess] 任务运行结束53205481091233a05608f4f9badd48c0
+[2026-04-02 01:28:54] [INFO] [SpawnPoolWorker-2] result write into:data/task/0c6aba3aae88b1484fdbef2c21f0cac6/result.pickle
+[2026-04-02 01:28:54] [INFO] [SpawnPoolWorker-2] run task 60caa4dea52f097dce8ce0c8bb5a5c48-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode4_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:28:55] [INFO] [MainProcess] 任务运行结束0c6aba3aae88b1484fdbef2c21f0cac6
+[2026-04-02 01:28:55] [INFO] [MainProcess] 条件满足 重启任务65ef5d955fde1ef89077e473a672c95c
+[2026-04-02 01:28:57] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 1/80 | [single_evaluate] 进度: 48/80 | 
+[2026-04-02 01:29:05] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 1/80 | [single_evaluate] 进度: 48/80 | 
+[2026-04-02 01:29:11] [INFO] [SpawnPoolWorker-1] result write into:data/task/46f043abbe86794d6cb2b3ec3089523a/result.pickle
+[2026-04-02 01:29:11] [INFO] [SpawnPoolWorker-1] run task c0a41ed388860a8ad615622ade672205-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode8_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:29:11] [INFO] [SpawnPoolWorker-1] result write into:data/task/c0a41ed388860a8ad615622ade672205/result.pickle
+[2026-04-02 01:29:11] [INFO] [SpawnPoolWorker-1] run task 6f17b0990996598a0a9c058303b594ba-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode10_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:29:12] [INFO] [MainProcess] 任务运行结束46f043abbe86794d6cb2b3ec3089523a
+[2026-04-02 01:29:12] [INFO] [MainProcess] 任务运行结束c0a41ed388860a8ad615622ade672205
+[2026-04-02 01:29:13] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 49/80 | 
+[2026-04-02 01:29:20] [INFO] [SpawnPoolWorker-2] result write into:data/task/60caa4dea52f097dce8ce0c8bb5a5c48/result.pickle
+[2026-04-02 01:29:20] [INFO] [SpawnPoolWorker-2] run task 3e9ad993479599d9c5972b1b90f4c28f-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode10_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:29:20] [INFO] [MainProcess] 任务运行结束60caa4dea52f097dce8ce0c8bb5a5c48
+[2026-04-02 01:29:20] [INFO] [MainProcess] 条件满足 重启任务625e9597d10af32795ac5536a79ce45a
+[2026-04-02 01:29:22] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 50/80 | 
+[2026-04-02 01:29:32] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 50/80 | 
+[2026-04-02 01:29:35] [INFO] [SpawnPoolWorker-1] result write into:data/task/6f17b0990996598a0a9c058303b594ba/result.pickle
+[2026-04-02 01:29:35] [INFO] [SpawnPoolWorker-1] run task b25def0046566428bff8ef4d66fd0798-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode12_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:29:36] [INFO] [MainProcess] 任务运行结束6f17b0990996598a0a9c058303b594ba
+[2026-04-02 01:29:40] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 51/80 | 
+[2026-04-02 01:29:43] [INFO] [SpawnPoolWorker-2] result write into:data/task/3e9ad993479599d9c5972b1b90f4c28f/result.pickle
+[2026-04-02 01:29:43] [INFO] [SpawnPoolWorker-2] run task ab41b6ee2e52de4e4a525722f0751292-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode12_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:29:44] [INFO] [MainProcess] 任务运行结束3e9ad993479599d9c5972b1b90f4c28f
+[2026-04-02 01:29:44] [INFO] [MainProcess] 条件满足 重启任务90becdac36a1a0048c468479a400bb76
+[2026-04-02 01:29:49] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 52/80 | 
+[2026-04-02 01:29:59] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 52/80 | 
+[2026-04-02 01:29:59] [INFO] [SpawnPoolWorker-1] result write into:data/task/b25def0046566428bff8ef4d66fd0798/result.pickle
+[2026-04-02 01:29:59] [INFO] [SpawnPoolWorker-1] run task 2dc9e9de9932cc72affc866c19d488d7-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode14_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:30:00] [INFO] [MainProcess] 任务运行结束b25def0046566428bff8ef4d66fd0798
+[2026-04-02 01:30:05] [INFO] [SpawnPoolWorker-2] result write into:data/task/ab41b6ee2e52de4e4a525722f0751292/result.pickle
+[2026-04-02 01:30:05] [INFO] [SpawnPoolWorker-2] run task 4930ce6ee2f285d1f99e1c5d0894e4b9-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode14_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:30:05] [INFO] [MainProcess] 任务运行结束ab41b6ee2e52de4e4a525722f0751292
+[2026-04-02 01:30:05] [INFO] [MainProcess] 条件满足 重启任务4a2d1b2657a278e3dbc57e64d319264b
+[2026-04-02 01:30:05] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 54/80 | 
+[2026-04-02 01:30:15] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 54/80 | 
+[2026-04-02 01:30:19] [INFO] [SpawnPoolWorker-1] result write into:data/task/2dc9e9de9932cc72affc866c19d488d7/result.pickle
+[2026-04-02 01:30:19] [INFO] [SpawnPoolWorker-1] run task 6529f7aa8a4237250e29d161053af969-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode16_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:30:19] [INFO] [MainProcess] 任务运行结束2dc9e9de9932cc72affc866c19d488d7
+[2026-04-02 01:30:24] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 55/80 | 
+[2026-04-02 01:30:26] [INFO] [SpawnPoolWorker-2] result write into:data/task/4930ce6ee2f285d1f99e1c5d0894e4b9/result.pickle
+[2026-04-02 01:30:26] [INFO] [SpawnPoolWorker-2] run task 320ca9f39fbeb682e8842a75547e9170-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode16_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:30:26] [INFO] [MainProcess] 任务运行结束4930ce6ee2f285d1f99e1c5d0894e4b9
+[2026-04-02 01:30:26] [INFO] [MainProcess] 条件满足 重启任务266de4f95c577c5f59ab9e72543a377e
+[2026-04-02 01:30:33] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 56/80 | 
+[2026-04-02 01:30:39] [INFO] [SpawnPoolWorker-1] result write into:data/task/6529f7aa8a4237250e29d161053af969/result.pickle
+[2026-04-02 01:30:39] [INFO] [SpawnPoolWorker-1] run task 8a195eca23651a539e25a422188afad4-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode18_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:30:40] [INFO] [MainProcess] 任务运行结束6529f7aa8a4237250e29d161053af969
+[2026-04-02 01:30:41] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 57/80 | 
+[2026-04-02 01:30:46] [INFO] [SpawnPoolWorker-2] result write into:data/task/320ca9f39fbeb682e8842a75547e9170/result.pickle
+[2026-04-02 01:30:46] [INFO] [SpawnPoolWorker-2] run task 0fcbd35b51a446585c6e8d4e7b8ad875-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode18_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:30:47] [INFO] [MainProcess] 任务运行结束320ca9f39fbeb682e8842a75547e9170
+[2026-04-02 01:30:47] [INFO] [MainProcess] 条件满足 重启任务12b12e17090e7693fe122381317bf316
+[2026-04-02 01:30:50] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 58/80 | 
+[2026-04-02 01:31:00] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 58/80 | 
+[2026-04-02 01:31:01] [INFO] [SpawnPoolWorker-1] result write into:data/task/8a195eca23651a539e25a422188afad4/result.pickle
+[2026-04-02 01:31:01] [INFO] [SpawnPoolWorker-1] run task c23e49cb884f0dc876dedb8ad449fe28-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode20_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:31:01] [INFO] [MainProcess] 任务运行结束8a195eca23651a539e25a422188afad4
+[2026-04-02 01:31:07] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 59/80 | 
+[2026-04-02 01:31:07] [INFO] [SpawnPoolWorker-2] result write into:data/task/0fcbd35b51a446585c6e8d4e7b8ad875/result.pickle
+[2026-04-02 01:31:07] [INFO] [SpawnPoolWorker-2] run task 98877b6ae2631b47246014c538784515-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode20_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:31:08] [INFO] [MainProcess] 任务运行结束0fcbd35b51a446585c6e8d4e7b8ad875
+[2026-04-02 01:31:08] [INFO] [MainProcess] 条件满足 重启任务738bf2a20017f82e3572f1f39e46b390
+[2026-04-02 01:31:16] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 60/80 | 
+[2026-04-02 01:31:21] [INFO] [SpawnPoolWorker-1] result write into:data/task/c23e49cb884f0dc876dedb8ad449fe28/result.pickle
+[2026-04-02 01:31:21] [INFO] [SpawnPoolWorker-1] run task 033911ffbbc916ba299b546b84135f60-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode22_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:31:21] [INFO] [MainProcess] 任务运行结束c23e49cb884f0dc876dedb8ad449fe28
+[2026-04-02 01:31:25] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 61/80 | 
+[2026-04-02 01:31:29] [INFO] [SpawnPoolWorker-2] result write into:data/task/98877b6ae2631b47246014c538784515/result.pickle
+[2026-04-02 01:31:29] [INFO] [SpawnPoolWorker-2] run task 3ccb89eb9541c94855925a5be4a69966-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode22_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:31:29] [INFO] [MainProcess] 任务运行结束98877b6ae2631b47246014c538784515
+[2026-04-02 01:31:29] [INFO] [MainProcess] 条件满足 重启任务6d8f722b0a6dd42ef7302b165170985a
+[2026-04-02 01:31:34] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 62/80 | 
+[2026-04-02 01:31:43] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 62/80 | 
+[2026-04-02 01:31:44] [INFO] [SpawnPoolWorker-1] result write into:data/task/033911ffbbc916ba299b546b84135f60/result.pickle
+[2026-04-02 01:31:45] [INFO] [SpawnPoolWorker-1] run task 67718f79f6f03e819b898c8ddb12805a-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode24_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:31:45] [INFO] [MainProcess] 任务运行结束033911ffbbc916ba299b546b84135f60
+[2026-04-02 01:31:52] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 63/80 | 
+[2026-04-02 01:31:52] [INFO] [SpawnPoolWorker-2] result write into:data/task/3ccb89eb9541c94855925a5be4a69966/result.pickle
+[2026-04-02 01:31:52] [INFO] [SpawnPoolWorker-2] run task 446821c5d67b3ae0593cda6129f15283-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode24_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:31:53] [INFO] [MainProcess] 任务运行结束3ccb89eb9541c94855925a5be4a69966
+[2026-04-02 01:31:53] [INFO] [MainProcess] 条件满足 重启任务2f47ceae62bf633a70647aca09bfc7d2
+[2026-04-02 01:32:01] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 64/80 | 
+[2026-04-02 01:32:07] [INFO] [SpawnPoolWorker-1] result write into:data/task/67718f79f6f03e819b898c8ddb12805a/result.pickle
+[2026-04-02 01:32:07] [INFO] [SpawnPoolWorker-1] run task ed5abe1fd7ed8ead4b91d923045172ab-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode26_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:32:06] [INFO] [MainProcess] 任务运行结束67718f79f6f03e819b898c8ddb12805a
+[2026-04-02 01:32:08] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 65/80 | 
+[2026-04-02 01:32:13] [INFO] [SpawnPoolWorker-2] result write into:data/task/446821c5d67b3ae0593cda6129f15283/result.pickle
+[2026-04-02 01:32:13] [INFO] [SpawnPoolWorker-2] run task bcb8abe9a83ab9dfc04e999cddbed644-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode26_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:32:13] [INFO] [MainProcess] 任务运行结束446821c5d67b3ae0593cda6129f15283
+[2026-04-02 01:32:13] [INFO] [MainProcess] 条件满足 重启任务73b849c0abae08a9764982c2f0429a18
+[2026-04-02 01:32:17] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 66/80 | 
+[2026-04-02 01:32:27] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 66/80 | 
+[2026-04-02 01:32:30] [INFO] [SpawnPoolWorker-1] result write into:data/task/ed5abe1fd7ed8ead4b91d923045172ab/result.pickle
+[2026-04-02 01:32:30] [INFO] [SpawnPoolWorker-1] run task 0da4bd6d1f474d9ce484b9e9251f8862-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode28_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:32:31] [INFO] [MainProcess] 任务运行结束ed5abe1fd7ed8ead4b91d923045172ab
+[2026-04-02 01:32:36] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 67/80 | 
+[2026-04-02 01:32:37] [INFO] [SpawnPoolWorker-2] result write into:data/task/bcb8abe9a83ab9dfc04e999cddbed644/result.pickle
+[2026-04-02 01:32:37] [INFO] [SpawnPoolWorker-2] run task d384dbae61edb46c71a2e1d9bd12e185-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode28_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:32:38] [INFO] [MainProcess] 任务运行结束bcb8abe9a83ab9dfc04e999cddbed644
+[2026-04-02 01:32:38] [INFO] [MainProcess] 条件满足 重启任务3fe996d17e30bca910e0e8b200312b18
+[2026-04-02 01:32:44] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 68/80 | 
+[2026-04-02 01:32:54] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 68/80 | 
+[2026-04-02 01:32:55] [INFO] [SpawnPoolWorker-1] result write into:data/task/0da4bd6d1f474d9ce484b9e9251f8862/result.pickle
+[2026-04-02 01:32:55] [INFO] [SpawnPoolWorker-1] run task 331a98c5e7e8b9de6261701a1148cdbf-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode2_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:32:55] [INFO] [MainProcess] 任务运行结束0da4bd6d1f474d9ce484b9e9251f8862
+[2026-04-02 01:33:03] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 69/80 | 
+[2026-04-02 01:33:03] [INFO] [SpawnPoolWorker-2] result write into:data/task/d384dbae61edb46c71a2e1d9bd12e185/result.pickle
+[2026-04-02 01:33:03] [INFO] [SpawnPoolWorker-2] run task e722aa4168d44bed5ab56bc3991d6354-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode2_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:33:04] [INFO] [MainProcess] 任务运行结束d384dbae61edb46c71a2e1d9bd12e185
+[2026-04-02 01:33:04] [INFO] [MainProcess] 条件满足 重启任务65194c304a52d8fe1e942ac8503e60e0
+[2026-04-02 01:33:10] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 70/80 | 
+[2026-04-02 01:33:15] [INFO] [SpawnPoolWorker-1] result write into:data/task/331a98c5e7e8b9de6261701a1148cdbf/result.pickle
+[2026-04-02 01:33:15] [INFO] [SpawnPoolWorker-1] run task eb07d84ed6d4ce36cec8a7933d054eee-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode30_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:33:15] [INFO] [MainProcess] 任务运行结束331a98c5e7e8b9de6261701a1148cdbf
+[2026-04-02 01:33:19] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 71/80 | 
+[2026-04-02 01:33:22] [INFO] [SpawnPoolWorker-2] result write into:data/task/e722aa4168d44bed5ab56bc3991d6354/result.pickle
+[2026-04-02 01:33:22] [INFO] [SpawnPoolWorker-2] run task e5762505fc60d666ad42b8444770a793-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode30_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:33:23] [INFO] [MainProcess] 任务运行结束e722aa4168d44bed5ab56bc3991d6354
+[2026-04-02 01:33:23] [INFO] [MainProcess] 条件满足 重启任务8ee8a790a6fe432e67ce91f3bcd7e4b7
+[2026-04-02 01:33:28] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 72/80 | 
+[2026-04-02 01:33:38] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 72/80 | 
+[2026-04-02 01:33:40] [INFO] [SpawnPoolWorker-1] result write into:data/task/eb07d84ed6d4ce36cec8a7933d054eee/result.pickle
+[2026-04-02 01:33:40] [INFO] [SpawnPoolWorker-1] run task 28a2dbcd9fdcdcd9a3d363a8c49afac9-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode32_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:33:39] [INFO] [MainProcess] 任务运行结束eb07d84ed6d4ce36cec8a7933d054eee
+[2026-04-02 01:33:46] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 73/80 | 
+[2026-04-02 01:33:46] [INFO] [SpawnPoolWorker-2] result write into:data/task/e5762505fc60d666ad42b8444770a793/result.pickle
+[2026-04-02 01:33:46] [INFO] [SpawnPoolWorker-2] run task 8277fcb5d8a997d6f9aaa44647df860e-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode32_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:33:47] [INFO] [MainProcess] 任务运行结束e5762505fc60d666ad42b8444770a793
+[2026-04-02 01:33:47] [INFO] [MainProcess] 条件满足 重启任务fbb8f1a240bec2502f50c837f29290f3
+[2026-04-02 01:33:55] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 74/80 | 
+[2026-04-02 01:33:58] [INFO] [SpawnPoolWorker-1] result write into:data/task/28a2dbcd9fdcdcd9a3d363a8c49afac9/result.pickle
+[2026-04-02 01:33:58] [INFO] [SpawnPoolWorker-1] run task 05c9491a79e795ca7c72fbf65d904b3f-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode34_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:33:58] [INFO] [MainProcess] 任务运行结束28a2dbcd9fdcdcd9a3d363a8c49afac9
+[2026-04-02 01:34:04] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 75/80 | 
+[2026-04-02 01:34:05] [INFO] [SpawnPoolWorker-2] result write into:data/task/8277fcb5d8a997d6f9aaa44647df860e/result.pickle
+[2026-04-02 01:34:05] [INFO] [SpawnPoolWorker-2] run task 6067860698431e6c93a3b9a8fa7ecc44-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode34_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:34:05] [INFO] [MainProcess] 任务运行结束8277fcb5d8a997d6f9aaa44647df860e
+[2026-04-02 01:34:05] [INFO] [MainProcess] 条件满足 重启任务18a8b6091e64a033d301b7a69665a74c
+[2026-04-02 01:34:11] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 76/80 | 
+[2026-04-02 01:34:15] [INFO] [SpawnPoolWorker-1] result write into:data/task/05c9491a79e795ca7c72fbf65d904b3f/result.pickle
+[2026-04-02 01:34:15] [INFO] [SpawnPoolWorker-1] run task fe5e021ce108b34ae881eb79c3efa705-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode36_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:34:15] [INFO] [MainProcess] 任务运行结束05c9491a79e795ca7c72fbf65d904b3f
+[2026-04-02 01:34:20] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 77/80 | 
+[2026-04-02 01:34:22] [INFO] [SpawnPoolWorker-2] result write into:data/task/6067860698431e6c93a3b9a8fa7ecc44/result.pickle
+[2026-04-02 01:34:22] [INFO] [SpawnPoolWorker-2] run task 7dbdc626beed96dce8300fdfdb34e5c1-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode36_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:34:22] [INFO] [MainProcess] 任务运行结束6067860698431e6c93a3b9a8fa7ecc44
+[2026-04-02 01:34:22] [INFO] [MainProcess] 条件满足 重启任务76ebfe50d1a285c703f45bc0f35db763
+[2026-04-02 01:34:29] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 2/80 | [single_evaluate] 进度: 78/80 | 
+[2026-04-02 01:34:35] [INFO] [SpawnPoolWorker-1] result write into:data/task/fe5e021ce108b34ae881eb79c3efa705/result.pickle
+[2026-04-02 01:34:35] [INFO] [SpawnPoolWorker-1] run task 991bf5b3df54b1f84296008897f1ee36-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode78_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:35] [INFO] [SpawnPoolWorker-1] result write into:data/task/991bf5b3df54b1f84296008897f1ee36/result.pickle
+[2026-04-02 01:34:35] [INFO] [SpawnPoolWorker-1] run task 33ff85456bddc8eda2e179ccfedde33a-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode64_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:35] [INFO] [SpawnPoolWorker-1] result write into:data/task/33ff85456bddc8eda2e179ccfedde33a/result.pickle
+[2026-04-02 01:34:35] [INFO] [SpawnPoolWorker-1] run task e404df44540786dafdd5fb6f07445671-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode66_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:35] [INFO] [SpawnPoolWorker-1] result write into:data/task/e404df44540786dafdd5fb6f07445671/result.pickle
+[2026-04-02 01:34:35] [INFO] [SpawnPoolWorker-1] run task 4a68745d0c2ce8ac1a5188b4c4ea0080-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode68_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:35] [INFO] [SpawnPoolWorker-1] result write into:data/task/4a68745d0c2ce8ac1a5188b4c4ea0080/result.pickle
+[2026-04-02 01:34:35] [INFO] [SpawnPoolWorker-1] run task 334e0f952b1dabf3d029411b4e965417-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode6_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:35] [INFO] [SpawnPoolWorker-1] result write into:data/task/334e0f952b1dabf3d029411b4e965417/result.pickle
+[2026-04-02 01:34:35] [INFO] [SpawnPoolWorker-1] run task 3de7808225aaa046a091d01003efafde-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode70_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:35] [INFO] [MainProcess] 任务运行结束fe5e021ce108b34ae881eb79c3efa705
+[2026-04-02 01:34:35] [INFO] [MainProcess] 任务运行结束991bf5b3df54b1f84296008897f1ee36
+[2026-04-02 01:34:35] [INFO] [MainProcess] 任务运行结束33ff85456bddc8eda2e179ccfedde33a
+[2026-04-02 01:34:35] [INFO] [MainProcess] 任务运行结束e404df44540786dafdd5fb6f07445671
+[2026-04-02 01:34:35] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 5/80 | [single_evaluate] 进度: 79/80 | 
+[2026-04-02 01:34:35] [INFO] [MainProcess] 任务运行结束4a68745d0c2ce8ac1a5188b4c4ea0080
+[2026-04-02 01:34:35] [INFO] [MainProcess] 任务运行结束334e0f952b1dabf3d029411b4e965417
+[2026-04-02 01:34:35] [INFO] [SpawnPoolWorker-1] result write into:data/task/3de7808225aaa046a091d01003efafde/result.pickle
+[2026-04-02 01:34:35] [INFO] [SpawnPoolWorker-1] run task d723f5c15c17baa2a725bee96d4527dc-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode72_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:35] [INFO] [SpawnPoolWorker-1] result write into:data/task/d723f5c15c17baa2a725bee96d4527dc/result.pickle
+[2026-04-02 01:34:35] [INFO] [SpawnPoolWorker-1] run task cf2112ea35a93a0ef93bf9364745d724-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode74_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] result write into:data/task/cf2112ea35a93a0ef93bf9364745d724/result.pickle
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 393bdaaf20c998151f956602e49be8cf-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_final_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 6bb2a795914ac900f59df3d8ef2284ac-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode8_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 8e01b68248f2dd1b0d7c30f7de52a618-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode78_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task cb0a276bc78d18be8c96d50af205b223-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode76_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 091f9f745d6f11bb526ca63bd0ededd9-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode74_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 313eb09bd4c483a290a075c338451cbb-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode72_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 969065dce49aa0ff493f7c09965be72d-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode70_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task cecd5090e3b1e2f8dea5bedbb8b23ad6-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode6_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task a8eb0f4e43817c4a2b9e380e2964e562-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode68_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task f4a64c844ab265b8d70976abbb600d07-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode66_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 5705fc5f0315e09f695357bf1a2e9ab3-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode64_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 7c548b65e68660cfac70751814162464-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode62_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 3c0b2ca4b13e59c3f4ebe74aa07953df-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode60_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 4ad5b35a158173d46f895f7ef9e9f5d7-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode58_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 1a2773444c58bc78fb6a617ecb332299-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode56_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 375bc6077f841d8882d721fca317d332-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode54_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 070f96e8bb18947b5581ca56016c75ba-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode52_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task eb795ab8fe6666fd6eb25823914907bc-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode50_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 853d7f7b4e60286673d7e94aae939489-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode4_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 9c4bf04807c03ce5b573654f9dda48d0-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode48_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 79d45f6df749ff8430146034bfa90eeb-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode46_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 72bd8c99b4737988517e762274cc2cb5-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode44_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 9ddd4e3387776e9a6737cda4988a14ee-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode42_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 8d43c8539ffe79d4257469f79f9cc52f-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode40_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 99640dd0ac53f65f98c34d1fb200674a-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode38_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task cbf580ba2cd14ef136d4fbcb3c0843c1-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode36_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 1bc94a03f3797e340788e737209a6706-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode34_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 8b9d317b18b6c8aada578cad11895824-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode32_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 4982d643996436194d0a313591d7ca15-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode30_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 341615a669ff8af74579eb3e912c699e-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode2_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 5ade0ce48dcb972c6d60345f913fff74-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode28_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 660a3e53eb699783750263872f30b410-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode26_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task bd15a51893a9a776fe94ea255fd4a203-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode24_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task ad0d5c7055acaabebcb0bd65edf1cf4d-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode22_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task b8ff9019f1906ca54a08e249cf99cb2c-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode20_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 3cd7d172b8df80a964359bc68945df6c-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode18_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task c13374e3f2c284128b85386b3d572563-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode16_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task eed5daeef19764676d1ba8bb79558343-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode14_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task bd99a9649eb57ae89d116e1a952f7d58-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode12_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 26dd500333cc86bc8ac2a35875bb6c1b-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode10_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task ff9b1954781a0d80d308fa3fc4fcfde1-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode76_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] result write into:data/task/ff9b1954781a0d80d308fa3fc4fcfde1/result.pickle
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 5740ecc6537b12598d217c43b2b106d9-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode50_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] result write into:data/task/5740ecc6537b12598d217c43b2b106d9/result.pickle
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 7ff1ad332bc3af0be58e4b8e3a1ea04f-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode52_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] result write into:data/task/7ff1ad332bc3af0be58e4b8e3a1ea04f/result.pickle
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task ce7710eebd763c32df33970d19a894aa-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode54_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] result write into:data/task/ce7710eebd763c32df33970d19a894aa/result.pickle
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 548e55dcbaeb4b50a1f0f0c1a488a354-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode56_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] result write into:data/task/548e55dcbaeb4b50a1f0f0c1a488a354/result.pickle
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task da02af0c8d6b7dc179f5eae95c5c9907-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode58_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] result write into:data/task/da02af0c8d6b7dc179f5eae95c5c9907/result.pickle
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 69aaf443259e8fdd175106812971f596-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode60_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] result write into:data/task/69aaf443259e8fdd175106812971f596/result.pickle
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 2cc585897cdaab6a8638e210dab285f6-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode62_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] result write into:data/task/2cc585897cdaab6a8638e210dab285f6/result.pickle
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task ef40417d1d75078c8ec9f9fd81a756e1-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode38_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] result write into:data/task/ef40417d1d75078c8ec9f9fd81a756e1/result.pickle
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 5b88762cd8aca70a4ab5b7d7280f40bb-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode40_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] result write into:data/task/5b88762cd8aca70a4ab5b7d7280f40bb/result.pickle
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 9071c2d3cb226c606e98a76bf4f0c263-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode42_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] result write into:data/task/9071c2d3cb226c606e98a76bf4f0c263/result.pickle
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 46e92303994641ee3efa236121d892cb-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode44_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] result write into:data/task/46e92303994641ee3efa236121d892cb/result.pickle
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task ff49b5cec8d0bfcf4fa31dba6b3887fd-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode46_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束3de7808225aaa046a091d01003efafde
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束d723f5c15c17baa2a725bee96d4527dc
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束cf2112ea35a93a0ef93bf9364745d724
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束393bdaaf20c998151f956602e49be8cf
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务393bdaaf20c998151f956602e49be8cf添加等待信息['5efe3b31d1bae6d7c238e0c74e989bfd', 'd7377900c4690448f209ad9b6568e848']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束6bb2a795914ac900f59df3d8ef2284ac
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务6bb2a795914ac900f59df3d8ef2284ac添加等待信息['e99a95662ac7bc8746ec5c5518599413', '132fc3d45d716f1d2b41c2878255bbf7']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束8e01b68248f2dd1b0d7c30f7de52a618
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务8e01b68248f2dd1b0d7c30f7de52a618添加等待信息['3626dbd519bf3fc0f8bc422b5ec740e0', 'ecb22284e3cd7fcb308aa0e9e771b57d']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束cb0a276bc78d18be8c96d50af205b223
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务cb0a276bc78d18be8c96d50af205b223添加等待信息['77f1f88cbb82eef4652ac470c7f6b3e8', '5d584af7a80361471ae5263dba8cbf35']
+[2026-04-02 01:34:36] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 10/80 | [single_evaluate] 进度: 79/80 | 
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束091f9f745d6f11bb526ca63bd0ededd9
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务091f9f745d6f11bb526ca63bd0ededd9添加等待信息['55df72fcc6febf234ac1f3cfe5355b25', 'b5c54f9754682bf810c14c16e986f9f6']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束313eb09bd4c483a290a075c338451cbb
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务313eb09bd4c483a290a075c338451cbb添加等待信息['7099f93b419adc34ace735a64f139ca0', 'e0267ea466c11cde487cff5e83ff1892']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束969065dce49aa0ff493f7c09965be72d
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务969065dce49aa0ff493f7c09965be72d添加等待信息['c4944e148addc36a2451e58e0b80fbd9', '6d5700bbd283bf11860575139b0b1ef8']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束cecd5090e3b1e2f8dea5bedbb8b23ad6
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务cecd5090e3b1e2f8dea5bedbb8b23ad6添加等待信息['45a4d20e8fc108feeff391a0d170d41b', 'e761a803b1e986bacff8e93c8e732716']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束a8eb0f4e43817c4a2b9e380e2964e562
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务a8eb0f4e43817c4a2b9e380e2964e562添加等待信息['ceb63c200844462007f3ee7bc5a3d088', '4f4d478748ac3450b9c53b8cca2a2271']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束f4a64c844ab265b8d70976abbb600d07
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务f4a64c844ab265b8d70976abbb600d07添加等待信息['79f3567e35020417f09b7e3ba32c4a0a', 'ea8a1ef8aa8eccd6950cf88935b71d1d']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束5705fc5f0315e09f695357bf1a2e9ab3
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务5705fc5f0315e09f695357bf1a2e9ab3添加等待信息['86161ebaccae0005ab9ce1d59bc592db', 'ccc564ac2b2e3801cb8e26a06653aad0']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束7c548b65e68660cfac70751814162464
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务7c548b65e68660cfac70751814162464添加等待信息['064651d1d2c8e4378d3ae52366fbd152', 'f308d33c69e74bf778c19bf6a66525fb']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束3c0b2ca4b13e59c3f4ebe74aa07953df
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务3c0b2ca4b13e59c3f4ebe74aa07953df添加等待信息['e9ee562e681399fd33e9a4fcdd652018', '6ab12a4e9281659536085a98ed29cf5f']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束4ad5b35a158173d46f895f7ef9e9f5d7
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务4ad5b35a158173d46f895f7ef9e9f5d7添加等待信息['1633b64c364c5151f97522c02c22951a', 'c42c554edb210d9bbe999a37acac8c76']
+[2026-04-02 01:34:36] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 10/80 | [single_evaluate] 进度: 79/80 | 
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束1a2773444c58bc78fb6a617ecb332299
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务1a2773444c58bc78fb6a617ecb332299添加等待信息['5fa6b5c5c3f009f9fafdb0a794b5ad98', 'b7dba8b81a2b9332f3e2dec48d9da194']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束375bc6077f841d8882d721fca317d332
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务375bc6077f841d8882d721fca317d332添加等待信息['3272bf11a621a2d8825bbd840f5b3708', 'ce62cd94f16dbcfbd4983df7935a18bb']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束070f96e8bb18947b5581ca56016c75ba
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务070f96e8bb18947b5581ca56016c75ba添加等待信息['d335dfb02aefa4014f7527181c915b7a', '49b22b2b69a4f5304f18d880fb2ca353']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束eb795ab8fe6666fd6eb25823914907bc
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务eb795ab8fe6666fd6eb25823914907bc添加等待信息['fc31cccd52237e9cc99147b4ec38fb2d', 'aa052d1a170254f975e860efa1cd8648']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束853d7f7b4e60286673d7e94aae939489
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务853d7f7b4e60286673d7e94aae939489添加等待信息['03eaec57961085c6ae940a52d407a1fa', 'cd0797ab22140ca42b3bcbfc59ca4ef1']
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] result write into:data/task/ff49b5cec8d0bfcf4fa31dba6b3887fd/result.pickle
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束9c4bf04807c03ce5b573654f9dda48d0
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 65ef5d955fde1ef89077e473a672c95c-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode48_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务9c4bf04807c03ce5b573654f9dda48d0添加等待信息['20224f7f783bea3f1fe27386013a12e6', '5fffa30d47d0ee64c2c65e709e8ab22f']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束79d45f6df749ff8430146034bfa90eeb
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务79d45f6df749ff8430146034bfa90eeb添加等待信息['e4580ff90bb912053b6e780927d314e1', '4d1a2802a08ade49cdbf31b9bfe3fd39']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束72bd8c99b4737988517e762274cc2cb5
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务72bd8c99b4737988517e762274cc2cb5添加等待信息['d9fb49d295e4879b5007b5287ae3d76e', '44384b71ed7f52e75891f30c5fb6339b']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束9ddd4e3387776e9a6737cda4988a14ee
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务9ddd4e3387776e9a6737cda4988a14ee添加等待信息['44548d942da43d3f1744f890f681c54a', 'dea78c0798beb6dcec0a9ac24a4c1aad']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束8d43c8539ffe79d4257469f79f9cc52f
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务8d43c8539ffe79d4257469f79f9cc52f添加等待信息['160b3778a4d3d222a229fd7d2ee08fed', 'cce83cc4724236f75d9a1f5c20e37c1c']
+[2026-04-02 01:34:36] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 10/80 | [single_evaluate] 进度: 79/80 | 
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束99640dd0ac53f65f98c34d1fb200674a
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务99640dd0ac53f65f98c34d1fb200674a添加等待信息['0aa90d93ced4d40758c84e38e6e2718e', 'f4301d53d97cdac9d85dd4042ab64e3e']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束cbf580ba2cd14ef136d4fbcb3c0843c1
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务cbf580ba2cd14ef136d4fbcb3c0843c1添加等待信息['89cb51be32e8c6302f03998023c6e8ae', '726f2efc8a79c2a7836ec53742ada043']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束1bc94a03f3797e340788e737209a6706
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务1bc94a03f3797e340788e737209a6706添加等待信息['e11cd5676909a3791bc304f89a802ee0', 'ee78c429e2e54a31bfe1f8deec131e32']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束8b9d317b18b6c8aada578cad11895824
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务8b9d317b18b6c8aada578cad11895824添加等待信息['03aee2cbbc369bdc931ddd3dfc42a526', '44a5bdbb088bb1a20158e9dfb6c6775f']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束4982d643996436194d0a313591d7ca15
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务4982d643996436194d0a313591d7ca15添加等待信息['530efaad6867c28a090c7adb37f39df3', 'b7672620b8c5d95b95470903651ef626']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束341615a669ff8af74579eb3e912c699e
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务341615a669ff8af74579eb3e912c699e添加等待信息['a0ee2a39407f9c1bcdb3a087497a192d', '7d7a3678e460d8e31262d8901f6d7169']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束5ade0ce48dcb972c6d60345f913fff74
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务5ade0ce48dcb972c6d60345f913fff74添加等待信息['1eea86ec855fde17ee0ea43f462332d2', 'd9bd5ab3d7348f74b663711a22a7e31e']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束660a3e53eb699783750263872f30b410
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务660a3e53eb699783750263872f30b410添加等待信息['af6131ce59ec2b4d6fff24e980f4769d', '54c4c65794a927330f6013473ee28025']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束bd15a51893a9a776fe94ea255fd4a203
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务bd15a51893a9a776fe94ea255fd4a203添加等待信息['9feb658737326d9bfb154e714240aaa0', 'ed7fbab0b3e07cf92dd16f90e84947dc']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束ad0d5c7055acaabebcb0bd65edf1cf4d
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务ad0d5c7055acaabebcb0bd65edf1cf4d添加等待信息['e7fe5537a42623d0d9b807f7e0e7d2b8', '46f3f1c725c7ea95953a0ec877635072']
+[2026-04-02 01:34:36] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 10/80 | [single_evaluate] 进度: 79/80 | 
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束b8ff9019f1906ca54a08e249cf99cb2c
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务b8ff9019f1906ca54a08e249cf99cb2c添加等待信息['91edfa4ed87b8e31efc48da8504a4357', '4ea75e3496cef048831de391780e95e7']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束3cd7d172b8df80a964359bc68945df6c
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务3cd7d172b8df80a964359bc68945df6c添加等待信息['1eccdc8a3bed2bddded63f5660149f76', 'f662f976745502fb13070699db015efe']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束c13374e3f2c284128b85386b3d572563
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务c13374e3f2c284128b85386b3d572563添加等待信息['878eb3e3db0b503e2d57fe6de1707574', '4569236efdb41d990d309ade7548d358']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束eed5daeef19764676d1ba8bb79558343
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务eed5daeef19764676d1ba8bb79558343添加等待信息['8c9f8efe6f44391cf887ee07b0e2d260', '69cf831e5a6aeaef2570869b780e9589']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束bd99a9649eb57ae89d116e1a952f7d58
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务bd99a9649eb57ae89d116e1a952f7d58添加等待信息['b58f105191a60913e522953f132af19b', 'a191d3419f8bbe422d145a7029f67028']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束26dd500333cc86bc8ac2a35875bb6c1b
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务26dd500333cc86bc8ac2a35875bb6c1b添加等待信息['935ac291f206cf329bf63bf4f0cd56d2', '883da4a3167386bdc951cf9979a07316']
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束ff9b1954781a0d80d308fa3fc4fcfde1
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束5740ecc6537b12598d217c43b2b106d9
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束7ff1ad332bc3af0be58e4b8e3a1ea04f
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束ce7710eebd763c32df33970d19a894aa
+[2026-04-02 01:34:36] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 14/80 | [single_evaluate] 进度: 79/80 | 
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] result write into:data/task/65ef5d955fde1ef89077e473a672c95c/result.pickle
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束548e55dcbaeb4b50a1f0f0c1a488a354
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束da02af0c8d6b7dc179f5eae95c5c9907
+[2026-04-02 01:34:36] [INFO] [SpawnPoolWorker-1] run task 625e9597d10af32795ac5536a79ce45a-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode4_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束69aaf443259e8fdd175106812971f596
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束2cc585897cdaab6a8638e210dab285f6
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束ef40417d1d75078c8ec9f9fd81a756e1
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束5b88762cd8aca70a4ab5b7d7280f40bb
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束9071c2d3cb226c606e98a76bf4f0c263
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束46e92303994641ee3efa236121d892cb
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束ff49b5cec8d0bfcf4fa31dba6b3887fd
+[2026-04-02 01:34:36] [INFO] [MainProcess] 任务运行结束65ef5d955fde1ef89077e473a672c95c
+[2026-04-02 01:34:36] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 24/80 | [single_evaluate] 进度: 79/80 | 
+[2026-04-02 01:34:37] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 24/80 | [single_evaluate] 进度: 79/90 | 
+[2026-04-02 01:34:37] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 24/80 | [single_evaluate] 进度: 79/100 | 
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] result write into:data/task/625e9597d10af32795ac5536a79ce45a/result.pickle
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] run task 90becdac36a1a0048c468479a400bb76-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode10_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:37] [INFO] [MainProcess] 任务运行结束625e9597d10af32795ac5536a79ce45a
+[2026-04-02 01:34:37] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 25/80 | [single_evaluate] 进度: 79/109 | 
+[2026-04-02 01:34:37] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 25/80 | [single_evaluate] 进度: 79/119 | 
+[2026-04-02 01:34:37] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 25/80 | [single_evaluate] 进度: 79/129 | 
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] result write into:data/task/90becdac36a1a0048c468479a400bb76/result.pickle
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] run task 4a2d1b2657a278e3dbc57e64d319264b-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode12_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:37] [INFO] [MainProcess] 任务运行结束90becdac36a1a0048c468479a400bb76
+[2026-04-02 01:34:37] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 26/80 | [single_evaluate] 进度: 79/138 | 
+[2026-04-02 01:34:37] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 26/80 | [single_evaluate] 进度: 79/148 | 
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] result write into:data/task/4a2d1b2657a278e3dbc57e64d319264b/result.pickle
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] run task 266de4f95c577c5f59ab9e72543a377e-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode14_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:37] [INFO] [MainProcess] 任务运行结束4a2d1b2657a278e3dbc57e64d319264b
+[2026-04-02 01:34:37] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 27/80 | [single_evaluate] 进度: 79/157 | 
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] result write into:data/task/266de4f95c577c5f59ab9e72543a377e/result.pickle
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] run task 12b12e17090e7693fe122381317bf316-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode16_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] result write into:data/task/12b12e17090e7693fe122381317bf316/result.pickle
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] run task 738bf2a20017f82e3572f1f39e46b390-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode18_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] result write into:data/task/738bf2a20017f82e3572f1f39e46b390/result.pickle
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] run task 6d8f722b0a6dd42ef7302b165170985a-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode20_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] result write into:data/task/6d8f722b0a6dd42ef7302b165170985a/result.pickle
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] run task 2f47ceae62bf633a70647aca09bfc7d2-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode22_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] result write into:data/task/2f47ceae62bf633a70647aca09bfc7d2/result.pickle
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] run task 73b849c0abae08a9764982c2f0429a18-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode24_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] result write into:data/task/73b849c0abae08a9764982c2f0429a18/result.pickle
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] run task 3fe996d17e30bca910e0e8b200312b18-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode26_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] result write into:data/task/3fe996d17e30bca910e0e8b200312b18/result.pickle
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] run task 65194c304a52d8fe1e942ac8503e60e0-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode28_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] result write into:data/task/65194c304a52d8fe1e942ac8503e60e0/result.pickle
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] run task 8ee8a790a6fe432e67ce91f3bcd7e4b7-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode2_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] result write into:data/task/8ee8a790a6fe432e67ce91f3bcd7e4b7/result.pickle
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] run task fbb8f1a240bec2502f50c837f29290f3-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode30_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] result write into:data/task/fbb8f1a240bec2502f50c837f29290f3/result.pickle
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] run task 18a8b6091e64a033d301b7a69665a74c-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode32_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] result write into:data/task/18a8b6091e64a033d301b7a69665a74c/result.pickle
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] run task 76ebfe50d1a285c703f45bc0f35db763-evaluate_multi_times-{'type': 'evaluate_multi_times', 'evaluate_optimizer': <class 'matAgent.pso.PsoSwarm'>, 'model': PosixPath('data/task/d6a1540f12bcf550b36bbde5fa3ab76b/ddpg_actor_episode34_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'runtimes': 2, 'n_part': 100}
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] result write into:data/task/76ebfe50d1a285c703f45bc0f35db763/result.pickle
+[2026-04-02 01:34:37] [INFO] [SpawnPoolWorker-1] run task 883da4a3167386bdc951cf9979a07316-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode10_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:34:38] [INFO] [MainProcess] 任务运行结束266de4f95c577c5f59ab9e72543a377e
+[2026-04-02 01:34:38] [INFO] [MainProcess] 任务运行结束12b12e17090e7693fe122381317bf316
+[2026-04-02 01:34:38] [INFO] [MainProcess] 任务运行结束738bf2a20017f82e3572f1f39e46b390
+[2026-04-02 01:34:38] [INFO] [MainProcess] 任务运行结束6d8f722b0a6dd42ef7302b165170985a
+[2026-04-02 01:34:38] [INFO] [MainProcess] 任务运行结束2f47ceae62bf633a70647aca09bfc7d2
+[2026-04-02 01:34:38] [INFO] [MainProcess] 任务运行结束73b849c0abae08a9764982c2f0429a18
+[2026-04-02 01:34:38] [INFO] [MainProcess] 任务运行结束3fe996d17e30bca910e0e8b200312b18
+[2026-04-02 01:34:38] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 34/80 | [single_evaluate] 进度: 79/160 | 
+[2026-04-02 01:34:38] [INFO] [MainProcess] 任务运行结束65194c304a52d8fe1e942ac8503e60e0
+[2026-04-02 01:34:38] [INFO] [MainProcess] 任务运行结束8ee8a790a6fe432e67ce91f3bcd7e4b7
+[2026-04-02 01:34:38] [INFO] [MainProcess] 任务运行结束fbb8f1a240bec2502f50c837f29290f3
+[2026-04-02 01:34:38] [INFO] [MainProcess] 任务运行结束18a8b6091e64a033d301b7a69665a74c
+[2026-04-02 01:34:38] [INFO] [MainProcess] 任务运行结束76ebfe50d1a285c703f45bc0f35db763
+[2026-04-02 01:34:41] [INFO] [SpawnPoolWorker-2] result write into:data/task/7dbdc626beed96dce8300fdfdb34e5c1/result.pickle
+[2026-04-02 01:34:41] [INFO] [SpawnPoolWorker-2] run task 935ac291f206cf329bf63bf4f0cd56d2-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode10_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:34:41] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 79/160 | 
+[2026-04-02 01:34:41] [INFO] [MainProcess] 任务运行结束7dbdc626beed96dce8300fdfdb34e5c1
+[2026-04-02 01:34:41] [INFO] [MainProcess] 条件满足 重启任务5db6f1397efe94c388bbb8120e06fd09
+[2026-04-02 01:34:50] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 80/160 | 
+[2026-04-02 01:34:53] [INFO] [SpawnPoolWorker-1] result write into:data/task/883da4a3167386bdc951cf9979a07316/result.pickle
+[2026-04-02 01:34:53] [INFO] [SpawnPoolWorker-1] run task a191d3419f8bbe422d145a7029f67028-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode12_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:34:54] [INFO] [MainProcess] 任务运行结束883da4a3167386bdc951cf9979a07316
+[2026-04-02 01:34:59] [INFO] [SpawnPoolWorker-2] result write into:data/task/935ac291f206cf329bf63bf4f0cd56d2/result.pickle
+[2026-04-02 01:34:59] [INFO] [SpawnPoolWorker-2] run task b58f105191a60913e522953f132af19b-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode12_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:34:59] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 81/160 | 
+[2026-04-02 01:34:59] [INFO] [MainProcess] 任务运行结束935ac291f206cf329bf63bf4f0cd56d2
+[2026-04-02 01:34:59] [INFO] [MainProcess] 条件满足 重启任务26dd500333cc86bc8ac2a35875bb6c1b
+[2026-04-02 01:35:08] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 82/160 | 
+[2026-04-02 01:35:13] [INFO] [SpawnPoolWorker-1] result write into:data/task/a191d3419f8bbe422d145a7029f67028/result.pickle
+[2026-04-02 01:35:13] [INFO] [SpawnPoolWorker-1] run task 69cf831e5a6aeaef2570869b780e9589-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode14_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:35:12] [INFO] [MainProcess] 任务运行结束a191d3419f8bbe422d145a7029f67028
+[2026-04-02 01:35:16] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 83/160 | 
+[2026-04-02 01:35:19] [INFO] [SpawnPoolWorker-2] result write into:data/task/b58f105191a60913e522953f132af19b/result.pickle
+[2026-04-02 01:35:19] [INFO] [SpawnPoolWorker-2] run task 8c9f8efe6f44391cf887ee07b0e2d260-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode14_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:35:19] [INFO] [MainProcess] 任务运行结束b58f105191a60913e522953f132af19b
+[2026-04-02 01:35:19] [INFO] [MainProcess] 条件满足 重启任务bd99a9649eb57ae89d116e1a952f7d58
+[2026-04-02 01:35:25] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 84/160 | 
+[2026-04-02 01:35:33] [INFO] [SpawnPoolWorker-1] result write into:data/task/69cf831e5a6aeaef2570869b780e9589/result.pickle
+[2026-04-02 01:35:33] [INFO] [SpawnPoolWorker-1] run task 4569236efdb41d990d309ade7548d358-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode16_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:35:34] [INFO] [MainProcess] 任务运行结束69cf831e5a6aeaef2570869b780e9589
+[2026-04-02 01:35:34] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 85/160 | 
+[2026-04-02 01:35:43] [INFO] [SpawnPoolWorker-2] result write into:data/task/8c9f8efe6f44391cf887ee07b0e2d260/result.pickle
+[2026-04-02 01:35:43] [INFO] [SpawnPoolWorker-2] run task 878eb3e3db0b503e2d57fe6de1707574-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode16_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:35:43] [INFO] [MainProcess] 任务运行结束8c9f8efe6f44391cf887ee07b0e2d260
+[2026-04-02 01:35:43] [INFO] [MainProcess] 条件满足 重启任务eed5daeef19764676d1ba8bb79558343
+[2026-04-02 01:35:43] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 86/160 | 
+[2026-04-02 01:35:51] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 86/160 | 
+[2026-04-02 01:35:55] [INFO] [SpawnPoolWorker-1] result write into:data/task/4569236efdb41d990d309ade7548d358/result.pickle
+[2026-04-02 01:35:55] [INFO] [SpawnPoolWorker-1] run task f662f976745502fb13070699db015efe-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode18_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:35:55] [INFO] [MainProcess] 任务运行结束4569236efdb41d990d309ade7548d358
+[2026-04-02 01:36:00] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 87/160 | 
+[2026-04-02 01:36:01] [INFO] [SpawnPoolWorker-2] result write into:data/task/878eb3e3db0b503e2d57fe6de1707574/result.pickle
+[2026-04-02 01:36:01] [INFO] [SpawnPoolWorker-2] run task 1eccdc8a3bed2bddded63f5660149f76-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode18_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:36:01] [INFO] [MainProcess] 任务运行结束878eb3e3db0b503e2d57fe6de1707574
+[2026-04-02 01:36:01] [INFO] [MainProcess] 条件满足 重启任务c13374e3f2c284128b85386b3d572563
+[2026-04-02 01:36:09] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 88/160 | 
+[2026-04-02 01:36:13] [INFO] [SpawnPoolWorker-1] result write into:data/task/f662f976745502fb13070699db015efe/result.pickle
+[2026-04-02 01:36:13] [INFO] [SpawnPoolWorker-1] run task 4ea75e3496cef048831de391780e95e7-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode20_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:36:14] [INFO] [MainProcess] 任务运行结束f662f976745502fb13070699db015efe
+[2026-04-02 01:36:17] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 89/160 | 
+[2026-04-02 01:36:18] [INFO] [SpawnPoolWorker-2] result write into:data/task/1eccdc8a3bed2bddded63f5660149f76/result.pickle
+[2026-04-02 01:36:18] [INFO] [SpawnPoolWorker-2] run task 91edfa4ed87b8e31efc48da8504a4357-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode20_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:36:19] [INFO] [MainProcess] 任务运行结束1eccdc8a3bed2bddded63f5660149f76
+[2026-04-02 01:36:19] [INFO] [MainProcess] 条件满足 重启任务3cd7d172b8df80a964359bc68945df6c
+[2026-04-02 01:36:26] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 90/160 | 
+[2026-04-02 01:36:29] [INFO] [SpawnPoolWorker-1] result write into:data/task/4ea75e3496cef048831de391780e95e7/result.pickle
+[2026-04-02 01:36:29] [INFO] [SpawnPoolWorker-1] run task 46f3f1c725c7ea95953a0ec877635072-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode22_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:36:30] [INFO] [MainProcess] 任务运行结束4ea75e3496cef048831de391780e95e7
+[2026-04-02 01:36:35] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 91/160 | 
+[2026-04-02 01:36:36] [INFO] [SpawnPoolWorker-2] result write into:data/task/91edfa4ed87b8e31efc48da8504a4357/result.pickle
+[2026-04-02 01:36:36] [INFO] [SpawnPoolWorker-2] run task e7fe5537a42623d0d9b807f7e0e7d2b8-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode22_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:36:36] [INFO] [MainProcess] 任务运行结束91edfa4ed87b8e31efc48da8504a4357
+[2026-04-02 01:36:36] [INFO] [MainProcess] 条件满足 重启任务b8ff9019f1906ca54a08e249cf99cb2c
+[2026-04-02 01:36:44] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 92/160 | 
+[2026-04-02 01:36:47] [INFO] [SpawnPoolWorker-1] result write into:data/task/46f3f1c725c7ea95953a0ec877635072/result.pickle
+[2026-04-02 01:36:47] [INFO] [SpawnPoolWorker-1] run task ed7fbab0b3e07cf92dd16f90e84947dc-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode24_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:36:47] [INFO] [MainProcess] 任务运行结束46f3f1c725c7ea95953a0ec877635072
+[2026-04-02 01:36:51] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 93/160 | 
+[2026-04-02 01:36:54] [INFO] [SpawnPoolWorker-2] result write into:data/task/e7fe5537a42623d0d9b807f7e0e7d2b8/result.pickle
+[2026-04-02 01:36:54] [INFO] [SpawnPoolWorker-2] run task 9feb658737326d9bfb154e714240aaa0-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode24_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:36:55] [INFO] [MainProcess] 任务运行结束e7fe5537a42623d0d9b807f7e0e7d2b8
+[2026-04-02 01:36:55] [INFO] [MainProcess] 条件满足 重启任务ad0d5c7055acaabebcb0bd65edf1cf4d
+[2026-04-02 01:37:00] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 94/160 | 
+[2026-04-02 01:37:08] [INFO] [SpawnPoolWorker-1] result write into:data/task/ed7fbab0b3e07cf92dd16f90e84947dc/result.pickle
+[2026-04-02 01:37:08] [INFO] [SpawnPoolWorker-1] run task 54c4c65794a927330f6013473ee28025-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode26_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:37:08] [INFO] [MainProcess] 任务运行结束ed7fbab0b3e07cf92dd16f90e84947dc
+[2026-04-02 01:37:09] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 95/160 | 
+[2026-04-02 01:37:16] [INFO] [SpawnPoolWorker-2] result write into:data/task/9feb658737326d9bfb154e714240aaa0/result.pickle
+[2026-04-02 01:37:16] [INFO] [SpawnPoolWorker-2] run task af6131ce59ec2b4d6fff24e980f4769d-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode26_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:37:17] [INFO] [MainProcess] 任务运行结束9feb658737326d9bfb154e714240aaa0
+[2026-04-02 01:37:17] [INFO] [MainProcess] 条件满足 重启任务bd15a51893a9a776fe94ea255fd4a203
+[2026-04-02 01:37:17] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 96/160 | 
+[2026-04-02 01:37:27] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 96/160 | 
+[2026-04-02 01:37:32] [INFO] [SpawnPoolWorker-1] result write into:data/task/54c4c65794a927330f6013473ee28025/result.pickle
+[2026-04-02 01:37:32] [INFO] [SpawnPoolWorker-1] run task d9bd5ab3d7348f74b663711a22a7e31e-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode28_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:37:33] [INFO] [MainProcess] 任务运行结束54c4c65794a927330f6013473ee28025
+[2026-04-02 01:37:36] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 97/160 | 
+[2026-04-02 01:37:39] [INFO] [SpawnPoolWorker-2] result write into:data/task/af6131ce59ec2b4d6fff24e980f4769d/result.pickle
+[2026-04-02 01:37:39] [INFO] [SpawnPoolWorker-2] run task 1eea86ec855fde17ee0ea43f462332d2-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode28_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:37:40] [INFO] [MainProcess] 任务运行结束af6131ce59ec2b4d6fff24e980f4769d
+[2026-04-02 01:37:40] [INFO] [MainProcess] 条件满足 重启任务660a3e53eb699783750263872f30b410
+[2026-04-02 01:37:45] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 98/160 | 
+[2026-04-02 01:37:53] [INFO] [SpawnPoolWorker-1] result write into:data/task/d9bd5ab3d7348f74b663711a22a7e31e/result.pickle
+[2026-04-02 01:37:53] [INFO] [SpawnPoolWorker-1] run task 7d7a3678e460d8e31262d8901f6d7169-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode2_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 1}
+[2026-04-02 01:37:53] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 98/160 | 
+[2026-04-02 01:37:53] [INFO] [MainProcess] 任务运行结束d9bd5ab3d7348f74b663711a22a7e31e
+[2026-04-02 01:37:59] [INFO] [SpawnPoolWorker-2] result write into:data/task/1eea86ec855fde17ee0ea43f462332d2/result.pickle
+[2026-04-02 01:37:59] [INFO] [SpawnPoolWorker-2] run task a0ee2a39407f9c1bcdb3a087497a192d-single_evaluate-{'type': 'single_evaluate', 'evaluate_optimizer': <class 'matAgent.ccpso.ConvPsoSwarm'>, 'model': PosixPath('data/task/6598342bb2794d277f873054860355a0/ddpg_actor_episode2_round0.h5'), 'evaluate_function': 1, 'dim': 30, 'group': 1, 'max_fe': 10000, 'n_part': 100, 'run_index': 0}
+[2026-04-02 01:38:00] [INFO] [MainProcess] 任务运行结束1eea86ec855fde17ee0ea43f462332d2
+[2026-04-02 01:38:00] [INFO] [MainProcess] 条件满足 重启任务5ade0ce48dcb972c6d60345f913fff74
+[2026-04-02 01:38:01] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 100/160 | 
+[2026-04-02 01:38:11] [INFO] [MainProcess] --- 全局任务队列进度 --- | [top] 进度: 0/1 | [train] 进度: 0/2 | [single_train] 进度: 0/2 | [evaluate_models] 进度: 0/2 | [evaluate_multi_times] 进度: 39/80 | [single_evaluate] 进度: 100/160 | 
