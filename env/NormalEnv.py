@@ -1,6 +1,6 @@
 from env.EnvBase import Env
 import numpy as np
-
+from log import logger
 from functions import CEC_functions
 
 import random
@@ -160,8 +160,22 @@ class NormalEnv(Env):
                                                                              self.optimizer.history_best_fit))
 
         if done:
-            res = f'迭代次数：{self.step_num},测试函数:{self.fun_num}，函数目标值：{self.min_value} 函数fe：{self.optimizer.fe_num},运行结果：{self.optimizer.history_best_fit}'
-            print(res)
+            # 2. 【核心改造】：计算进度百分比并使用 logger 输出
+            max_steps = self.max_fe // self.n_part
+            progress_pct = (self.step_num / max_steps) * 100
+
+            # 使用 getattr 安全获取当前算法名称，防止找不到报错
+            alg_name = getattr(self.optimizer, 'name', 'Unknown_Alg')
+
+            res = (f"[{alg_name}] Func: {self.fun_num} | "
+                   f"Step: {self.step_num}/{max_steps} ({progress_pct:.1f}%) | "
+                   f"Target: {self.min_value} | Result: {self.optimizer.history_best_fit:.4e}")
+
+            # 使用你配置好的 logger！
+            logger.info(res)
+
+            # (可选) 保留你原有的 json 写入作为备份
             with open('res2.json', 'a', encoding='utf-8') as f:
                 f.write(f'{res}\n')
+
         return np.array(next_state), reward, done, None
