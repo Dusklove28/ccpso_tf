@@ -4,7 +4,7 @@ from pathlib import Path
 
 try:
     from matAgent.testpso import TestpsoSwarm
-    from matAgent.ccpso_50d import FiftyDimCCPsoSwarm
+    from matAgent.ccpso import FiftyDimCCPsoSwarm
     from matAgent.rlepso import RlepsoSwarm
     from matAgent.rl_ccpso_eval import RlCCPsoSwarm
     from matAgent.pso import PsoSwarm

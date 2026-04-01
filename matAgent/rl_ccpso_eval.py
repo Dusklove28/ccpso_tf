@@ -1,5 +1,5 @@
 import numpy as np
-from matAgent.ccpso_50d import FiftyDimCCPsoSwarm
+from matAgent.ccpso import FiftyDimCCPsoSwarm
 
 class RlCCPsoSwarm(FiftyDimCCPsoSwarm):
     optimizer_name = 'RL_CCPSO50D'

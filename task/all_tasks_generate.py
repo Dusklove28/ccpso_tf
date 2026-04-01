@@ -1,9 +1,6 @@
-from matAgent.ccpso_50d import FiftyDimCCPsoSwarm
-from matAgent.epso import EpsoSwarm
+from matAgent.ccpso import ConvPsoSwarm
 from matAgent.pso import PsoSwarm
-from matAgent.rlepso import RlepsoSwarm
 from matAgent.rl_ccpso_eval import RlCCPsoSwarm
-from matAgent.testpso import TestpsoSwarm
 
 
 def all_tasks_generate():
@@ -16,7 +13,7 @@ def all_tasks_generate():
             'train_al_type': 'rlpso',
         },
         {
-            'train_optimizer': FiftyDimCCPsoSwarm,
+            'train_optimizer': ConvPsoSwarm,
             'evaluate_optimizer': RlCCPsoSwarm,
             'train_profile': 'rlccpso',
             'train_al_type': 'rlccpso',
