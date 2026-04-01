@@ -10,6 +10,12 @@ print(sql_db_address)
 db = SqliteDatabase(sql_db_address)
 
 
+def _normalize_optimizer_name(optimizer):
+    if isinstance(optimizer, type) and hasattr(optimizer, 'optimizer_name'):
+        return optimizer.optimizer_name
+    return str(optimizer)
+
+
 class Optimizer(Model):
     optimizer = CharField(max_length=255)
     train_result = TextField()
@@ -24,14 +30,14 @@ class Optimizer(Model):
         database = db
 
 
-Optimizer.create_table()
+Optimizer.create_table(safe=True)
 
 
 # db.create_tables([Optimizer])
 
 def save_optimizer(results):
     for result in results:
-        optimizer = result['optimizer']
+        optimizer = _normalize_optimizer_name(result['optimizer'])
         dim = result['dim']
         group = result['group']
         separate_train = result['separate_train']
@@ -53,6 +59,7 @@ def save_optimizer(results):
 
 
 def get_optimizer_train_result(optimizer, dim, group, separate_train, max_fe, n_part):
+    optimizer = _normalize_optimizer_name(optimizer)
     p = Optimizer.select().where((Optimizer.optimizer == optimizer) &
                                  (Optimizer.dim == int(dim)) &
                                  (Optimizer.group == int(group)) &

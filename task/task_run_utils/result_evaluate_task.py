@@ -184,7 +184,7 @@ def new_result_evaluate_task_run(task, mq=None):
             if fun_optimizer_result_dict[f_num][optimizer_name]['result'][-1][2] > result['result'][-1][2]:
                 fun_optimizer_result_dict[f_num][optimizer_name] = result
 
-    if visiable_result_flag or True:
+    if visiable_result_flag:
         # 可视化结果
         visible_res_generate(fun_optimizer_result_dict)
 

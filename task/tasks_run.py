@@ -18,12 +18,22 @@ from task.utils.all_task_final_result_process.all_task_final_result_process impo
     all_task_final_result_process,
 )
 from task.utils.evluate_optimizer import evluate_optimizer
-from train.ddpg import (
-    build_original_rlepso_train_env,
-    get_ddpg_object,
-    get_original_rlepso_train_config,
-)
+from train.ddpg import get_ddpg_object
+from utils.db.db import save_optimizer
 from utils.task_hash import get_task_hash
+
+
+def _save_train_result_to_db(task, train_result):
+    optimizer = task['optimizer']
+    save_optimizer([{
+        'optimizer': optimizer.optimizer_name,
+        'dim': task['dim'],
+        'group': task['group'],
+        'separate_train': task['separate_train'],
+        'max_fe': task['max_fe'],
+        'n_part': task['n_part'],
+        'train_result': train_result,
+    }])
 
 
 def task_run(task, mq=None):
@@ -34,6 +44,8 @@ def task_run(task, mq=None):
     try:
         if result:
             logger.info(f'{task_md5} cache hit')
+            if task['type'] == 'train' and result.get('result') is not None:
+                _save_train_result_to_db(task, result['result'])
             return result_process(task, result, write=False, mq=mq)
         if task['type'] == 'all':
             return all_task_run(task, mq)
@@ -164,9 +176,6 @@ def train_task_run(task, mq=None):
                 'lr_critic': task.get('lr_critic', 1e-7),
                 'lr_actor': task.get('lr_actor', 1e-9),
             }
-            for optional_key in ('train_profile', 'train_al_type'):
-                if optional_key in task:
-                    single_train_task[optional_key] = task[optional_key]
             tasks.append(single_train_task)
     else:
         single_train_task = {
@@ -184,9 +193,6 @@ def train_task_run(task, mq=None):
             'lr_critic': task.get('lr_critic', 1e-7),
             'lr_actor': task.get('lr_actor', 1e-9),
         }
-        for optional_key in ('train_profile', 'train_al_type'):
-            if optional_key in task:
-                single_train_task[optional_key] = task[optional_key]
         tasks.append(single_train_task)
 
     results = get_tasks_result(tasks)
@@ -202,6 +208,8 @@ def train_task_run(task, mq=None):
     for result in results:
         for fun_num in result['fun_nums']:
             real_result[fun_num] = result['result']
+
+    _save_train_result_to_db(task, real_result)
 
     task_result = copy.deepcopy(task)
     task_result['result'] = real_result
@@ -223,14 +231,6 @@ single_train_task_test_dic = {
 
 
 def _build_train_env_and_limits(task):
-    if task.get('train_profile') == 'original_rlepso':
-        gym_env = build_original_rlepso_train_env(
-            al_type=task.get('train_al_type', 'testpso'),
-            fun_nums=task['fun_nums'],
-            show=False,
-        )
-        return gym_env, get_original_rlepso_train_config()
-
     optimizer = task['optimizer']
     gym_env = NormalEnv(
         obs_shape=(optimizer.obs_space,),

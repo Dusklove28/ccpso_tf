@@ -38,14 +38,15 @@ def _build_train_tasks(task):
                         'lr_critic': lr_critic,
                         'lr_actor': lr_actor,
                     }
-                    for optional_key in ('train_profile', 'train_al_type'):
-                        if optional_key in optimizer_pair:
-                            train_task[optional_key] = optimizer_pair[optional_key]
                     tasks.append(train_task)
     return tasks
 
 
 def _build_compare_tasks(task, train_tasks, train_results):
+    baseline_optimizers = task.get('baseline_optimizers')
+    if not baseline_optimizers:
+        raise ValueError("top task requires at least one baseline optimizer.")
+
     compare_task_map = {}
     baseline_fun_model = {
         f_num: [None]
@@ -60,7 +61,7 @@ def _build_compare_tasks(task, train_tasks, train_results):
         )
         if key not in compare_task_map:
             optimizer_model_list = []
-            for optimizer in task['baseline_optimizers']:
+            for optimizer in baseline_optimizers:
                 optimizer_model_list.append({
                     'optimizer': optimizer,
                     'fun_model': copy.deepcopy(baseline_fun_model),

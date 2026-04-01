@@ -27,7 +27,7 @@ def visible_res_generate(results: dict, path=BASE_PATH + '/data/result/'):
             caches[benchmark][optimizer] = {'best': res['result'][-1][2], 'result': res['result']}
             best_caches.append(res['result'][-1][2])
         for optimizer, res in optimizer_ress.items():
-            index = 0
+            index = 1
             for i in range(len(best_caches)):
                 if best_caches[i] < caches[benchmark][optimizer]['best']:
                     index += 1

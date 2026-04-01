@@ -1,86 +1,71 @@
-import os
 from utils.db.db import get_optimizer_train_result
+from task.experiment_config import (
+    EXPERIMENT_FUNCTIONS,
+    EXPERIMENT_MAX_FE,
+    EXPERIMENT_N_PART,
+    EXPERIMENT_RUNTIMES,
+    get_primary_experiment_signature,
+)
 
-# --- 1. 精简导入：只保留真正的核心环境 ---
 try:
     from matAgent.pso import PsoSwarm
     from matAgent.ccpso import ConvPsoSwarm
 except ImportError as e:
     print(f"算法模块导入失败: {e}。请检查 matAgent 目录。")
-    raise e
+    raise
 
-funs = list(range(1, 29, 1))
+funs = EXPERIMENT_FUNCTIONS
 no_model_fun_model = {fun: [None] for fun in funs}
 
-# --- 严格的 30D 正常参数对齐 ---
-dim = 30
-runtimes = 10
-max_fe = 10000
-group = 1
-separate_train = True
-n_part = 100
+
+def _get_required_train_result(optimizer_cls, display_name):
+    signature = get_primary_experiment_signature()
+    train_result = get_optimizer_train_result(
+        optimizer_cls.optimizer_name,
+        signature['dim'],
+        signature['group'],
+        signature['separate_train'],
+        EXPERIMENT_MAX_FE,
+        EXPERIMENT_N_PART,
+    )
+    if not train_result:
+        raise RuntimeError(
+            f"缺少 {display_name} 的训练模型，请先运行主实验训练流程后再执行独立评估。"
+        )
+    return train_result
+
 
 def generate_evaluate_tasks():
-    optimizer_model_list = []
+    signature = get_primary_experiment_signature()
+    optimizer_model_list = [
+        {
+            'optimizer': PsoSwarm,
+            'fun_model': no_model_fun_model,
+        },
+        {
+            'optimizer': PsoSwarm,
+            'fun_model': _get_required_train_result(PsoSwarm, 'RL+基础PSO'),
+        },
+        {
+            'optimizer': ConvPsoSwarm,
+            'fun_model': _get_required_train_result(ConvPsoSwarm, 'RL+基础PSO+收敛性策略'),
+        },
+    ]
 
-    # ==========================================
-    # 实验序列 1：纯 PSO 基准 (Native Baseline)
-    # ==========================================
-    optimizer_model_list.append({
-        'optimizer': PsoSwarm,
-        'fun_model': no_model_fun_model,
-    })
-
-    # ==========================================
-    # 实验序列 2：RL + 基础 PSO (对照组)
-    # ==========================================
-    fun_model_rl_pso = get_optimizer_train_result(
-        PsoSwarm.optimizer_name, dim, group, separate_train, max_fe, n_part
-    )
-    if not fun_model_rl_pso:
-        print(f"未能在 DB 找到 【RL+基础PSO ({PsoSwarm.optimizer_name})】 的有效模型！")
-    else:
-        print(f"【RL+基础PSO】 模型就绪。")
-
-    optimizer_model_list.append({
-        'optimizer': PsoSwarm,
-        'fun_model': fun_model_rl_pso if fun_model_rl_pso else no_model_fun_model,
-    })
-
-    # ==========================================
-    # 实验序列 3：RL + 收敛策略 PSO (核心实验组)
-    # ==========================================
-    fun_model_rl_conv = get_optimizer_train_result(
-        ConvPsoSwarm.optimizer_name, dim, group, separate_train, max_fe, n_part
-    )
-    if not fun_model_rl_conv:
-        print(f"未能在 DB 找到 【RL+收敛策略 ({ConvPsoSwarm.optimizer_name})】 的有效模型！")
-    else:
-        print(f"【RL+收敛策略】 模型就绪。")
-
-    # 注意：这里已经彻底替换为 ConvPsoSwarm
-    optimizer_model_list.append({
-        'optimizer': ConvPsoSwarm,
-        'fun_model': fun_model_rl_conv if fun_model_rl_conv else no_model_fun_model,
-    })
-
-    # --- 封装评估任务 ---
-    new_result_evaluate_task_dic = {
+    return [{
         'type': 'new_result_evaluate',
         'optimizer_model_list': optimizer_model_list,
         'evaluate_function': funs,
-        'group': group,
-        'max_fe': max_fe,
-        'n_part': n_part,
-        'dim': dim,
-        'runtimes': runtimes,
-    }
+        'group': signature['group'],
+        'max_fe': EXPERIMENT_MAX_FE,
+        'n_part': EXPERIMENT_N_PART,
+        'dim': signature['dim'],
+        'runtimes': EXPERIMENT_RUNTIMES,
+    }]
 
-    return [new_result_evaluate_task_dic]
 
 if __name__ == '__main__':
-    # 启动前的健康度检查预演
-    print("\n--- Rlpso(tf版) 30D 评测任务生成校验 ---")
+    print("\n--- 独立评测任务生成校验 ---")
     tasks = generate_evaluate_tasks()
 
     print("\n[待评测算法序列]:")
