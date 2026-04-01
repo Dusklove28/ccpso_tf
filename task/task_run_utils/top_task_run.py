@@ -7,6 +7,15 @@ from utils.task_hash import get_task_hash
 from log import logger
 
 
+def _get_train_phase_name(optimizer_class):
+    optimizer_name = getattr(optimizer_class, 'optimizer_name', optimizer_class.__name__)
+    if optimizer_name == 'PSO':
+        return 'Stage1-RL+BasicPSO'
+    if optimizer_name == 'Conv_PSO':
+        return 'Stage2-RL+BasicPSO+Convergence'
+    return f"Train-{optimizer_name}"
+
+
 def _build_train_tasks(task):
     tasks = []
 
@@ -18,11 +27,13 @@ def _build_train_tasks(task):
     for optimizer_pair in task['rl_optimizer_pairs']:
         train_optimizer = optimizer_pair['train_optimizer']
         evaluate_optimizer = optimizer_pair['evaluate_optimizer']
+        phase_name = _get_train_phase_name(train_optimizer)
         for separate_train in task['separate_trains']:
             for group in task['groups']:
                 for dim in task['dims']:
                     train_task = {
                         'type': 'train',
+                        'phase_name': phase_name,
                         'optimizer': train_optimizer,
                         'evaluate_optimizer': evaluate_optimizer,
                         'group': group,
@@ -77,6 +88,7 @@ def _build_compare_tasks(task, train_tasks, train_results):
     for (separate_train, group, dim), optimizer_model_list in compare_task_map.items():
         compare_tasks.append({
             'type': 'new_result_evaluate',
+            'phase_name': 'Stage3-FinalCompare',
             'optimizer_model_list': optimizer_model_list,
             'evaluate_function': task['evaluate_function'],
             'group': group,

@@ -145,6 +145,7 @@ def new_result_evaluate_task_run(task, mq=None):
             for model in models:
                 single_evaluate_task = {
                     'type': 'evaluate_multi_times',
+                    'phase_name': task.get('phase_name'),
                     'evaluate_optimizer': optimizer,
                     'model': model,
                     'evaluate_function': fun_num,
@@ -157,6 +158,12 @@ def new_result_evaluate_task_run(task, mq=None):
                 tasks.append(single_evaluate_task)
 
     # 结果检测
+    from log import logger
+    logger.info(
+        f"[{task.get('phase_name', 'UnlabeledPhase')}] "
+        f"final_compare discovered={len(tasks)} evaluate_multi_times tasks"
+    )
+
     results = get_tasks_result(tasks)
 
     # 如无结果则等待结果

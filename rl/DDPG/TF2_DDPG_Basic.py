@@ -5,12 +5,14 @@ import random
 import datetime
 import numpy as np
 from collections import deque
+import time
 import tensorflow as tf
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Dense, Lambda, Concatenate
 from tensorflow.keras.optimizers import Adam
 
 from rl.DDPG.Prioritized_Replay import Memory
+from log import logger
 
 # Original paper: https://arxiv.org/pdf/1509.02971.pdf
 # DDPG with PER paper: https://cardwing.github.io/files/RL_course_report.pdf
@@ -64,6 +66,15 @@ def _get_env_optimizer_name(env):
     if optimizer is None:
         return env.__class__.__name__
     return optimizer.__class__.__name__
+
+
+def _format_duration(seconds):
+    if seconds is None:
+        return 'unknown'
+    seconds = max(0, int(seconds))
+    hours, remainder = divmod(seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    return f"{hours:02d}:{minutes:02d}:{seconds:02d}"
 
 
 # Taken from https://github.com/openai/baselines/blob/master/baselines/ddpg/noise.py
@@ -231,6 +242,7 @@ class DDPG:
         current_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
         train_log_dir = 'logs/DDPG_basic_' + current_time
         summary_writer = tf.summary.create_file_writer(train_log_dir)
+        train_start_time = time.time()
 
         done, episode, steps, epoch, total_reward = False, 0, 0, 0, 0
         cur_state = self.env.reset()
@@ -239,6 +251,24 @@ class DDPG:
                 episode += 1
                 print(F"episode {episode}: {total_reward} total reward, {steps} steps, {epoch} epochs "
                       F"optimizer:{_get_env_optimizer_name(self.env)}")
+                elapsed = time.time() - train_start_time
+                episode_progress = episode / max(max_episodes, 1)
+                epoch_progress = epoch / max(max_epochs, 1)
+                overall_progress = max(min(episode_progress, epoch_progress), 1e-6)
+                eta_seconds = elapsed / overall_progress - elapsed
+                saved_models = 0
+                if task_path is not None:
+                    saved_models = len(list(task_path.glob(f"ddpg_actor*_round{train_num}.h5")))
+                phase_name = getattr(self.env, 'phase_name', None) or _get_env_optimizer_name(self.env)
+                logger.info(
+                    f"[{phase_name}] train_progress "
+                    f"episode={episode}/{max_episodes} "
+                    f"epoch={epoch}/{max_epochs} "
+                    f"steps={steps} "
+                    f"saved_models={saved_models} "
+                    f"elapsed={_format_duration(elapsed)} "
+                    f"eta={_format_duration(eta_seconds)}"
+                )
 
                 # with summary_writer.as_default():
                 #     tf.summary.scalar('Main/episode_reward', total_reward, step=episode)

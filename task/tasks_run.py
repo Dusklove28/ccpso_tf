@@ -163,6 +163,7 @@ def train_task_run(task, mq=None):
         for fun_num in task['fun_nums']:
             single_train_task = {
                 'type': 'single_train',
+                'phase_name': task.get('phase_name'),
                 'optimizer': optimizer,
                 'group': task['group'],
                 'train_max_steps': task['train_max_steps'],
@@ -180,6 +181,7 @@ def train_task_run(task, mq=None):
     else:
         single_train_task = {
             'type': 'single_train',
+            'phase_name': task.get('phase_name'),
             'optimizer': optimizer,
             'group': task['group'],
             'train_max_steps': task['train_max_steps'],
@@ -242,6 +244,7 @@ def _build_train_env_and_limits(task):
         n_dim=task['dim'],
         group=task['group'],
     )
+    gym_env.phase_name = task.get('phase_name')
 
     save_freq = max(1, int(task['train_max_episode'] / 20))
     train_limits = {
@@ -295,6 +298,7 @@ def single_train_task_run(task, mq=None):
 
     new_task = {
         'type': 'evaluate_models',
+        'phase_name': task.get('phase_name'),
         'evaluate_optimizers': [],
         'evaluate_functions': fun_nums,
         'dims': [dim],
@@ -303,11 +307,19 @@ def single_train_task_run(task, mq=None):
         'max_fe': max_fe,
         'n_part': task['n_part'],
     }
-    for model in task_dir.glob('ddpg_actor*.h5'):
+    model_candidates = sorted(task_dir.glob('ddpg_actor*.h5'))
+    for model in model_candidates:
         new_task['evaluate_optimizers'].append({
             'optimizer': optimizer,
             'model': model,
         })
+
+    logger.info(
+        f"[{task.get('phase_name', optimizer.optimizer_name)}] "
+        f"model_selection candidates={len(model_candidates)} "
+        f"evaluate_multi_times={len(model_candidates)} "
+        f"expected_single_evaluate={len(model_candidates) * new_task['runtimes']}"
+    )
 
     results = get_tasks_result([new_task])
     if results is None:
@@ -352,6 +364,7 @@ def evaluate_models_task_run(task, mq=None):
                 for group in task['groups']:
                     tasks.append({
                         'type': 'evaluate_multi_times',
+                        'phase_name': task.get('phase_name'),
                         'evaluate_optimizer': evaluate_optimizer['optimizer'],
                         'model': evaluate_optimizer['model'],
                         'evaluate_function': evaluate_function,
@@ -361,6 +374,11 @@ def evaluate_models_task_run(task, mq=None):
                         'runtimes': task['runtimes'],
                         'n_part': task['n_part'],
                     })
+
+    logger.info(
+        f"[{task.get('phase_name', 'UnlabeledPhase')}] "
+        f"evaluate_models discovered={len(tasks)} evaluate_multi_times tasks"
+    )
 
     results = get_tasks_result(tasks)
     if results is None:
@@ -389,6 +407,11 @@ def evaluate_multi_times_task_run(task, mq=None):
         del copy_task['runtimes']
         copy_task['run_index'] = run_index
         tasks.append(copy_task)
+
+    logger.info(
+        f"[{task.get('phase_name', 'UnlabeledPhase')}] "
+        f"evaluate_multi_times runtimes={len(tasks)} model={task.get('model')}"
+    )
 
     results = get_tasks_result(tasks)
     if results is None:
