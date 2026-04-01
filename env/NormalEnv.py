@@ -64,7 +64,11 @@ class NormalEnv(Env):
         :return: next_state
         """
         n_dim = self.n_dim
-        self.n_run = n_run = max(1, int(self.max_fe / self.n_part))
+        if self.max_fe < self.n_part:
+            raise ValueError('max_fe must be at least n_part so the initial population can be evaluated.')
+        if self.max_fe % self.n_part != 0:
+            raise ValueError('max_fe must be divisible by n_part in the current full-swarm evaluation setup.')
+        self.n_run = n_run = int((self.max_fe - self.n_part) / self.n_part)
         show = self.show_flag
 
         self.fun_num = random.choice(self.fun_nums)
@@ -108,6 +112,9 @@ class NormalEnv(Env):
             action = action.numpy()
         else:
             action = np.asarray(action)
+        if self.optimizer.fe_num >= self.max_fe or not self.optimizer.run_flag:
+            next_state = self.optimizer.get_state()
+            return np.array(next_state), 0, True, None
         done = False
         self.step_num += 1
 
@@ -118,7 +125,7 @@ class NormalEnv(Env):
 
         # if self.pso_swarm.best_fit < self.fun.finish or self.step_num >= self.n_run:
         #     done = True
-        if not self.optimizer.run_flag:
+        if not self.optimizer.run_flag or self.optimizer.fe_num >= self.max_fe:
             done = True
 
         num = 0
@@ -161,15 +168,17 @@ class NormalEnv(Env):
 
         if done:
             # 2. 【核心改造】：计算进度百分比并使用 logger 输出
-            max_steps = self.max_fe // self.n_part
-            progress_pct = (self.step_num / max_steps) * 100
+            fe_progress = min(self.optimizer.fe_num, self.max_fe)
+            progress_pct = (fe_progress / self.max_fe) * 100
 
             # 使用 getattr 安全获取当前算法名称，防止找不到报错
             alg_name = getattr(self.optimizer, 'name', 'Unknown_Alg')
 
             res = (f"[{alg_name}] Func: {self.fun_num} | "
-                   f"Step: {self.step_num}/{max_steps} ({progress_pct:.1f}%) | "
+                   f"FE: {fe_progress}/{self.max_fe} ({progress_pct:.1f}%) | "
+                   f"Iter: {self.step_num}/{self.n_run} | "
                    f"Target: {self.min_value} | Result: {self.optimizer.history_best_fit:.4e}")
+            logger.info(res)
 
             # 使用你配置好的 logger！
             logger.info(res)

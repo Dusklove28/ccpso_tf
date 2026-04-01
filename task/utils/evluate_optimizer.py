@@ -36,7 +36,12 @@ def evluate_optimizer(task):
     if max_fe:
         config_dic['max_fes'] = max_fe
 
-    n_run = max(1, int(config_dic.get('max_fes', 20000) / npart))
+    max_fes = int(config_dic.get('max_fes', 20000))
+    if max_fes < npart:
+        raise ValueError('max_fe must be at least n_part so the initial population can be evaluated.')
+    if max_fes % npart != 0:
+        raise ValueError('max_fe must be divisible by n_part in the current full-swarm evaluation setup.')
+    n_run = int((max_fes - npart) / npart)
     optimizer = cls(n_run=n_run, n_part=npart, show=False, fun=test_fun, n_dim=dim, pos_max=100, pos_min=-100,
                     config_dic=config_dic)
     optimizer.run()

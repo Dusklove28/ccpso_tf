@@ -29,13 +29,17 @@ class ConvPsoSwarm(MatSwarm):
         self.xs = np.random.uniform(self.pos_min, self.pos_max, self.xs.shape)
         self.vs = np.random.uniform(self.pos_min, self.pos_max, self.xs.shape)
         self.fits = self.fun(self.xs)
-        self.init_finish = True
 
         gbest_index = np.argmin(self.fits)
         self.history_best_fit = self.fits[gbest_index]
         self.history_best_x = self.xs[gbest_index].copy()
         self.atom_best_fits = self.fits.copy()
         self.p_best = self.xs.copy()
+        self.init_finish = True
+        self.fe_num = self.n_part
+        self.run_flag = self.fe_num < self.fe_max
+        if (self.fe_num % self.record_per_fe == 0 or self.fe_num == self.fe_max) and self.fe_num <= self.fe_max:
+            self.data_collect_method()
 
         # 唯一新增变量：为了二阶动力学推导，利用初始速度倒推上一代的假想位置
         self.xs_old = self.xs - self.vs
