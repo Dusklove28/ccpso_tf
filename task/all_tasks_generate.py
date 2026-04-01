@@ -30,14 +30,14 @@ def all_tasks_generate():
         # 'separate_trains': [False],
         'separate_trains': [True],
         'groups': [1],
-        'train_max_episode': 200,
-        'train_max_steps': 8000,
+        'train_max_episode': 400,
+        'train_max_steps': 40,000,
         'dims': [30],
         'train_times': 1,
         'max_fe': int(1e4),
         'n_part': 100,
-        'lr_critic': 1e-7,
-        'lr_actor': 1e-9,
+        'lr_critic': 1e-4,
+        'lr_actor': 1e-6,
     }
 
     return [task]

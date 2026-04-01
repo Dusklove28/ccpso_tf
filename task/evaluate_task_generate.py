@@ -1,20 +1,18 @@
 import os
 from utils.db.db import get_optimizer_train_result
 
-# --- 1. 精简且精准的依赖导入 ---
-# 只保留本次消融实验 (Ablation Study) 必须的三员大将
+# --- 1. 精简导入：只保留真正的核心环境 ---
 try:
     from matAgent.pso import PsoSwarm
     from matAgent.ccpso import ConvPsoSwarm
-    from matAgent.rl_ccpso_eval import RlCCPsoSwarm
 except ImportError as e:
     print(f"算法模块导入失败: {e}。请检查 matAgent 目录。")
     raise e
 
-
 funs = list(range(1, 29, 1))
 no_model_fun_model = {fun: [None] for fun in funs}
 
+# --- 严格的 30D 正常参数对齐 ---
 dim = 30
 runtimes = 10
 max_fe = 10000
@@ -22,23 +20,20 @@ group = 1
 separate_train = True
 n_part = 100
 
-
 def generate_evaluate_tasks():
     optimizer_model_list = []
 
     # ==========================================
-    # 实验序列 1：传统基准组 (Native Baseline)
+    # 实验序列 1：纯 PSO 基准 (Native Baseline)
     # ==========================================
-    # 纯 PSO 算法，剥离任何 RL 代理干预
     optimizer_model_list.append({
         'optimizer': PsoSwarm,
         'fun_model': no_model_fun_model,
     })
 
     # ==========================================
-    # 实验序列 2：RL 消融对照组 (RL + 基础PSO)
+    # 实验序列 2：RL + 基础 PSO (对照组)
     # ==========================================
-    # 训练环境为 PsoSwarm，评估环境同为 PsoSwarm (带模型注入)
     fun_model_rl_pso = get_optimizer_train_result(
         PsoSwarm.optimizer_name, dim, group, separate_train, max_fe, n_part
     )
@@ -53,9 +48,8 @@ def generate_evaluate_tasks():
     })
 
     # ==========================================
-    # 实验序列 3：核心实验组 (RL + 基础PSO + 收敛策略)
+    # 实验序列 3：RL + 收敛策略 PSO (核心实验组)
     # ==========================================
-    # 训练环境为 ConvPsoSwarm，评估代理类为 RlCCPsoSwarm
     fun_model_rl_conv = get_optimizer_train_result(
         ConvPsoSwarm.optimizer_name, dim, group, separate_train, max_fe, n_part
     )
@@ -64,12 +58,13 @@ def generate_evaluate_tasks():
     else:
         print(f"【RL+收敛策略】 模型就绪。")
 
+    # 注意：这里已经彻底替换为 ConvPsoSwarm
     optimizer_model_list.append({
-        'optimizer': RlCCPsoSwarm,
+        'optimizer': ConvPsoSwarm,
         'fun_model': fun_model_rl_conv if fun_model_rl_conv else no_model_fun_model,
     })
 
-    # --- 3. 封装评估任务 ---
+    # --- 封装评估任务 ---
     new_result_evaluate_task_dic = {
         'type': 'new_result_evaluate',
         'optimizer_model_list': optimizer_model_list,
@@ -83,10 +78,9 @@ def generate_evaluate_tasks():
 
     return [new_result_evaluate_task_dic]
 
-
 if __name__ == '__main__':
     # 启动前的健康度检查预演
-    print("\n--- Rlpso(tf版) 评测任务生成校验 ---")
+    print("\n--- Rlpso(tf版) 30D 评测任务生成校验 ---")
     tasks = generate_evaluate_tasks()
 
     print("\n[待评测算法序列]:")
