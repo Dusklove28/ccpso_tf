@@ -66,8 +66,8 @@ class ConvPsoSwarm(MatSwarm):
         if actions is None:
             actions = np.zeros(self.action_space)
 
-        # RL只控制收敛性参数 Conv_a 映射到 [0.1, 1.5]
-        Conv_a = actions[0] * 0.7 + 0.8
+        # RL只控制收敛性参数 Conv_a 映射到 [0.0, 2.0]
+        Conv_a = actions[0] + 1.0
 
         # 生成与 pso.py 完全一致的随机张量 (n_part, n_dim)
         self.r1 = np.random.uniform(0, 1, (self.n_part, self.n_dim))

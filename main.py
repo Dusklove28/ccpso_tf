@@ -180,7 +180,7 @@ def main(processes=1):
     logger.info(f"main run at {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}")
     logger.info(f"processes:{processes}")
 
-    need_run_tasks = all_tasks_generate()
+    need_run_tasks = all_tasks_generate
     for task in need_run_tasks:
         task_statistic(task, start=1)
 
