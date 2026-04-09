@@ -2,6 +2,7 @@ import numpy as np
 from matAgent.baseAgent import MatSwarm
 
 
+
 class ConvPsoSwarm(MatSwarm):
     optimizer_name = 'Conv_PSO'
     action_space = 1
@@ -10,6 +11,9 @@ class ConvPsoSwarm(MatSwarm):
     def __init__(self, n_run, n_part, show, fun, n_dim, pos_max, pos_min, config_dic):
         super().__init__(n_run, n_part, show, fun, n_dim, pos_max, pos_min, config_dic)
         self.name = 'Conv_PSO'
+        # 追踪收敛系数Conv_a
+        self.current_conv_a = None
+        self.conv_trace = []
 
         # 完全复刻 pso.py 的变量结构
         self.vs = np.zeros_like(self.xs)
@@ -25,7 +29,7 @@ class ConvPsoSwarm(MatSwarm):
         self.init()
 
     def init(self):
-        # 100% 还原 pso.py 的初始化（包含初始速度边界，以保证与对照组的起点绝对公平）
+        # pso.py 的初始化（包含初始速度边界，以保证与对照组的起点绝对公平）
         self.xs = np.random.uniform(self.pos_min, self.pos_max, self.xs.shape)
         self.vs = np.random.uniform(self.pos_min, self.pos_max, self.xs.shape)
         self.fits = self.fun(self.xs)
@@ -41,7 +45,7 @@ class ConvPsoSwarm(MatSwarm):
         if (self.fe_num % self.record_per_fe == 0 or self.fe_num == self.fe_max) and self.fe_num <= self.fe_max:
             self.data_collect_method()
 
-        # 唯一新增变量：为了二阶动力学推导，利用初始速度倒推上一代的假想位置
+        # 新增利用初始速度倒推上一代的假想位置
         self.xs_old = self.xs - self.vs
 
     def set_x(self, x):
@@ -49,7 +53,7 @@ class ConvPsoSwarm(MatSwarm):
         self.xs = x
 
     def update_best(self):
-        # 100% 还原 pso.py 的最优值更新逻辑
+        # pso.py 的最优值更新逻辑
         for i in range(self.n_part):
             if self.fits[i] < self.atom_best_fits[i]:
                 self.p_best[i] = self.xs[i].copy()
@@ -64,10 +68,13 @@ class ConvPsoSwarm(MatSwarm):
     def run_once(self, actions=None):
         # 提取 RL 动作 (action_space = 1)
         if actions is None:
-            actions = np.zeros(self.action_space)
+            actions = np.zeros(self.action_space, dtype=float)
 
+        actions = np.asarray(actions, dtype=float).reshape(-1)
         # RL只控制收敛性参数 Conv_a 映射到 [0.0, 2.0]
-        Conv_a = actions[0] + 1.0
+        Conv_a = float(actions[0] + 1.0)
+        self.current_conv_a = Conv_a
+
 
         # 生成与 pso.py 完全一致的随机张量 (n_part, n_dim)
         self.r1 = np.random.uniform(0, 1, (self.n_part, self.n_dim))
@@ -115,3 +122,4 @@ class ConvPsoSwarm(MatSwarm):
         # 计算适应度并更新最优记录
         self.fits = self.fun(self.xs)
         self.update_best()
+        self.conv_trace.append((int(self.fe_num), float(self.current_conv_a)))

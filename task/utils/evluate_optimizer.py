@@ -7,7 +7,7 @@ from evaluate.common import *
 # from matAgent.hrlepso import HrlepsoSwarm
 
 
-def evluate_optimizer(task):
+def evluate_optimizer(task, return_trace=False):
     print(f'evluate_optimizer config:{task}')
     dim = task['dim']
     cls = task['evaluate_optimizer']
@@ -47,10 +47,14 @@ def evluate_optimizer(task):
     optimizer.run()
 
     res = optimizer.result_cache
+    conv_trace = getattr(optimizer, 'conv_trace', None)
 
     if len(res) == 0:
         print(locals())
         raise BaseException('没有获取到结果')
+
+    if return_trace:
+        return res, conv_trace
     # print(
     #     f'{optimizer.name}|gbest:{optimizer.get_best_value()}|best:{best_value}|fes:{optimizer.max_fes}|npart:{optimizer.npart}|ndim:{optimizer.ndim}')
     return res

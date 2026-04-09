@@ -423,10 +423,12 @@ def evaluate_multi_times_task_run(task, mq=None):
         return result_process(task, task_result, write=False, mq=mq)
 
     average_ress = np.average(np.array([result['result'] for result in results]), axis=0)
+    conv_runs = [result.get('conv_trace', []) for result in results if result.get('conv_trace')]
 
     task_result = copy.deepcopy(task)
     task_result['result'] = average_ress
     task_result['md5'] = get_task_hash(task)
+    task_result['conv_runs'] = conv_runs
     return result_process(task, task_result, mq)
 
 
@@ -446,9 +448,12 @@ def single_evaluate_task_run(task, mq=None):
 
     task_result = get_task_result(task)
     if not task_result:
-        result = evluate_optimizer(task)
+        result, conv_trace = evluate_optimizer(task, return_trace=True)
         task_result = copy.deepcopy(task)
         task_result['result'] = result
+        if conv_trace is not None:
+            task_result['conv_trace'] = conv_trace
+
         task_result['md5'] = get_task_hash(task)
 
     return result_process(task, task_result, mq)

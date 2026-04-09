@@ -5,8 +5,8 @@ import numpy as np
 from task.task_run_utils.common import get_tasks_result, result_process
 from utils.task_hash import get_task_hash
 from log import logger
-
-
+import plot_final_battle as plot_func
+import task.experiment_config as ec
 def _get_train_phase_name(optimizer_class):
     optimizer_name = getattr(optimizer_class, 'optimizer_name', optimizer_class.__name__)
     if optimizer_name == 'PSO':
@@ -162,4 +162,11 @@ def top_task_run(task, mq=None):
     task_result['md5'] = get_task_hash(task)
 
     logger.info(f"最终比较任务路径:{task_result['md5']}")
+    logger.info(f"开始画图")
+    ec.update(task_result['md5'])
+    plot_func.extract_csv()
+    plot_func.plot_highlight_functions()
+    plot_func.plot_conv_a_traces()
+    logger.info(f"画图完毕")
+
     return result_process(task, task_result, mq)

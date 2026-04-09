@@ -4,11 +4,15 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import task.experiment_config as ec
+from task.experiment_config import EXPERIMENT_Model_Path
 
 # 解决 Linux/WSL 下中文字体显示为方块的问题
 plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'WenQuanYi Micro Hei', 'SimHei', 'sans-serif']
 plt.rcParams['axes.unicode_minus'] = False
 
+
+model_path = ec.EXPERIMENT_Model_Path
 
 class MockClass: pass
 
@@ -22,7 +26,7 @@ class SafeUnpickler(pickle.Unpickler):
 
 
 def extract_csv():
-    path = "data/task/43fd48ae8450de74e7eacd0967b0ec19/result.pickle"
+    path = "data/task/"+ model_path + "/result.pickle"
     if not os.path.exists(path):
         return
 
@@ -45,7 +49,7 @@ def extract_csv():
 
 
 def plot_highlight_functions():
-    target_md5 = "43fd48ae8450de74e7eacd0967b0ec19"
+    target_md5 = model_path
     task_dir = os.path.join("data", "task", target_md5)
     pickle_path = os.path.join(task_dir, "result.pickle")
     output_dir = "final_battle_plots"
@@ -161,7 +165,49 @@ def plot_highlight_functions():
 
         print(f"✅ F{f_num} 的学术高清红蓝对决图已保存至 -> {save_path}")
 
+def plot_conv_a_traces():
+    target_md5 = EXPERIMENT_Model_Path
+    task_dir = os.path.join("data", "task", target_md5)
+    pickle_path = os.path.join(task_dir, "result.pickle")
+    output_dir = "final_battle_plots"
+    os.makedirs(output_dir, exist_ok=True)
+
+    with open(pickle_path, 'rb') as f:
+        data = SafeUnpickler(f).load()
+
+    real_results = data['result'][0]['result']
+    target_functions = [1, 11]
+
+    for f_num in target_functions:
+        opt_dicts = real_results.get(f_num) or real_results.get(str(f_num))
+        if not opt_dicts:
+            continue
+
+        conv_res = opt_dicts.get("Conv_PSOtrain")
+        if not conv_res:
+            continue
+
+        conv_runs = conv_res.get("conv_runs", [])
+        if not conv_runs:
+            continue
+
+        plt.figure(figsize=(10, 6))
+        for run_trace in conv_runs:
+            x_vals = [row[0] for row in run_trace]
+            y_vals = [row[1] for row in run_trace]
+            plt.plot(x_vals, y_vals, color="#e41a1c", alpha=0.25, linewidth=1.0)
+
+        plt.title(f"Conv_a Traces on F{f_num}")
+        plt.xlabel("Function Evaluations (FEs)")
+        plt.ylabel("Conv_a")
+        plt.ylim(0, 2)
+        plt.grid(True, linestyle='--', alpha=0.5)
+
+        save_path = os.path.join(output_dir, f"F{f_num}_conv_a_traces.png")
+        plt.savefig(save_path, dpi=400, bbox_inches='tight')
+        plt.close()
 
 if __name__ == "__main__":
     extract_csv()
     plot_highlight_functions()
+    plot_conv_a_traces()
