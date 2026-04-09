@@ -1,20 +1,19 @@
+import csv
 import os
 import pickle
-import csv
-import numpy as np
+import sys
+
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
-import task.experiment_config as ec
-from task.experiment_config import EXPERIMENT_Model_Path
+import numpy as np
 
-# 解决 Linux/WSL 下中文字体显示为方块的问题
+# Fix missing CJK fonts on Linux/WSL.
 plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'WenQuanYi Micro Hei', 'SimHei', 'sans-serif']
 plt.rcParams['axes.unicode_minus'] = False
 
 
-model_path = ec.EXPERIMENT_Model_Path
-
-class MockClass: pass
+class MockClass:
+    pass
 
 
 class SafeUnpickler(pickle.Unpickler):
@@ -25,13 +24,50 @@ class SafeUnpickler(pickle.Unpickler):
             return type(name, (MockClass,), {"__module__": module})
 
 
-def extract_csv():
-    path = "data/task/"+ model_path + "/result.pickle"
-    if not os.path.exists(path):
-        return
+def _get_pickle_path(task_md5):
+    return os.path.join("data", "task", str(task_md5), "result.pickle")
 
-    with open(path, "rb") as f:
-        obj = pickle.load(f)
+
+def _load_task_result(task_md5):
+    pickle_path = _get_pickle_path(task_md5)
+    if not os.path.exists(pickle_path):
+        print(f"未找到结果文件: {pickle_path}")
+        return None
+
+    with open(pickle_path, "rb") as f:
+        return SafeUnpickler(f).load()
+
+
+def _normalize_function_ids(functions):
+    normalized = []
+    for fun in functions:
+        try:
+            normalized.append(int(fun))
+        except (TypeError, ValueError):
+            normalized.append(fun)
+    return normalized
+
+
+def _get_target_functions(summary_result, target_functions=None):
+    if target_functions is not None:
+        return _normalize_function_ids(target_functions)
+
+    functions = summary_result.get("functions")
+    if functions:
+        return _normalize_function_ids(functions)
+
+    result_keys = list(summary_result.get("result", {}).keys())
+    normalized_keys = _normalize_function_ids(result_keys)
+    try:
+        return sorted(normalized_keys)
+    except TypeError:
+        return normalized_keys
+
+
+def extract_csv(task_md5):
+    obj = _load_task_result(task_md5)
+    if obj is None:
+        return
 
     summary = obj["result"][0]
 
@@ -48,42 +84,35 @@ def extract_csv():
     print("saved -> final_summary.csv")
 
 
-def plot_highlight_functions():
-    target_md5 = model_path
-    task_dir = os.path.join("data", "task", target_md5)
-    pickle_path = os.path.join(task_dir, "result.pickle")
+def plot_highlight_functions(task_md5, target_functions=None):
+    data = _load_task_result(task_md5)
+    if data is None:
+        return
+
     output_dir = "final_battle_plots"
     os.makedirs(output_dir, exist_ok=True)
 
-    if not os.path.exists(pickle_path):
-        print(f"❌ 找不到结果文件：{pickle_path}")
-        return
+    print("正在绘制收敛曲线...")
+    summary = data['result'][0]
+    real_results = summary['result']
+    target_functions = _get_target_functions(summary, target_functions=target_functions)
 
-    print("🚀 正在绘制学术级对比图...")
-    with open(pickle_path, 'rb') as f:
-        data = SafeUnpickler(f).load()
-
-    real_results = data['result'][0]['result']
-    target_functions = list(range(1, 29))
-
-    # 顶会论文经典配色 (Colorblind-friendly)
-    # 精确映射你真实的算法名称
-    LABEL_MAP = {
+    label_map = {
         "PSOorigin": "PSO",
         "PSOtrain": "RLPSO",
-        "Conv_PSOtrain": "RL_CCPSO"
+        "Conv_PSOtrain": "RL_CCPSO",
     }
 
     colors = {
-        'RL_CCPSO': '#e41a1c',  # 鲜艳的红色，突出你的算法
-        'RLPSO': '#377eb8',  # 沉稳的蓝色
-        'PSO': '#4daf4a'  # 经典的绿色
+        'RL_CCPSO': '#e41a1c',
+        'RLPSO': '#377eb8',
+        'PSO': '#4daf4a',
     }
 
     markers = {
         'RL_CCPSO': 'o',
         'RLPSO': 's',
-        'PSO': '^'
+        'PSO': '^',
     }
 
     for f_num in target_functions:
@@ -96,11 +125,9 @@ def plot_highlight_functions():
 
         plt.figure(figsize=(10, 6))
 
-        # --- 计算 symlog 阈值，防止 Y 轴刻度问题 ---
         all_y = []
-        for opt_name, res_data in opt_dicts.items():
+        for _, res_data in opt_dicts.items():
             matrix = res_data['result']
-            # 修复 NumPy 真值判断 Bug
             if matrix is None or len(matrix) == 0:
                 continue
             all_y.extend([row[2] if len(row) > 2 else row[-1] for row in matrix])
@@ -113,16 +140,12 @@ def plot_highlight_functions():
         else:
             linthresh = 1e-8
 
-        # --- 开始画图 ---
         for opt_name, res_data in opt_dicts.items():
             matrix = res_data['result']
-            # 修复 NumPy 真值判断 Bug
             if matrix is None or len(matrix) == 0:
                 continue
 
-            # 使用映射获取学术展示名称
-            label_name = LABEL_MAP.get(opt_name, str(opt_name))
-
+            label_name = label_map.get(opt_name, str(opt_name))
             x_vals = [row[0] for row in matrix]
             y_vals = [row[2] if len(row) > 2 else row[-1] for row in matrix]
 
@@ -130,18 +153,22 @@ def plot_highlight_functions():
             marker = markers.get(label_name, 'x')
             mark_step = max(1, len(x_vals) // 15)
 
-            # 强调 Ours
-            lw = 2.5 if 'Ours' in label_name else 1.5
-            zo = 10 if 'Ours' in label_name else 5
-
-            plt.plot(x_vals, y_vals, label=label_name, color=color, marker=marker,
-                     markevery=mark_step, linewidth=lw, zorder=zo, alpha=0.9)
+            plt.plot(
+                x_vals,
+                y_vals,
+                label=label_name,
+                color=color,
+                marker=marker,
+                markevery=mark_step,
+                linewidth=1.5,
+                zorder=5,
+                alpha=0.9,
+            )
 
         plt.title(f"Convergence Curves on 30D Complex Function F{f_num}", fontsize=15, fontweight='bold')
         plt.xlabel("Function Evaluations (FEs)", fontsize=13)
         plt.ylabel("Fitness Value (Log Scale)", fontsize=13)
 
-        # 启用 symlog 坐标轴并强制划分刻度
         ax = plt.gca()
         ax.set_yscale('symlog', linthresh=linthresh)
         ax.yaxis.set_major_locator(ticker.MaxNLocator(nbins=8))
@@ -149,10 +176,9 @@ def plot_highlight_functions():
         def y_formatter(val, pos):
             if val == 0:
                 return "0"
-            elif abs(val) < 1e-3 or abs(val) >= 1e4:
+            if abs(val) < 1e-3 or abs(val) >= 1e4:
                 return f"{val:.1e}"
-            else:
-                return f"{val:.4g}"
+            return f"{val:.4g}"
 
         ax.yaxis.set_major_formatter(ticker.FuncFormatter(y_formatter))
 
@@ -163,27 +189,37 @@ def plot_highlight_functions():
         plt.savefig(save_path, dpi=400, bbox_inches='tight')
         plt.close()
 
-        print(f"✅ F{f_num} 的学术高清红蓝对决图已保存至 -> {save_path}")
+        print(f"✅ F{f_num} 的收敛曲线已保存至 -> {save_path}")
 
-def plot_conv_a_traces():
-    target_md5 = EXPERIMENT_Model_Path
-    task_dir = os.path.join("data", "task", target_md5)
-    pickle_path = os.path.join(task_dir, "result.pickle")
+
+def plot_conv_a_traces(task_md5, target_functions=None):
+    data = _load_task_result(task_md5)
+    if data is None:
+        return
+
     output_dir = "final_battle_plots"
     os.makedirs(output_dir, exist_ok=True)
 
-    with open(pickle_path, 'rb') as f:
-        data = SafeUnpickler(f).load()
-
-    real_results = data['result'][0]['result']
-    target_functions = [1, 11]
+    summary = data['result'][0]
+    real_results = summary['result']
+    target_functions = _get_target_functions(summary, target_functions=target_functions)
 
     for f_num in target_functions:
         opt_dicts = real_results.get(f_num) or real_results.get(str(f_num))
         if not opt_dicts:
             continue
 
-        conv_res = opt_dicts.get("Conv_PSOtrain")
+        conv_key = next(
+            (
+                opt_name for opt_name in opt_dicts.keys()
+                if str(opt_name).startswith("Conv_PSO") and str(opt_name).endswith("train")
+            ),
+            None,
+        )
+        if conv_key is None:
+            continue
+
+        conv_res = opt_dicts.get(conv_key)
         if not conv_res:
             continue
 
@@ -206,8 +242,17 @@ def plot_conv_a_traces():
         save_path = os.path.join(output_dir, f"F{f_num}_conv_a_traces.png")
         plt.savefig(save_path, dpi=400, bbox_inches='tight')
         plt.close()
+        print(f"✅ F{f_num} 的 Conv_a 轨迹图已保存至 -> {save_path}")
+
+
+def generate_all_plots(task_md5):
+    extract_csv(task_md5)
+    plot_highlight_functions(task_md5)
+    plot_conv_a_traces(task_md5)
+
 
 if __name__ == "__main__":
-    extract_csv()
-    plot_highlight_functions()
-    plot_conv_a_traces()
+    if len(sys.argv) < 2:
+        raise SystemExit("Usage: python plot_final_battle.py <task_md5>")
+
+    generate_all_plots(sys.argv[1])
