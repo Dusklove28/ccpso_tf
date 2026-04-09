@@ -64,6 +64,38 @@ def _get_target_functions(summary_result, target_functions=None):
         return normalized_keys
 
 
+def _summarize_conv_runs(conv_runs):
+    if not conv_runs:
+        return None
+
+    fe_value_map = {}
+    for run_trace in conv_runs:
+        for fe, conv_a in run_trace:
+            fe = int(fe)
+            conv_a = float(conv_a)
+            if fe not in fe_value_map:
+                fe_value_map[fe] = []
+            fe_value_map[fe].append(conv_a)
+
+    fe_points = sorted(fe_value_map.keys())
+    mean_vals = []
+    std_vals = []
+    var_vals = []
+
+    for fe in fe_points:
+        values = np.asarray(fe_value_map[fe], dtype=float)
+        mean_vals.append(float(np.mean(values)))
+        std_vals.append(float(np.std(values)))
+        var_vals.append(float(np.var(values)))
+
+    return {
+        'fe': fe_points,
+        'mean': mean_vals,
+        'std': std_vals,
+        'var': var_vals,
+    }
+
+
 def extract_csv(task_md5):
     obj = _load_task_result(task_md5)
     if obj is None:
@@ -227,22 +259,56 @@ def plot_conv_a_traces(task_md5, target_functions=None):
         if not conv_runs:
             continue
 
-        plt.figure(figsize=(10, 6))
+        conv_stats = conv_res.get("conv_stats") or _summarize_conv_runs(conv_runs)
+        if conv_stats is None:
+            continue
+
+        fe_vals = np.asarray(conv_stats["fe"], dtype=float)
+        mean_vals = np.asarray(conv_stats["mean"], dtype=float)
+        std_vals = np.asarray(conv_stats["std"], dtype=float)
+        var_vals = np.asarray(conv_stats["var"], dtype=float)
+
+        fig, (ax_trace, ax_var) = plt.subplots(
+            2,
+            1,
+            figsize=(10, 9),
+            sharex=True,
+            gridspec_kw={'height_ratios': [3, 1.5]},
+        )
+
         for run_trace in conv_runs:
             x_vals = [row[0] for row in run_trace]
             y_vals = [row[1] for row in run_trace]
-            plt.plot(x_vals, y_vals, color="#e41a1c", alpha=0.25, linewidth=1.0)
+            ax_trace.plot(x_vals, y_vals, color="#f26c6c", alpha=0.25, linewidth=1.0)
 
-        plt.title(f"Conv_a Traces on F{f_num}")
-        plt.xlabel("Function Evaluations (FEs)")
-        plt.ylabel("Conv_a")
-        plt.ylim(0, 2)
-        plt.grid(True, linestyle='--', alpha=0.5)
+        lower = np.clip(mean_vals - std_vals, 0.0, 2.0)
+        upper = np.clip(mean_vals + std_vals, 0.0, 2.0)
+        ax_trace.fill_between(
+            fe_vals,
+            lower,
+            upper,
+            color="#e41a1c",
+            alpha=0.18,
+            label="mean ± std",
+        )
+        ax_trace.plot(fe_vals, mean_vals, color="#c00000", linewidth=2.5, label="mean Conv_a")
+        ax_trace.set_title(f"Conv_a Mean and Variance on F{f_num}")
+        ax_trace.set_ylabel("Conv_a")
+        ax_trace.set_ylim(0, 2)
+        ax_trace.grid(True, linestyle='--', alpha=0.5)
+        ax_trace.legend(loc='best', framealpha=0.85)
 
-        save_path = os.path.join(output_dir, f"F{f_num}_conv_a_traces.png")
-        plt.savefig(save_path, dpi=400, bbox_inches='tight')
-        plt.close()
-        print(f"✅ F{f_num} 的 Conv_a 轨迹图已保存至 -> {save_path}")
+        ax_var.plot(fe_vals, var_vals, color="#7f0000", linewidth=2.0, label="variance")
+        ax_var.fill_between(fe_vals, 0, var_vals, color="#b22222", alpha=0.20)
+        ax_var.set_xlabel("Function Evaluations (FEs)")
+        ax_var.set_ylabel("Var")
+        ax_var.grid(True, linestyle='--', alpha=0.5)
+        ax_var.legend(loc='best', framealpha=0.85)
+
+        save_path = os.path.join(output_dir, f"F{f_num}_conv_a_stats.png")
+        fig.savefig(save_path, dpi=400, bbox_inches='tight')
+        plt.close(fig)
+        print(f"✅ F{f_num} 的 Conv_a 均值/方差图已保存至 -> {save_path}")
 
 
 def generate_all_plots(task_md5):

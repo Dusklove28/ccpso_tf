@@ -23,8 +23,6 @@ class PsoSwarm(MatSwarm):
         self.r1 = np.zeros(n_part)
         self.r2 = np.zeros(n_part)
 
-
-
         self.init()
 
     def init(self):
