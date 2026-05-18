@@ -71,8 +71,8 @@ class ConvPsoSwarm(MatSwarm):
             actions = np.zeros(self.action_space, dtype=float)
 
         actions = np.asarray(actions, dtype=float).reshape(-1)
-        # RL只控制收敛性参数 Conv_a 映射到 [0.6, 2.4]
-        Conv_a = float(actions[0]*0.9 + 1.5)
+        # RL只控制收敛性参数 Conv_a 映射到 [0.0, 2.0]
+        Conv_a = float(actions[0] + 1.0)
         
         self.current_conv_a = Conv_a
         if (Conv_a - 2.0) > 0:
