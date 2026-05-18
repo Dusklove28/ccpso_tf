@@ -36,6 +36,41 @@ def _save_train_result_to_db(task, train_result):
     }])
 
 
+def _summarize_conv_runs(conv_runs):
+    if not conv_runs:
+        return None
+
+    fe_value_map = {}
+    for run_trace in conv_runs:
+        for fe, conv_a in run_trace:
+            fe = int(fe)
+            conv_a = float(conv_a)
+            if fe not in fe_value_map:
+                fe_value_map[fe] = []
+            fe_value_map[fe].append(conv_a)
+
+    fe_points = sorted(fe_value_map.keys())
+    mean_vals = []
+    std_vals = []
+    var_vals = []
+    count_vals = []
+
+    for fe in fe_points:
+        values = np.asarray(fe_value_map[fe], dtype=float)
+        mean_vals.append(float(np.mean(values)))
+        std_vals.append(float(np.std(values)))
+        var_vals.append(float(np.var(values)))
+        count_vals.append(int(values.size))
+
+    return {
+        'fe': fe_points,
+        'mean': mean_vals,
+        'std': std_vals,
+        'var': var_vals,
+        'count': count_vals,
+    }
+
+
 def task_run(task, mq=None):
     task_md5 = get_task_hash(task)
     logger.info(f"run task {task_md5}-{task.get('type')}-{task}")
@@ -424,11 +459,14 @@ def evaluate_multi_times_task_run(task, mq=None):
 
     average_ress = np.average(np.array([result['result'] for result in results]), axis=0)
     conv_runs = [result.get('conv_trace', []) for result in results if result.get('conv_trace')]
+    conv_stats = _summarize_conv_runs(conv_runs)
 
     task_result = copy.deepcopy(task)
     task_result['result'] = average_ress
     task_result['md5'] = get_task_hash(task)
     task_result['conv_runs'] = conv_runs
+    if conv_stats is not None:
+        task_result['conv_stats'] = conv_stats
     return result_process(task, task_result, mq)
 
 
