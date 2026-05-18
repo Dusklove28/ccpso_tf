@@ -11,6 +11,9 @@ class ConvPsoSwarm(MatSwarm):
     def __init__(self, n_run, n_part, show, fun, n_dim, pos_max, pos_min, config_dic):
         super().__init__(n_run, n_part, show, fun, n_dim, pos_max, pos_min, config_dic)
         self.name = 'Conv_PSO'
+        self.fixed_conv_a = self.config.get('fixed_conv_a')
+        if self.fixed_conv_a is not None:
+            self.fixed_conv_a = float(self.fixed_conv_a)
         # 追踪收敛系数Conv_a
         self.current_conv_a = None
         self.conv_trace = []
@@ -66,17 +69,19 @@ class ConvPsoSwarm(MatSwarm):
             self.best_update()
 
     def run_once(self, actions=None):
-        # 提取 RL 动作 (action_space = 1)
-        if actions is None:
-            actions = np.zeros(self.action_space, dtype=float)
+        if self.fixed_conv_a is None:
+            # 提取 RL 动作 (action_space = 1)
+            if actions is None:
+                actions = np.zeros(self.action_space, dtype=float)
 
-        actions = np.asarray(actions, dtype=float).reshape(-1)
-        # RL只控制收敛性参数 Conv_a 映射到 [0.0, 2.0]
-        Conv_a = float(actions[0] + 1.0)
-        
+            actions = np.asarray(actions, dtype=float).reshape(-1)
+            # RL只控制收敛性参数 Conv_a 映射到 [0.0, 2.0]
+            Conv_a = float(actions[0] + 1.0)
+        else:
+            Conv_a = self.fixed_conv_a
+
+        Conv_a = float(np.clip(Conv_a, 0.0, 2.0))
         self.current_conv_a = Conv_a
-        if (Conv_a - 2.0) > 0:
-            Conv_a = 2.0
 
         # 生成与 pso.py 完全一致的随机张量 (n_part, n_dim)
         self.r1 = np.random.uniform(0, 1, (self.n_part, self.n_dim))

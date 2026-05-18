@@ -3,9 +3,6 @@ from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
 
-from env.NormalEnv import NormalEnv
-from train.ddpg import get_ddpg_object
-
 
 class MatSwarm:
     optimizer_name = 'base_optimizer'
@@ -51,6 +48,9 @@ class MatSwarm:
         self.ddpg_actor = None
         model = config_dic.get('model')
         if model:
+            from env.NormalEnv import NormalEnv
+            from train.ddpg import get_ddpg_object
+
             model_name = Path(model).name
             self.name = f'{self.optimizer_name}-{model_name}'
             self.optimizer_name = self.name
