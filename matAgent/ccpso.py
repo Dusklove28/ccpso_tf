@@ -14,8 +14,15 @@ class ConvPsoSwarm(MatSwarm):
         self.fixed_conv_a = self.config.get('fixed_conv_a')
         if self.fixed_conv_a is not None:
             self.fixed_conv_a = float(self.fixed_conv_a)
+        self.conv_a_schedule = self.config.get('conv_a_schedule', 'progress_prior')
+        self.conv_a_max = float(self.config.get('conv_a_max', 1.5))
+        self.conv_a_min = float(self.config.get('conv_a_min', 0.0))
+        self.conv_a_delta_scale = float(self.config.get('conv_a_delta_scale', 1.0))
         # 追踪收敛系数Conv_a
         self.current_conv_a = None
+        self.current_conv_a_base = None
+        self.current_conv_a_delta = None
+        self.current_conv_a_progress = None
         self.conv_trace = []
 
         # 完全复刻 pso.py 的变量结构
@@ -75,13 +82,29 @@ class ConvPsoSwarm(MatSwarm):
                 actions = np.zeros(self.action_space, dtype=float)
 
             actions = np.asarray(actions, dtype=float).reshape(-1)
-            # RL只控制收敛性参数 Conv_a 映射到 [0.0, 2.0]
-            Conv_a = float(actions[0] + 1.0)
+            raw_action = float(actions[0])
+            if self.conv_a_schedule == 'progress_prior':
+                progress = np.clip(self.fe_num / max(self.fe_max, 1), 0.0, 1.0)
+                Conv_a_base = self.conv_a_max * (1.0 - progress) + self.conv_a_min * progress
+                Conv_a_delta = raw_action * self.conv_a_delta_scale
+                Conv_a = Conv_a_base + Conv_a_delta
+            else:
+                # 兼容原始行为：Actor 直接输出 Conv_a - 1。
+                progress = np.clip(self.fe_num / max(self.fe_max, 1), 0.0, 1.0)
+                Conv_a_base = 1.0
+                Conv_a_delta = raw_action
+                Conv_a = raw_action + 1.0
         else:
             Conv_a = self.fixed_conv_a
+            progress = np.clip(self.fe_num / max(self.fe_max, 1), 0.0, 1.0)
+            Conv_a_base = Conv_a
+            Conv_a_delta = 0.0
 
         Conv_a = float(np.clip(Conv_a, 0.0, 2.0))
         self.current_conv_a = Conv_a
+        self.current_conv_a_base = float(Conv_a_base)
+        self.current_conv_a_delta = float(Conv_a_delta)
+        self.current_conv_a_progress = float(progress)
 
         # 生成与 pso.py 完全一致的随机张量 (n_part, n_dim)
         self.r1 = np.random.uniform(0, 1, (self.n_part, self.n_dim))
