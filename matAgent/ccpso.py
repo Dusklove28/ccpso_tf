@@ -71,10 +71,12 @@ class ConvPsoSwarm(MatSwarm):
             actions = np.zeros(self.action_space, dtype=float)
 
         actions = np.asarray(actions, dtype=float).reshape(-1)
-        # RL只控制收敛性参数 Conv_a 映射到 [0.0, 2.0]
-        Conv_a = float(actions[0] + 1.0)
+        # RL只控制收敛性参数 Conv_a 映射到 [0.6, 2.4]
+        Conv_a = float(actions[0]*0.9 + 1.5)
+        
         self.current_conv_a = Conv_a
-
+        if (Conv_a - 2.0) > 0:
+            Conv_a = 2.0
 
         # 生成与 pso.py 完全一致的随机张量 (n_part, n_dim)
         self.r1 = np.random.uniform(0, 1, (self.n_part, self.n_dim))
@@ -97,10 +99,10 @@ class ConvPsoSwarm(MatSwarm):
         a1 = 1 + w - C_gravity
         a2 = -w
 
-        # 计算底座自然偏移量 X_Q
+        # 计算X_Q
         X_Q = a1 * (self.xs - Q) + a2 * (self.xs_old - Q)
 
-        # RL 干预项：实施收敛性控制
+        # RL 实施收敛性控制
         new_xs = Q + Conv_a * X_Q
 
         # 【核心修正】隐式速度截断！
@@ -116,7 +118,7 @@ class ConvPsoSwarm(MatSwarm):
         self.xs_old = self.xs.copy()
         self.xs = new_xs.copy()
 
-        # 隐式保存当前速度（保证其它可能依赖 vs 的接口不报错）
+        # 保存当前速度（保证其它可能依赖 vs 的接口不报错）
         self.vs = implicit_vs.copy()
 
         # 计算适应度并更新最优记录
