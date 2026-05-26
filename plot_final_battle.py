@@ -133,6 +133,7 @@ def plot_highlight_functions(task_md5, target_functions=None):
         "PSOorigin": "PSO",
         "PSOtrain": "RLPSO",
         "Conv_PSOtrain": "RL_CCPSO",
+        "Conv_PSO_DualCtrain": "RL_CCPSO",
     }
 
     colors = {

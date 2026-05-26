@@ -33,8 +33,10 @@ def evluate_optimizer(task, return_trace=False):
         'model': model,
         'group': group,
     }
+    config_dic.update(task.get('optimizer_config', {}) or {})
     if max_fe:
         config_dic['max_fes'] = max_fe
+    config_dic['group'] = group
 
     max_fes = int(config_dic.get('max_fes', 20000))
     if max_fes < npart:

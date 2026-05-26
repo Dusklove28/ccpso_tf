@@ -49,6 +49,7 @@ def train():
         EXPERIMENT_FUNCTIONS,
         EXPERIMENT_LR_ACTOR,
         EXPERIMENT_LR_CRITIC,
+        EXPERIMENT_GAMMA,
         EXPERIMENT_MAX_FE,
         EXPERIMENT_N_PART,
         EXPERIMENT_TRAIN_MAX_EPISODE,
@@ -75,6 +76,7 @@ def train():
         memory_cap=10000000,
         lr_actor=EXPERIMENT_LR_ACTOR,
         lr_critic=EXPERIMENT_LR_CRITIC,
+        gamma=EXPERIMENT_GAMMA,
     )
     ddpg.train(
         max_episodes=min(EXPERIMENT_TRAIN_MAX_EPISODE, 5),

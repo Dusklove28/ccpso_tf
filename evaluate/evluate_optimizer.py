@@ -41,6 +41,7 @@ def evluate_optimizer(config):
     config_dic = {}
     if model_path:
         config_dic['model'] = model_path
+    config_dic.update(config.get('optimizer_config', {}) or {})
     if max_fe:
         config_dic['max_fes'] = max_fe
 
@@ -70,4 +71,3 @@ def evluate_optimizer(config):
     with open(file_name, 'w', encoding='UTF-8') as f:
         f.write(json_str)
     return res
-

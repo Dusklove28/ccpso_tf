@@ -2,15 +2,18 @@ import copy
 
 import numpy as np
 
+import plot_final_battle as plot_func
+from env.NormalEnv import NormalEnv
+from log import logger
 from task.task_run_utils.common import get_tasks_result, result_process
 from utils.task_hash import get_task_hash
-from log import logger
-import plot_final_battle as plot_func
+
+
 def _get_train_phase_name(optimizer_class):
     optimizer_name = getattr(optimizer_class, 'optimizer_name', optimizer_class.__name__)
     if optimizer_name == 'PSO':
         return 'Stage1-RL+BasicPSO'
-    if optimizer_name == 'Conv_PSO':
+    if optimizer_name.startswith('Conv_PSO'):
         return 'Stage2-RL+BasicPSO+Convergence'
     return f"Train-{optimizer_name}"
 
@@ -20,13 +23,21 @@ def _build_train_tasks(task):
 
     max_fe = task.get('max_fe', 1e4)
     n_part = task.get('n_part', 100)
-    lr_critic = task.get('lr_critic', 1e-7)
-    lr_actor = task.get('lr_actor', 1e-9)
+    default_lr_critic = task.get('lr_critic', 1e-4)
+    default_lr_actor = task.get('lr_actor', 1e-6)
+    default_gamma = task.get('gamma', 0.85)
 
     for optimizer_pair in task['rl_optimizer_pairs']:
         train_optimizer = optimizer_pair['train_optimizer']
         evaluate_optimizer = optimizer_pair['evaluate_optimizer']
-        phase_name = _get_train_phase_name(train_optimizer)
+        env_class = optimizer_pair.get('env_class') or task.get('env_class') or NormalEnv
+        lr_critic = optimizer_pair.get('lr_critic', default_lr_critic)
+        lr_actor = optimizer_pair.get('lr_actor', default_lr_actor)
+        gamma = optimizer_pair.get('gamma', default_gamma)
+        optimizer_config = copy.deepcopy(optimizer_pair.get('optimizer_config', {}))
+        env_config = copy.deepcopy(optimizer_pair.get('env_config', {}))
+        phase_name = optimizer_pair.get('phase_name') or _get_train_phase_name(train_optimizer)
+
         for separate_train in task['separate_trains']:
             for group in task['groups']:
                 for dim in task['dims']:
@@ -45,8 +56,12 @@ def _build_train_tasks(task):
                         'dim': dim,
                         'max_fe': max_fe,
                         'n_part': n_part,
+                        'env_class': env_class,
                         'lr_critic': lr_critic,
                         'lr_actor': lr_actor,
+                        'gamma': gamma,
+                        'optimizer_config': copy.deepcopy(optimizer_config),
+                        'env_config': copy.deepcopy(env_config),
                     }
                     tasks.append(train_task)
     return tasks
@@ -81,6 +96,7 @@ def _build_compare_tasks(task, train_tasks, train_results):
         compare_task_map[key].append({
             'optimizer': train_task['evaluate_optimizer'],
             'fun_model': train_result['result'],
+            'optimizer_config': copy.deepcopy(train_task.get('optimizer_config', {})),
         })
 
     compare_tasks = []
@@ -160,14 +176,14 @@ def top_task_run(task, mq=None):
     task_result['compare_result'] = compare_results
     task_result['md5'] = get_task_hash(task)
 
-    logger.info(f"最终比较任务路径:{task_result['md5']}")
+    logger.info(f"final compare task path {task_result['md5']}")
     final_result = result_process(task, task_result, mq)
 
-    logger.info("开始自动绘图")
+    logger.info("start auto plotting")
     try:
         plot_func.generate_all_plots(task_result['md5'])
-        logger.info("自动绘图完成")
+        logger.info("auto plotting complete")
     except Exception:
-        logger.exception(f"自动绘图失败 task_md5={task_result['md5']}")
+        logger.exception(f"auto plotting failed task_md5={task_result['md5']}")
 
     return final_result

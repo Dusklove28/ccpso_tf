@@ -17,7 +17,7 @@ def task2str(task):
 
     def obj2str(obj):
         if type(obj) == type:
-            return obj.optimizer_name
+            return getattr(obj, 'optimizer_name', f'{obj.__module__}.{obj.__name__}')
         elif type(obj) == list:
             for i in range(len(obj)):
                 obj[i] = obj2str(obj[i])

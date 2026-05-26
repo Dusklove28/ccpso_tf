@@ -22,6 +22,10 @@ from train.ddpg import get_ddpg_object
 from utils.db.db import save_optimizer
 from utils.task_hash import get_task_hash
 
+DEFAULT_LR_CRITIC = 1e-4
+DEFAULT_LR_ACTOR = 1e-6
+DEFAULT_GAMMA = 0.85
+
 
 def _save_train_result_to_db(task, train_result):
     optimizer = task['optimizer']
@@ -128,8 +132,12 @@ def all_task_run(task, mq=None):
         'dim': task['dim'],
         'max_fe': task['max_fe'],
         'n_part': task['n_part'],
-        'lr_critic': task.get('lr_critic', 1e-7),
-        'lr_actor': task.get('lr_actor', 1e-9),
+        'env_class': task.get('env_class') or NormalEnv,
+        'lr_critic': task.get('lr_critic', DEFAULT_LR_CRITIC),
+        'lr_actor': task.get('lr_actor', DEFAULT_LR_ACTOR),
+        'gamma': task.get('gamma', DEFAULT_GAMMA),
+        'optimizer_config': copy.deepcopy(task.get('optimizer_config', {})),
+        'env_config': copy.deepcopy(task.get('env_config', {})),
     }
 
     results = get_tasks_result([train_task])
@@ -153,6 +161,7 @@ def all_task_run(task, mq=None):
         'max_fe': task['max_fe'],
         'model': train_result,
         'n_part': task['n_part'],
+        'optimizer_config': copy.deepcopy(task.get('optimizer_config', {})),
     }
 
     results = get_tasks_result([evaluate_task])
@@ -209,8 +218,12 @@ def train_task_run(task, mq=None):
                 'dim': task['dim'],
                 'max_fe': task['max_fe'],
                 'n_part': task['n_part'],
-                'lr_critic': task.get('lr_critic', 1e-7),
-                'lr_actor': task.get('lr_actor', 1e-9),
+                'env_class': task.get('env_class') or NormalEnv,
+                'lr_critic': task.get('lr_critic', DEFAULT_LR_CRITIC),
+                'lr_actor': task.get('lr_actor', DEFAULT_LR_ACTOR),
+                'gamma': task.get('gamma', DEFAULT_GAMMA),
+                'optimizer_config': copy.deepcopy(task.get('optimizer_config', {})),
+                'env_config': copy.deepcopy(task.get('env_config', {})),
             }
             tasks.append(single_train_task)
     else:
@@ -227,8 +240,12 @@ def train_task_run(task, mq=None):
             'dim': task['dim'],
             'max_fe': task['max_fe'],
             'n_part': task['n_part'],
-            'lr_critic': task.get('lr_critic', 1e-7),
-            'lr_actor': task.get('lr_actor', 1e-9),
+            'env_class': task.get('env_class') or NormalEnv,
+            'lr_critic': task.get('lr_critic', DEFAULT_LR_CRITIC),
+            'lr_actor': task.get('lr_actor', DEFAULT_LR_ACTOR),
+            'gamma': task.get('gamma', DEFAULT_GAMMA),
+            'optimizer_config': copy.deepcopy(task.get('optimizer_config', {})),
+            'env_config': copy.deepcopy(task.get('env_config', {})),
         }
         tasks.append(single_train_task)
 
@@ -269,7 +286,9 @@ single_train_task_test_dic = {
 
 def _build_train_env_and_limits(task):
     optimizer = task['optimizer']
-    gym_env = NormalEnv(
+    env_class = task.get('env_class') or NormalEnv
+    env_config = dict(task.get('env_config') or {})
+    gym_env = env_class(
         obs_shape=(optimizer.obs_space,),
         action_shape=(optimizer.action_space * task['group'],),
         target_optimizer=optimizer,
@@ -278,6 +297,8 @@ def _build_train_env_and_limits(task):
         n_part=task['n_part'],
         n_dim=task['dim'],
         group=task['group'],
+        optimizer_config=copy.deepcopy(task.get('optimizer_config', {})),
+        **env_config,
     )
     gym_env.phase_name = task.get('phase_name')
 
@@ -301,8 +322,9 @@ def single_train_task_run(task, mq=None):
     runtimes = task['runtimes']
     max_fe = task['max_fe']
     dim = task['dim']
-    lr_critic = task.get('lr_critic', 1e-7)
-    lr_actor = task.get('lr_actor', 1e-9)
+    lr_critic = task.get('lr_critic', DEFAULT_LR_CRITIC)
+    lr_actor = task.get('lr_actor', DEFAULT_LR_ACTOR)
+    gamma = task.get('gamma', DEFAULT_GAMMA)
 
     gym_env, train_limits = _build_train_env_and_limits(task)
 
@@ -321,6 +343,7 @@ def single_train_task_run(task, mq=None):
             memory_cap=train_limits['memory_cap'],
             lr_critic=lr_critic,
             lr_actor=lr_actor,
+            gamma=gamma,
         )
         ddpg.train(
             max_episodes=train_limits['max_episodes'],
@@ -341,12 +364,14 @@ def single_train_task_run(task, mq=None):
         'runtimes': runtimes if runtimes < 5 else 5,
         'max_fe': max_fe,
         'n_part': task['n_part'],
+        'optimizer_config': copy.deepcopy(task.get('optimizer_config', {})),
     }
     model_candidates = sorted(task_dir.glob('ddpg_actor*.h5'))
     for model in model_candidates:
         new_task['evaluate_optimizers'].append({
             'optimizer': optimizer,
             'model': model,
+            'optimizer_config': copy.deepcopy(task.get('optimizer_config', {})),
         })
 
     logger.info(
@@ -408,6 +433,9 @@ def evaluate_models_task_run(task, mq=None):
                         'max_fe': task['max_fe'],
                         'runtimes': task['runtimes'],
                         'n_part': task['n_part'],
+                        'optimizer_config': copy.deepcopy(
+                            evaluate_optimizer.get('optimizer_config', task.get('optimizer_config', {}))
+                        ),
                     })
 
     logger.info(

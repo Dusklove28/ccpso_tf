@@ -41,6 +41,7 @@ def result_evaluate_task_run(task, mq=None):
                 'max_fe': task['max_fe'],
                 'runtimes': task['runtimes'],
                 'n_part': task['n_part'],
+                'optimizer_config': copy.deepcopy(task.get('optimizer_config', {})),
             }
             tasks.append(single_evaluate_task)
 
@@ -56,6 +57,7 @@ def result_evaluate_task_run(task, mq=None):
                 'max_fe': task['max_fe'],
                 'runtimes': task['runtimes'],
                 'n_part': task['n_part'],
+                'optimizer_config': copy.deepcopy(task.get('optimizer_config', {})),
             }
             tasks.append(single_evaluate_task)
 
@@ -141,6 +143,7 @@ def new_result_evaluate_task_run(task, mq=None):
     for optimizer_model in task['optimizer_model_list']:
         optimizer = optimizer_model['optimizer']
         fun_model = optimizer_model.get('fun_model')
+        optimizer_config = copy.deepcopy(optimizer_model.get('optimizer_config', task.get('optimizer_config', {})))
         for fun_num, models in fun_model.items():
             for model in models:
                 single_evaluate_task = {
@@ -154,6 +157,7 @@ def new_result_evaluate_task_run(task, mq=None):
                     'max_fe': task['max_fe'],
                     'runtimes': task['runtimes'],
                     'n_part': task['n_part'],
+                    'optimizer_config': copy.deepcopy(optimizer_config),
                 }
                 tasks.append(single_evaluate_task)
 

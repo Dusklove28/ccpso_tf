@@ -4,25 +4,32 @@ from matAgent.baseAgent import MatSwarm
 
 
 class ConvPsoSwarm(MatSwarm):
-    optimizer_name = 'Conv_PSO'
+    optimizer_name = 'Conv_PSO_DualC'
     action_space = 1
     obs_space = 15
 
     def __init__(self, n_run, n_part, show, fun, n_dim, pos_max, pos_min, config_dic):
         super().__init__(n_run, n_part, show, fun, n_dim, pos_max, pos_min, config_dic)
-        self.name = 'Conv_PSO'
+        self.name = self.optimizer_name
         self.fixed_conv_a = self.config.get('fixed_conv_a')
         if self.fixed_conv_a is not None:
             self.fixed_conv_a = float(self.fixed_conv_a)
+        self.ccpso_update_mode = self.config.get('ccpso_update_mode', 'second_order')
         self.conv_a_schedule = self.config.get('conv_a_schedule', 'progress_prior')
         self.conv_a_max = float(self.config.get('conv_a_max', 1.5))
-        self.conv_a_min = float(self.config.get('conv_a_min', 0.0))
-        self.conv_a_delta_scale = float(self.config.get('conv_a_delta_scale', 1.0))
+        self.conv_a_min = float(self.config.get('conv_a_min', 0.2))
+        self.conv_a_delta_scale = float(self.config.get('conv_a_delta_scale', 0.2))
+        self.conv_a_clip_min = float(self.config.get('conv_a_clip_min', 0.05))
+        self.conv_a_clip_max = float(self.config.get('conv_a_clip_max', 1.8))
+        self.stagnation_boost_max = float(self.config.get('stagnation_boost_max', 0.25))
+        self.stagnation_boost_fe_ratio = float(self.config.get('stagnation_boost_fe_ratio', 0.2))
+        self.first_order_sigma_floor = float(self.config.get('first_order_sigma_floor', 0.001))
         # 追踪收敛系数Conv_a
         self.current_conv_a = None
         self.current_conv_a_base = None
         self.current_conv_a_delta = None
         self.current_conv_a_progress = None
+        self.current_stagnation_boost = None
         self.conv_trace = []
 
         # 完全复刻 pso.py 的变量结构
@@ -75,36 +82,48 @@ class ConvPsoSwarm(MatSwarm):
             self.history_best_x = self.xs[gbest_index].copy()
             self.best_update()
 
-    def run_once(self, actions=None):
-        if self.fixed_conv_a is None:
-            # 提取 RL 动作 (action_space = 1)
-            if actions is None:
-                actions = np.zeros(self.action_space, dtype=float)
+    def _get_progress(self):
+        return float(np.clip(self.fe_num / max(self.fe_max, 1), 0.0, 1.0))
 
-            actions = np.asarray(actions, dtype=float).reshape(-1)
-            raw_action = float(actions[0])
-            if self.conv_a_schedule == 'progress_prior':
-                progress = np.clip(self.fe_num / max(self.fe_max, 1), 0.0, 1.0)
-                Conv_a_base = self.conv_a_max * (1.0 - progress) + self.conv_a_min * progress
-                Conv_a_delta = raw_action * self.conv_a_delta_scale
-                Conv_a = Conv_a_base + Conv_a_delta
-            else:
-                # 兼容原始行为：Actor 直接输出 Conv_a - 1。
-                progress = np.clip(self.fe_num / max(self.fe_max, 1), 0.0, 1.0)
-                Conv_a_base = 1.0
-                Conv_a_delta = raw_action
-                Conv_a = raw_action + 1.0
+    def _get_stagnation_boost(self):
+        denominator = max(self.fe_max * self.stagnation_boost_fe_ratio, 1.0)
+        no_improve_fe = max(self.fe_num - self.last_best_update_fe, 0)
+        stagnation_ratio = np.clip(no_improve_fe / denominator, 0.0, 1.0)
+        return float(self.stagnation_boost_max * stagnation_ratio)
+
+    def _resolve_conv_a(self, actions):
+        progress = self._get_progress()
+        if self.fixed_conv_a is not None:
+            conv_a = float(np.clip(self.fixed_conv_a, 0.0, 2.0))
+            return conv_a, conv_a, 0.0, progress, 0.0
+
+        if actions is None:
+            actions = np.zeros(self.action_space, dtype=float)
+        actions = np.asarray(actions, dtype=float).reshape(-1)
+        raw_action = float(actions[0])
+
+        if self.conv_a_schedule == 'progress_prior':
+            conv_a_base = self.conv_a_max * (1.0 - progress) + self.conv_a_min * progress
+            conv_a_delta = raw_action * self.conv_a_delta_scale
+            stagnation_boost = self._get_stagnation_boost()
+            conv_a = conv_a_base + conv_a_delta + stagnation_boost
         else:
-            Conv_a = self.fixed_conv_a
-            progress = np.clip(self.fe_num / max(self.fe_max, 1), 0.0, 1.0)
-            Conv_a_base = Conv_a
-            Conv_a_delta = 0.0
+            # 兼容旧实验：Actor 直接输出 Conv_a - 1。
+            conv_a_base = 1.0
+            conv_a_delta = raw_action
+            stagnation_boost = 0.0
+            conv_a = raw_action + 1.0
 
-        Conv_a = float(np.clip(Conv_a, 0.0, 2.0))
+        conv_a = float(np.clip(conv_a, self.conv_a_clip_min, self.conv_a_clip_max))
+        return conv_a, float(conv_a_base), float(conv_a_delta), progress, float(stagnation_boost)
+
+    def run_once(self, actions=None):
+        Conv_a, Conv_a_base, Conv_a_delta, progress, stagnation_boost = self._resolve_conv_a(actions)
         self.current_conv_a = Conv_a
         self.current_conv_a_base = float(Conv_a_base)
         self.current_conv_a_delta = float(Conv_a_delta)
         self.current_conv_a_progress = float(progress)
+        self.current_stagnation_boost = float(stagnation_boost)
 
         # 生成与 pso.py 完全一致的随机张量 (n_part, n_dim)
         self.r1 = np.random.uniform(0, 1, (self.n_part, self.n_dim))
@@ -127,11 +146,17 @@ class ConvPsoSwarm(MatSwarm):
         a1 = 1 + w - C_gravity
         a2 = -w
 
-        # 计算X_Q
-        X_Q = a1 * (self.xs - Q) + a2 * (self.xs_old - Q)
+        if self.ccpso_update_mode == 'second_order':
+            # 计算X_Q
+            X_Q = a1 * (self.xs - Q) + a2 * (self.xs_old - Q)
 
-        # RL 实施收敛性控制
-        new_xs = Q + Conv_a * X_Q
+            # RL 实施收敛性控制
+            new_xs = Q + Conv_a * X_Q
+        elif self.ccpso_update_mode == 'first_order':
+            sigma = Conv_a * np.abs(Q - self.xs) + self.first_order_sigma_floor
+            new_xs = Q + np.random.normal(0.0, sigma, self.xs.shape)
+        else:
+            raise ValueError(f"unknown ccpso_update_mode: {self.ccpso_update_mode}")
 
         # 【核心修正】隐式速度截断！
         # 算出假设的速度，并像 pso.py 那样严格进行边界截断，防止失去对比公平性

@@ -1,5 +1,6 @@
 from utils.db.db import get_optimizer_train_result
 from task.experiment_config import (
+    EXPERIMENT_CCPSO_CONFIG,
     EXPERIMENT_FUNCTIONS,
     EXPERIMENT_MAX_FE,
     EXPERIMENT_N_PART,
@@ -49,6 +50,7 @@ def generate_evaluate_tasks():
         {
             'optimizer': ConvPsoSwarm,
             'fun_model': _get_required_train_result(ConvPsoSwarm, 'RL+基础PSO+收敛性策略'),
+            'optimizer_config': EXPERIMENT_CCPSO_CONFIG,
         },
     ]
 
