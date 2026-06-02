@@ -3,7 +3,6 @@ import pickle
 import json
 import os
 
-from evaluate.task_generate import generate_all_task
 from settings import BASE_PATH
 
 
@@ -31,6 +30,8 @@ def save_tasks(tasks, task_name, path=BASE_PATH + '/data/task/'):
 
 
 if __name__ == '__main__':
-    tasks = generate_all_task([20])
+    from task.all_tasks_generate import all_tasks_generate
+
+    tasks = all_tasks_generate()
     print(tasks)
     save_tasks(tasks, 'test_task')

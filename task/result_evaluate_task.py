@@ -3,13 +3,19 @@ import os
 from pathlib import Path
 import json
 import numpy as np
-import xlwt
 
 from display.res_display import multi_res_display
 from settings import BASE_PATH
 
 
 def visible_res_generate(results: dict, path=BASE_PATH + '/data/result/'):
+    try:
+        import xlwt
+    except ImportError as exc:
+        raise ImportError(
+            "visible_res_generate requires xlwt. Install requirements or run without show=True."
+        ) from exc
+
     # 创建一个Workbook对象，相当于创建了一个Excel文件
     if not os.path.exists(path):
         os.makedirs(path)

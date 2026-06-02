@@ -25,6 +25,8 @@ from utils.task_hash import get_task_hash
 DEFAULT_LR_CRITIC = 1e-4
 DEFAULT_LR_ACTOR = 1e-6
 DEFAULT_GAMMA = 0.85
+DEFAULT_NOISE = 'norm'
+DEFAULT_SIGMA = 0.15
 
 
 def _save_train_result_to_db(task, train_result):
@@ -136,6 +138,8 @@ def all_task_run(task, mq=None):
         'lr_critic': task.get('lr_critic', DEFAULT_LR_CRITIC),
         'lr_actor': task.get('lr_actor', DEFAULT_LR_ACTOR),
         'gamma': task.get('gamma', DEFAULT_GAMMA),
+        'noise': task.get('noise', DEFAULT_NOISE),
+        'sigma': task.get('sigma', DEFAULT_SIGMA),
         'optimizer_config': copy.deepcopy(task.get('optimizer_config', {})),
         'env_config': copy.deepcopy(task.get('env_config', {})),
     }
@@ -222,6 +226,8 @@ def train_task_run(task, mq=None):
                 'lr_critic': task.get('lr_critic', DEFAULT_LR_CRITIC),
                 'lr_actor': task.get('lr_actor', DEFAULT_LR_ACTOR),
                 'gamma': task.get('gamma', DEFAULT_GAMMA),
+                'noise': task.get('noise', DEFAULT_NOISE),
+                'sigma': task.get('sigma', DEFAULT_SIGMA),
                 'optimizer_config': copy.deepcopy(task.get('optimizer_config', {})),
                 'env_config': copy.deepcopy(task.get('env_config', {})),
             }
@@ -244,6 +250,8 @@ def train_task_run(task, mq=None):
             'lr_critic': task.get('lr_critic', DEFAULT_LR_CRITIC),
             'lr_actor': task.get('lr_actor', DEFAULT_LR_ACTOR),
             'gamma': task.get('gamma', DEFAULT_GAMMA),
+            'noise': task.get('noise', DEFAULT_NOISE),
+            'sigma': task.get('sigma', DEFAULT_SIGMA),
             'optimizer_config': copy.deepcopy(task.get('optimizer_config', {})),
             'env_config': copy.deepcopy(task.get('env_config', {})),
         }
@@ -325,6 +333,8 @@ def single_train_task_run(task, mq=None):
     lr_critic = task.get('lr_critic', DEFAULT_LR_CRITIC)
     lr_actor = task.get('lr_actor', DEFAULT_LR_ACTOR)
     gamma = task.get('gamma', DEFAULT_GAMMA)
+    noise = task.get('noise', DEFAULT_NOISE)
+    sigma = task.get('sigma', DEFAULT_SIGMA)
 
     gym_env, train_limits = _build_train_env_and_limits(task)
 
@@ -332,9 +342,18 @@ def single_train_task_run(task, mq=None):
     is_discrete = False
     task_md5 = get_task_hash(task)
     task_dir = TASK_PATH.joinpath(f'{task_md5}/')
+    logger.info(
+        f"[{task.get('phase_name', optimizer.optimizer_name)}] "
+        f"train_config task_md5={task_md5} noise={noise} sigma={sigma} "
+        f"lr_actor={lr_actor} lr_critic={lr_critic} gamma={gamma}"
+    )
 
     for train_index in range(task['train_num']):
         if os.path.exists(task_dir.joinpath(f"ddpg_actor_final_round{train_index}.h5")):
+            logger.info(
+                f"[{task.get('phase_name', optimizer.optimizer_name)}] "
+                f"skip existing final actor round={train_index} task_md5={task_md5}"
+            )
             continue
 
         ddpg = get_ddpg_object(
@@ -344,6 +363,8 @@ def single_train_task_run(task, mq=None):
             lr_critic=lr_critic,
             lr_actor=lr_actor,
             gamma=gamma,
+            noise=noise,
+            sigma=sigma,
         )
         ddpg.train(
             max_episodes=train_limits['max_episodes'],

@@ -1,4 +1,4 @@
-EXPERIMENT_FUNCTIONS = [1,5,11]
+EXPERIMENT_FUNCTIONS = [1,11]
 EXPERIMENT_RUNTIMES = 10
 EXPERIMENT_SEPARATE_TRAINS = [True]
 EXPERIMENT_GROUPS = [1]
@@ -11,10 +11,17 @@ EXPERIMENT_N_PART = 100
 EXPERIMENT_LR_CRITIC = 1e-4
 EXPERIMENT_LR_ACTOR = 1e-6
 EXPERIMENT_GAMMA = 0.85
+EXPERIMENT_DDPG_NOISE = 'norm'
+EXPERIMENT_DDPG_SIGMA = 0.15
+EXPERIMENT_CCPSO_NOISE_SENSITIVITY_SIGMAS = [0.15, 0.10, 0.05, 0.02]
 
-EXPERIMENT_CCPSO_LR_ACTOR = 3e-6
-EXPERIMENT_CCPSO_LR_CRITIC = 3e-4
-EXPERIMENT_CCPSO_GAMMA = 0.95
+# EXPERIMENT_CCPSO_LR_ACTOR = 3e-6
+# EXPERIMENT_CCPSO_LR_CRITIC = 3e-4
+# EXPERIMENT_CCPSO_GAMMA = 0.95
+# 与rlpso保持一致
+EXPERIMENT_CCPSO_LR_ACTOR = EXPERIMENT_LR_CRITIC
+EXPERIMENT_CCPSO_LR_CRITIC = EXPERIMENT_LR_ACTOR
+EXPERIMENT_CCPSO_GAMMA = EXPERIMENT_GAMMA
 
 EXPERIMENT_CCPSO_CONFIG = {
     'ccpso_update_mode': 'second_order',
@@ -29,12 +36,13 @@ EXPERIMENT_CCPSO_CONFIG = {
     'first_order_sigma_floor': 0.001,
 }
 
+
 EXPERIMENT_ENV_CONFIG = {
     'reward_mode': 'binary',
 }
 
 EXPERIMENT_CCPSO_ENV_CONFIG = {
-    'reward_mode': 'continuous',
+    'reward_mode': 'ccpso_continuous',
     'reward_gbest_weight': 8.0,
     'reward_mean_weight': 2.0,
     'reward_diversity_weight': 0.5,
@@ -44,6 +52,21 @@ EXPERIMENT_CCPSO_ENV_CONFIG = {
 
 EXPERIMENT_CCPSO_DIRECT_CONFIG = dict(EXPERIMENT_CCPSO_CONFIG, conv_a_schedule='direct')
 EXPERIMENT_CCPSO_PROGRESS_PRIOR_CONFIG = dict(EXPERIMENT_CCPSO_CONFIG, conv_a_schedule='progress_prior')
+EXPERIMENT_CCPSO_Q_RESET_CONFIG = {
+    'anti_q_collapse': True,
+    'collapse_min_progress': 0.55,
+    'collapse_stagnation_fe_ratio': 0.18,
+    'collapse_gbest_improvement_threshold': 1e-3,
+    'collapse_pbest_diversity_threshold': 0.003,
+    'collapse_reset_ratio': 0.05,
+    'collapse_reset_cooldown_fe_ratio': 0.15,
+    'collapse_restart_radius_ratio': 0.08,
+    'collapse_global_restart_probability': 0.25,
+}
+
+
+def with_q_reset_config(base_config):
+    return dict(base_config, **EXPERIMENT_CCPSO_Q_RESET_CONFIG)
 
 EXPERIMENT_CCPSO_ABLATION_CONFIGS = [
     {
@@ -66,7 +89,7 @@ EXPERIMENT_CCPSO_ABLATION_CONFIGS = [
     },
     {
         'name': 'CCPSO_continuous_reward',
-        'env_class': 'ConvEnv',
+        'env_class': 'NormalEnv',
         'optimizer_config': EXPERIMENT_CCPSO_DIRECT_CONFIG,
         'env_config': EXPERIMENT_CCPSO_ENV_CONFIG,
         'lr_actor': EXPERIMENT_CCPSO_LR_ACTOR,
@@ -75,7 +98,7 @@ EXPERIMENT_CCPSO_ABLATION_CONFIGS = [
     },
     {
         'name': 'CCPSO_DualC_full',
-        'env_class': 'ConvEnv',
+        'env_class': 'NormalEnv',
         'optimizer_config': EXPERIMENT_CCPSO_PROGRESS_PRIOR_CONFIG,
         'env_config': EXPERIMENT_CCPSO_ENV_CONFIG,
         'lr_actor': EXPERIMENT_CCPSO_LR_ACTOR,

@@ -23,6 +23,14 @@ result_evaluate_task_test_dic = {
 }
 
 
+def _optimizer_result_key(result):
+    result_label = result.get('result_label')
+    suffix = 'train' if result.get('model') else 'origin'
+    if result_label:
+        return f"{result_label}-{suffix}"
+    return result['evaluate_optimizer'].optimizer_name + suffix
+
+
 def result_evaluate_task_run(task, mq=None):
     assert task['type'] == 'result_evaluate'
     visiable_result_flag = task.get('show')
@@ -97,13 +105,7 @@ def result_evaluate_task_run(task, mq=None):
         pass
 
     for result in new_results:
-        info = '-'
-        if result['model']:
-            info += 'train'
-        else:
-            info += 'origin'
-
-        key = result['evaluate_optimizer'].optimizer_name + info
+        key = _optimizer_result_key(result)
         new_result2[result['evaluate_function']][key] = result
 
     task_result = copy.deepcopy(task)
@@ -144,11 +146,15 @@ def new_result_evaluate_task_run(task, mq=None):
         optimizer = optimizer_model['optimizer']
         fun_model = optimizer_model.get('fun_model')
         optimizer_config = copy.deepcopy(optimizer_model.get('optimizer_config', task.get('optimizer_config', {})))
+        result_label = optimizer_model.get('result_label')
         for fun_num, models in fun_model.items():
             for model in models:
                 single_evaluate_task = {
                     'type': 'evaluate_multi_times',
-                    'phase_name': task.get('phase_name'),
+                    'phase_name': result_label or task.get('phase_name'),
+                    'result_label': result_label,
+                    'noise': optimizer_model.get('noise'),
+                    'sigma': optimizer_model.get('sigma'),
                     'evaluate_optimizer': optimizer,
                     'model': model,
                     'evaluate_function': fun_num,
@@ -182,11 +188,7 @@ def new_result_evaluate_task_run(task, mq=None):
     fun_optimizer_result_dict = {}
     for result in results:
         f_num = result['evaluate_function']
-        optimizer_name = result['evaluate_optimizer'].optimizer_name
-        if result.get('model'):
-            optimizer_name += 'train'
-        else:
-            optimizer_name += 'origin'
+        optimizer_name = _optimizer_result_key(result)
         if f_num not in fun_optimizer_result_dict:
             fun_optimizer_result_dict[f_num] = {}
         if optimizer_name not in fun_optimizer_result_dict[f_num]:

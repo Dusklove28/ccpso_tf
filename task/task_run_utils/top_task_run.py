@@ -26,6 +26,8 @@ def _build_train_tasks(task):
     default_lr_critic = task.get('lr_critic', 1e-4)
     default_lr_actor = task.get('lr_actor', 1e-6)
     default_gamma = task.get('gamma', 0.85)
+    default_noise = task.get('noise', 'norm')
+    default_sigma = task.get('sigma', 0.15)
 
     for optimizer_pair in task['rl_optimizer_pairs']:
         train_optimizer = optimizer_pair['train_optimizer']
@@ -34,6 +36,8 @@ def _build_train_tasks(task):
         lr_critic = optimizer_pair.get('lr_critic', default_lr_critic)
         lr_actor = optimizer_pair.get('lr_actor', default_lr_actor)
         gamma = optimizer_pair.get('gamma', default_gamma)
+        noise = optimizer_pair.get('noise', default_noise)
+        sigma = optimizer_pair.get('sigma', default_sigma)
         optimizer_config = copy.deepcopy(optimizer_pair.get('optimizer_config', {}))
         env_config = copy.deepcopy(optimizer_pair.get('env_config', {}))
         phase_name = optimizer_pair.get('phase_name') or _get_train_phase_name(train_optimizer)
@@ -60,6 +64,8 @@ def _build_train_tasks(task):
                         'lr_critic': lr_critic,
                         'lr_actor': lr_actor,
                         'gamma': gamma,
+                        'noise': noise,
+                        'sigma': sigma,
                         'optimizer_config': copy.deepcopy(optimizer_config),
                         'env_config': copy.deepcopy(env_config),
                     }
@@ -96,6 +102,9 @@ def _build_compare_tasks(task, train_tasks, train_results):
         compare_task_map[key].append({
             'optimizer': train_task['evaluate_optimizer'],
             'fun_model': train_result['result'],
+            'result_label': train_task.get('phase_name'),
+            'noise': train_task.get('noise'),
+            'sigma': train_task.get('sigma'),
             'optimizer_config': copy.deepcopy(train_task.get('optimizer_config', {})),
         })
 

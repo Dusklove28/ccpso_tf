@@ -347,8 +347,9 @@ class DDPG:
 
 try:
     gpus = tf.config.experimental.list_physical_devices('GPU')
-    tf.config.experimental.set_memory_growth(gpus[0], True)
-except:
+    for gpu in gpus:
+        tf.config.experimental.set_memory_growth(gpu, True)
+except RuntimeError:
     pass
 
 if __name__ == "__main__":
