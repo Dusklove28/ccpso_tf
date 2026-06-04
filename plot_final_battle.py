@@ -50,19 +50,12 @@ OPTIMIZER_LABEL_MAP = {
     "PSOorigin": "PSO",
     "PSOtrain": "RLPSO",
     "PSO-train": "RLPSO",
-    "RLPSO_original_env-train": "RLPSO",
+    "RLPSO-train": "RLPSO",
     "Stage1-RL+BasicPSO-train": "RLPSO",
     "Conv_PSOtrain": "RL_CCPSO",
     "Conv_PSO_DualCtrain": "RL_CCPSO",
+    "RLCCPSO-train": "RL_CCPSO",
     "Stage2-RL+BasicPSO+Convergence-train": "RL_CCPSO",
-    "CCPSO_original_reward-train": "CCPSO A",
-    "CCPSO_continuous_reward-train": "CCPSO B",
-    "CCPSO_progress_prior-train": "CCPSO C",
-    "CCPSO_DualC_full-train": "CCPSO D",
-    "CCPSO_original_reward_q_reset-train": "CCPSO A + Q-reset",
-    "CCPSO_continuous_reward_q_reset-train": "CCPSO B + Q-reset",
-    "CCPSO_progress_prior_q_reset-train": "CCPSO C + Q-reset",
-    "CCPSO_DualC_full_q_reset-train": "CCPSO D + Q-reset",
 }
 
 
@@ -70,10 +63,6 @@ OPTIMIZER_COLOR_MAP = {
     'RL_CCPSO': '#e41a1c',
     'RLPSO': '#377eb8',
     'PSO': '#4daf4a',
-    'CCPSO A': '#984ea3',
-    'CCPSO B': '#e41a1c',
-    'CCPSO C': '#ff7f00',
-    'CCPSO D': '#a65628',
 }
 
 
@@ -81,10 +70,6 @@ OPTIMIZER_MARKER_MAP = {
     'RL_CCPSO': 'o',
     'RLPSO': 's',
     'PSO': '^',
-    'CCPSO A': 'D',
-    'CCPSO B': 'o',
-    'CCPSO C': 'v',
-    'CCPSO D': 'P',
 }
 
 
@@ -92,20 +77,12 @@ def _display_optimizer_label(opt_name):
     text = str(opt_name)
     if text in OPTIMIZER_LABEL_MAP:
         return OPTIMIZER_LABEL_MAP[text]
-    if "_sigma_" in text:
-        prefix, sigma_part = text.split("_sigma_", 1)
-        sigma = sigma_part.replace("-train", "").replace("p", ".")
-        if prefix.endswith("CCPSO_continuous_reward_q_reset"):
-            return f"CCPSO B + Q-reset sigma={sigma}"
-        if prefix.endswith("CCPSO_continuous_reward"):
-            return f"CCPSO B sigma={sigma}"
-        return f"{prefix} sigma={sigma}"
     return text
 
 
 def _style_base_label(label):
     text = str(label)
-    for base_label in ('CCPSO A', 'CCPSO B', 'CCPSO C', 'CCPSO D', 'RLPSO', 'PSO', 'RL_CCPSO'):
+    for base_label in ('RLPSO', 'PSO', 'RL_CCPSO'):
         if text == base_label or text.startswith(f"{base_label} "):
             return base_label
     return text

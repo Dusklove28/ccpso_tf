@@ -84,6 +84,7 @@ class PsoSwarm(MatSwarm):
         self.fits = self.fun(self.xs)
 
         self.update_best()
+        self.collect_generation_result()
 
 
 if __name__ == '__main__':

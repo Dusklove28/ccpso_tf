@@ -126,10 +126,16 @@ class MatSwarm:
     def add_check_fe(self):
         if self.init_finish:
             self.fe_num += 1
-            if (self.fe_num % self.record_per_fe == 0 or self.fe_num == self.fe_max) and self.fe_num <= self.fe_max:
-                self.data_collect_method()
             if self.fe_num >= self.fe_max:
                 self.run_flag = False
+
+    def collect_generation_result(self):
+        if not self.init_finish:
+            return
+        if self.fe_num > self.fe_max:
+            return
+        if self.fe_num % self.record_per_fe == 0 or self.fe_num == self.fe_max:
+            self.data_collect_method()
 
     def get_coefficients(self, actions, i, coefficients_multi=True, range_process=True):
         group = int(len(actions) / self.action_space)
