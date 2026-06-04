@@ -3,7 +3,7 @@ EXPERIMENT_RUNTIMES = 10
 EXPERIMENT_SEPARATE_TRAINS = [True]
 EXPERIMENT_GROUPS = [1]
 EXPERIMENT_DIMS = [30]
-EXPERIMENT_TRAIN_MAX_EPISODE = 400
+EXPERIMENT_TRAIN_MAX_EPISODE = 100
 EXPERIMENT_TRAIN_MAX_STEPS = EXPERIMENT_TRAIN_MAX_EPISODE * 100
 EXPERIMENT_TRAIN_TIMES = 1
 EXPERIMENT_MAX_FE = int(1e4)
@@ -33,8 +33,8 @@ EXPERIMENT_CCPSO_ENV_CONFIG = {
 
 EXPERIMENT_CCPSO_CONFIG = {
     'conv_a_delta_scale': 0.2,
-    'conv_a_clip_min': 0.05,
-    'conv_a_clip_max': 1.8,
+    'conv_a_clip_min': 0.00,
+    'conv_a_clip_max': 2.0,
     'stagnation_boost_max': 0.25,
     'stagnation_boost_fe_ratio': 0.2,
 }
