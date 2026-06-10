@@ -161,11 +161,11 @@ class DDPG:
 
     def act(self, state, add_noise=True):
         state = np.expand_dims(state, axis=0).astype(np.float32)
-        a = self.actor.predict(state)
+        a = self.actor.predict(state, verbose=0)
         a += self.noise() * add_noise * self.action_bound
         a = tf.clip_by_value(a, -self.action_bound + self.action_shift, self.action_bound + self.action_shift)
 
-        self.summaries['q_val'] = self.critic.predict([state, a])[0][0]
+        self.summaries['q_val'] = self.critic.predict([state, a], verbose=0)[0][0]
 
         return a
 
@@ -207,8 +207,8 @@ class DDPG:
             s = np.array(samples).T
             states, actions, rewards, next_states, dones = [np.vstack(s[i, :]).astype(np.float) for i in range(5)]
 
-        next_actions = self.actor_target.predict(next_states)
-        q_future = self.critic_target.predict([next_states, next_actions])
+        next_actions = self.actor_target.predict(next_states, verbose=0)
+        q_future = self.critic_target.predict([next_states, next_actions], verbose=0)
         target_qs = rewards + q_future * self.gamma * (1. - dones)
 
         # train critic
@@ -249,8 +249,6 @@ class DDPG:
         while episode < max_episodes or epoch < max_epochs:
             if done:
                 episode += 1
-                print(F"episode {episode}: {total_reward} total reward, {steps} steps, {epoch} epochs "
-                      F"optimizer:{_get_env_optimizer_name(self.env)}")
                 elapsed = time.time() - train_start_time
                 episode_progress = episode / max(max_episodes, 1)
                 epoch_progress = epoch / max(max_epochs, 1)
@@ -261,13 +259,10 @@ class DDPG:
                     saved_models = len(list(task_path.glob(f"ddpg_actor*_round{train_num}.h5")))
                 phase_name = getattr(self.env, 'phase_name', None) or _get_env_optimizer_name(self.env)
                 logger.info(
-                    f"[{phase_name}] train_progress "
-                    f"episode={episode}/{max_episodes} "
-                    f"epoch={epoch}/{max_epochs} "
-                    f"steps={steps} "
-                    f"saved_models={saved_models} "
-                    f"elapsed={_format_duration(elapsed)} "
-                    f"eta={_format_duration(eta_seconds)}"
+                    f"训练进度 | 算法={phase_name}\n"
+                    f"  回合={episode}/{max_episodes} | epoch={epoch}/{max_epochs} | 步数={steps}\n"
+                    f"  累计奖励={total_reward:.4e} | 已保存模型={saved_models}\n"
+                    f"  已用时间={_format_duration(elapsed)} | 预计剩余={_format_duration(eta_seconds)}"
                 )
 
                 # with summary_writer.as_default():
@@ -278,7 +273,7 @@ class DDPG:
                 self.noise.reset()
 
                 if steps >= max_steps and task_path is not None:
-                    print("episode {}, reached max steps".format(episode))
+                    logger.info(f"训练回合达到最大步数 | 回合={episode} | 最大步数={max_steps}")
                     self.save_model(task_path.joinpath(f"ddpg_actor_episode{episode}_round{train_num}.h5"),
                                     task_path.joinpath(f"ddpg_critic_episode{episode}_round{train_num}.h5"))
 

@@ -1,4 +1,4 @@
-import copy
+﻿import copy
 from pathlib import Path
 
 from task.result_evaluate_task import visible_res_generate
@@ -69,10 +69,10 @@ def result_evaluate_task_run(task, mq=None):
             }
             tasks.append(single_evaluate_task)
 
-    # 结果检测
+    # 缁撴灉妫€娴?
     results = get_tasks_result(tasks)
 
-    # 如无结果则等待结果
+    # 濡傛棤缁撴灉鍒欑瓑寰呯粨鏋?
     if results is None:
         task_result = {
             'result': None,
@@ -81,7 +81,7 @@ def result_evaluate_task_run(task, mq=None):
         }
         return result_process(task, task_result, write=False, mq=mq)
 
-    # 对多个模型的 进行择优处理
+    # 对多个模型的测试结果进行择优处理
     best_cache = {}
     new_results = []
     new_result2 = {}
@@ -101,7 +101,7 @@ def result_evaluate_task_run(task, mq=None):
         new_results.append(result)
 
     if visiable_result_flag:
-        # 可视化结果
+        # 鍙鍖栫粨鏋?
         pass
 
     for result in new_results:
@@ -167,16 +167,15 @@ def new_result_evaluate_task_run(task, mq=None):
                 }
                 tasks.append(single_evaluate_task)
 
-    # 结果检测
     from log import logger
     logger.info(
-        f"[{task.get('phase_name', 'UnlabeledPhase')}] "
-        f"final_compare discovered={len(tasks)} evaluate_multi_times tasks"
+        f"最终对比展开 | 阶段={task.get('phase_name', '最终对比')} | "
+        f"生成测试调度任务={len(tasks)}"
     )
 
     results = get_tasks_result(tasks)
 
-    # 如无结果则等待结果
+    # 濡傛棤缁撴灉鍒欑瓑寰呯粨鏋?
     if results is None:
         task_result = {
             'result': None,
@@ -198,7 +197,7 @@ def new_result_evaluate_task_run(task, mq=None):
                 fun_optimizer_result_dict[f_num][optimizer_name] = result
 
     if visiable_result_flag:
-        # 可视化结果
+        # 鍙鍖栫粨鏋?
         visible_res_generate(fun_optimizer_result_dict)
 
     return_result = {}

@@ -25,6 +25,27 @@ task_progress_seen = set()
 phase_progress = {}
 phase_progress_seen = set()
 
+TASK_TYPE_LABELS = {
+    'top': '总任务',
+    'train': '训练调度',
+    'single_train': '训练',
+    'evaluate_models': '模型筛选',
+    'evaluate_multi_times': '测试调度',
+    'single_evaluate': '测试',
+    'result_evaluate': '结果汇总',
+    'new_result_evaluate': '最终对比',
+}
+
+STATUS_LABELS = {
+    'pending': '等待中',
+    'running': '运行中',
+    'done': '已完成',
+}
+
+
+def _task_type_label(task_type):
+    return TASK_TYPE_LABELS.get(task_type, str(task_type))
+
 
 def _ensure_progress_bucket(progress_map, key):
     if key is None:
@@ -83,49 +104,43 @@ def _progress_status(progress):
 
 def _progress_fragment(name, progress):
     remaining = max(progress['all'] - progress['finish'], 0)
-    status = _progress_status(progress)
-    return (
-        f"[{name}] status={status} "
-        f"done/discovered={progress['finish']}/{progress['all']} "
-        f"remaining={remaining}"
-    )
+    status = STATUS_LABELS[_progress_status(progress)]
+    return f"  - {name:<8} | {status:<3} | 完成 {progress['finish']}/{progress['all']} | 待完成 {remaining}"
+
+
+def _progress_block(title, progress_map, name_formatter=None):
+    rows = []
+    for name, progress in sorted(progress_map.items()):
+        display_name = name_formatter(name) if name_formatter else name
+        rows.append(_progress_fragment(display_name, progress))
+    return f"【{title}】\n" + "\n".join(rows)
 
 
 def print_task_progress():
     global task_progress, phase_progress
 
     if phase_progress:
-        stage_summary = "--- Stage Progress --- | " + " | ".join(
-            _progress_fragment(stage_name, progress)
-            for stage_name, progress in sorted(phase_progress.items())
-        )
-        logger.info(stage_summary)
+        logger.info(_progress_block("阶段进度", phase_progress))
 
     if task_progress:
-        task_summary = "--- Task Progress --- | " + " | ".join(
-            _progress_fragment(task_type, progress)
-            for task_type, progress in sorted(task_progress.items())
-        )
-        logger.info(task_summary)
+        logger.info(_progress_block("任务进度", task_progress, _task_type_label))
 
     with open('progress.txt', 'w', encoding='utf-8') as file:
         if phase_progress:
-            file.write("[stages]\n")
+            file.write("[阶段进度]\n")
             for stage_name, progress in sorted(phase_progress.items()):
                 remaining = max(progress['all'] - progress['finish'], 0)
                 file.write(
-                    f"{stage_name} status={_progress_status(progress)} "
-                    f"done/discovered={progress['finish']}/{progress['all']} "
-                    f"remaining={remaining}\n"
+                    f"{stage_name} | 状态={STATUS_LABELS[_progress_status(progress)]} | "
+                    f"完成={progress['finish']}/{progress['all']} | 待完成={remaining}\n"
                 )
         if task_progress:
-            file.write("[tasks]\n")
+            file.write("[任务进度]\n")
             for task_type, progress in sorted(task_progress.items()):
                 remaining = max(progress['all'] - progress['finish'], 0)
                 file.write(
-                    f"{task_type} status={_progress_status(progress)} "
-                    f"done/discovered={progress['finish']}/{progress['all']} "
-                    f"remaining={remaining}\n"
+                    f"{_task_type_label(task_type)} | 状态={STATUS_LABELS[_progress_status(progress)]} | "
+                    f"完成={progress['finish']}/{progress['all']} | 待完成={remaining}\n"
                 )
 
 
@@ -141,13 +156,13 @@ def _process_task_result(result, running_tasks, wait_result_tasks, need_run_task
             need_run_tasks.append(child_task)
 
         wait_result_tasks[result_task_md5] = child_task_md5s
-        logger.info(f"task waiting: {result_task_md5} -> child_tasks={len(child_task_md5s)}")
+        logger.info(f"任务等待子任务完成 | 任务ID={result_task_md5} | 子任务数={len(child_task_md5s)}")
         return
 
     if result_task_md5 in running_tasks:
         running_tasks.remove(result_task_md5)
 
-    logger.info(f"task completed: {result_task_md5} type={result.get('type')}")
+    logger.info(f"任务完成 | 类型={_task_type_label(result.get('type'))} | 任务ID={result_task_md5}")
     task_statistic(result, finish=1)
 
     del_keys = []
@@ -155,7 +170,7 @@ def _process_task_result(result, running_tasks, wait_result_tasks, need_run_task
         if result_task_md5 in needs:
             needs.remove(result_task_md5)
         if len(needs) == 0:
-            logger.info(f"dependencies satisfied; requeue parent: {parent_task_md5}")
+            logger.info(f"依赖已满足，重新加入父任务 | 父任务ID={parent_task_md5}")
             del_keys.append(parent_task_md5)
             need_run_tasks.append(task_detail[parent_task_md5])
 
@@ -177,8 +192,8 @@ def main(processes=1):
     phase_progress = {}
     phase_progress_seen = set()
 
-    logger.info(f"main run at {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}")
-    logger.info(f"processes:{processes}")
+    logger.info(f"主流程启动 | 时间={time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}")
+    logger.info(f"并行进程数={processes}")
 
     need_run_tasks = all_tasks_generate()
     for task in need_run_tasks:
@@ -201,7 +216,7 @@ def main(processes=1):
                 print_task_progress()
                 mem = psutil.virtual_memory()
                 if mem.available < 5 * 1024 * 1024 * 1024:
-                    logger.info(f"free memory:{mem.available / 1024 / 1024 / 1024}G")
+                    logger.info(f"可用内存过低 | 剩余={mem.available / 1024 / 1024 / 1024:.2f}GB")
                     if pool is not None:
                         pool.terminate()
                         pool.join()
@@ -217,7 +232,7 @@ def main(processes=1):
                     try:
                         result = async_result.get()
                     except Exception:
-                        logger.exception(f"multiprocess task failed: {task_md5}")
+                        logger.exception(f"多进程任务失败 | 任务ID={task_md5}")
                         if pool is not None:
                             pool.terminate()
                             pool.join()
@@ -238,7 +253,7 @@ def main(processes=1):
                 if processes > 1:
                     if running_task_md5 not in async_results:
                         async_results[running_task_md5] = pool.apply_async(task_run, args=(task,))
-                        logger.debug(f"add multiprocess task {running_task_md5}")
+                        logger.debug(f"加入多进程任务 | 任务ID={running_task_md5}")
                 else:
                     result = task_run(task)
 
@@ -271,5 +286,5 @@ if __name__ == '__main__':
 
     while res == 'restart':
         res = main(processes_count)
-        logger.info(f'main run finish res:{res}')
+        logger.info(f'主流程结束 | 结果={res}')
         time.sleep(60)

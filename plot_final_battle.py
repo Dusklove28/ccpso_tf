@@ -56,6 +56,9 @@ OPTIMIZER_LABEL_MAP = {
     "Conv_PSO_DualCtrain": "RL_CCPSO",
     "RLCCPSO-train": "RL_CCPSO",
     "Stage2-RL+BasicPSO+Convergence-train": "RL_CCPSO",
+    "RLEPSOtrain": "RLEPSO",
+    "RLEPSO-train": "RLEPSO",
+    "TEST_PSOorigin": "TEST_PSO",
 }
 
 
@@ -63,6 +66,8 @@ OPTIMIZER_COLOR_MAP = {
     'RL_CCPSO': '#e41a1c',
     'RLPSO': '#377eb8',
     'PSO': '#4daf4a',
+    'RLEPSO': '#984ea3',
+    'TEST_PSO': '#ff7f00',
 }
 
 
@@ -70,6 +75,8 @@ OPTIMIZER_MARKER_MAP = {
     'RL_CCPSO': 'o',
     'RLPSO': 's',
     'PSO': '^',
+    'RLEPSO': 'D',
+    'TEST_PSO': 'v',
 }
 
 
@@ -82,7 +89,7 @@ def _display_optimizer_label(opt_name):
 
 def _style_base_label(label):
     text = str(label)
-    for base_label in ('RLPSO', 'PSO', 'RL_CCPSO'):
+    for base_label in ('RLPSO', 'PSO', 'RL_CCPSO', 'RLEPSO', 'TEST_PSO'):
         if text == base_label or text.startswith(f"{base_label} "):
             return base_label
     return text
@@ -160,18 +167,38 @@ def _fitness_error(values, f_opt):
     return np.maximum(errors, ERROR_FLOOR)
 
 
-def _summarize_conv_runs(conv_runs):
-    if not conv_runs:
-        return None
+def _trace_fe(row):
+    if isinstance(row, dict):
+        return int(row.get("fe", 0))
+    return int(row[0])
 
+
+def _trace_value(row, key="conv_a"):
+    if isinstance(row, dict):
+        if key not in row:
+            return None
+        return float(row[key])
+    if key == "conv_a" and len(row) > 1:
+        return float(row[1])
+    return None
+
+
+def _summarize_trace_metric(trace_runs, key="conv_a"):
+    if not trace_runs:
+        return None
     fe_value_map = {}
-    for run_trace in conv_runs:
-        for fe, conv_a in run_trace:
-            fe = int(fe)
-            conv_a = float(conv_a)
+    for run_trace in trace_runs:
+        for row in run_trace:
+            value = _trace_value(row, key)
+            if value is None:
+                continue
+            fe = _trace_fe(row)
             if fe not in fe_value_map:
                 fe_value_map[fe] = []
-            fe_value_map[fe].append(conv_a)
+            fe_value_map[fe].append(value)
+
+    if not fe_value_map:
+        return None
 
     fe_points = sorted(fe_value_map.keys())
     mean_vals = []
@@ -190,6 +217,10 @@ def _summarize_conv_runs(conv_runs):
         'std': std_vals,
         'var': var_vals,
     }
+
+
+def _summarize_conv_runs(conv_runs):
+    return _summarize_trace_metric(conv_runs, "conv_a")
 
 
 def _resolve_output_dir(output_dir=None):
@@ -369,8 +400,10 @@ def plot_conv_a_traces(task_md5, target_functions=None, output_dir=None):
 
             if len(conv_items) == 1:
                 for run_trace in conv_runs:
-                    x_vals = [row[0] for row in run_trace]
-                    y_vals = [row[1] for row in run_trace]
+                    x_vals = [_trace_fe(row) for row in run_trace]
+                    y_vals = [_trace_value(row, "conv_a") for row in run_trace]
+                    x_vals = [x for x, y in zip(x_vals, y_vals) if y is not None]
+                    y_vals = [y for y in y_vals if y is not None]
                     ax_trace.plot(x_vals, y_vals, color=color, alpha=0.25, linewidth=1.0)
 
             lower = np.clip(mean_vals - std_vals, 0.0, 2.0)
@@ -408,10 +441,135 @@ def plot_conv_a_traces(task_md5, target_functions=None, output_dir=None):
         print(f"✅ F{f_num} 的 Conv_a 均值/方差图已保存至 -> {save_path}")
 
 
+def _metric_stats_from_result(opt_res, metric):
+    control_stats = opt_res.get("control_stats") or {}
+    if metric in control_stats:
+        return control_stats[metric]
+    conv_runs = opt_res.get("conv_runs", [])
+    return _summarize_trace_metric(conv_runs, metric)
+
+
+def _plot_metric_group(ax, opt_res, metrics, title, ylabel=None):
+    for metric, label, color in metrics:
+        stats = _metric_stats_from_result(opt_res, metric)
+        if stats is None:
+            continue
+        fe_vals = np.asarray(stats["fe"], dtype=float)
+        mean_vals = np.asarray(stats["mean"], dtype=float)
+        ax.plot(fe_vals, mean_vals, label=label, color=color, linewidth=2.0)
+    ax.set_title(title)
+    if ylabel:
+        ax.set_ylabel(ylabel)
+    ax.grid(True, linestyle='--', alpha=0.45)
+    handles, labels = ax.get_legend_handles_labels()
+    if handles:
+        ax.legend(loc='best', framealpha=0.85, fontsize=9)
+
+
+def plot_control_diagnostics(task_md5, target_functions=None, output_dir=None):
+    data = _load_task_result(task_md5)
+    if data is None:
+        return
+
+    output_dir = _resolve_output_dir(output_dir)
+    os.makedirs(output_dir, exist_ok=True)
+
+    summary = data['result'][0]
+    real_results = summary['result']
+    target_functions = _get_target_functions(summary, target_functions=target_functions)
+
+    for f_num in target_functions:
+        opt_dicts = real_results.get(f_num) or real_results.get(str(f_num))
+        if not opt_dicts:
+            continue
+
+        for opt_name, opt_res in opt_dicts.items():
+            if not opt_res or not opt_res.get("conv_runs"):
+                continue
+
+            label = _display_optimizer_label(opt_name)
+            fig, axes = plt.subplots(3, 2, figsize=(13, 11), sharex=True)
+            axes = axes.ravel()
+
+            _plot_metric_group(
+                axes[0],
+                opt_res,
+                [
+                    ("conv_a", "C", "#e41a1c"),
+                    ("conv_a_norm", "C normalized", "#984ea3"),
+                ],
+                "Control Coefficient",
+                "value",
+            )
+            _plot_metric_group(
+                axes[1],
+                opt_res,
+                [("raw_action", "raw action", "#377eb8")],
+                "Actor Output",
+                "value",
+            )
+            _plot_metric_group(
+                axes[2],
+                opt_res,
+                [
+                    ("swarm_diversity", "swarm", "#4daf4a"),
+                    ("pbest_diversity", "pbest", "#377eb8"),
+                    ("q_diversity", "Q", "#e41a1c"),
+                ],
+                "Diversity",
+                "normalized",
+            )
+            _plot_metric_group(
+                axes[3],
+                opt_res,
+                [
+                    ("x_q_distance", "mean distance x-Q", "#ff7f00"),
+                    ("q_gbest_distance", "mean distance Q-gbest", "#984ea3"),
+                ],
+                "Q-Centered Distances",
+                "normalized",
+            )
+            _plot_metric_group(
+                axes[4],
+                opt_res,
+                [
+                    ("recent_gbest_improvement", "gbest improvement", "#e41a1c"),
+                    ("recent_mean_improvement", "mean improvement", "#377eb8"),
+                ],
+                "Recent Improvement",
+                "normalized",
+            )
+            _plot_metric_group(
+                axes[5],
+                opt_res,
+                [
+                    ("instability_penalty", "instability", "#e41a1c"),
+                    ("boundary_ratio", "boundary", "#ff7f00"),
+                    ("velocity_clip_ratio", "velocity clip", "#984ea3"),
+                    ("collapse_risk", "collapse risk", "#666666"),
+                ],
+                "Risk and Instability",
+                "normalized",
+            )
+
+            for ax in axes[-2:]:
+                ax.set_xlabel("Function Evaluations (FEs)")
+
+            fig.suptitle(f"RLCCPSO Control Diagnostics on F{f_num} ({label})", fontsize=15, fontweight='bold')
+            fig.tight_layout(rect=(0, 0, 1, 0.97))
+
+            safe_label = str(label).replace("/", "_").replace(" ", "_")
+            save_path = os.path.join(output_dir, f"F{f_num}_{safe_label}_control_diagnostics.png")
+            fig.savefig(save_path, dpi=350, bbox_inches='tight')
+            plt.close(fig)
+            print(f"✅ F{f_num} 的控制诊断图已保存至 -> {save_path}")
+
+
 def generate_all_plots(task_md5, output_dir=None):
     extract_csv(task_md5, output_dir=output_dir)
     plot_highlight_functions(task_md5, output_dir=output_dir)
     plot_conv_a_traces(task_md5, output_dir=output_dir)
+    plot_control_diagnostics(task_md5, output_dir=output_dir)
 
 
 if __name__ == "__main__":

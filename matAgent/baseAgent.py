@@ -64,7 +64,12 @@ class MatSwarm:
                 max_fe=self.fe_max,
                 group=self.n_group,
             )
-            ddpg = get_ddpg_object(gym_env, discrete=False)
+            ddpg = get_ddpg_object(
+                gym_env,
+                discrete=False,
+                actor_units=config_dic.get('actor_units'),
+                critic_units=config_dic.get('critic_units'),
+            )
             ddpg.load_actor(str(model))
 
             self.ddpg_actor = ddpg

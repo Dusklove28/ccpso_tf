@@ -1,6 +1,6 @@
 import copy
 
-from env.NormalEnv import NormalEnv
+from env.CcPSOEnv import CcPSOEnv
 from matAgent.ccpso import ConvPsoSwarm
 from matAgent.pso import PsoSwarm
 from task.experiment_config import (
@@ -10,7 +10,6 @@ from task.experiment_config import (
     EXPERIMENT_CCPSO_LR_ACTOR,
     EXPERIMENT_CCPSO_LR_CRITIC,
     EXPERIMENT_DIMS,
-    EXPERIMENT_ENV_CONFIG,
     EXPERIMENT_FUNCTIONS,
     EXPERIMENT_GAMMA,
     EXPERIMENT_GROUPS,
@@ -26,27 +25,13 @@ from task.experiment_config import (
 )
 
 
-def _rlpso_pair():
-    return {
-        'name': 'RLPSO',
-        'train_optimizer': PsoSwarm,
-        'evaluate_optimizer': PsoSwarm,
-        'env_class': NormalEnv,
-        'optimizer_config': {},
-        'env_config': copy.deepcopy(EXPERIMENT_ENV_CONFIG),
-        'lr_actor': EXPERIMENT_LR_ACTOR,
-        'lr_critic': EXPERIMENT_LR_CRITIC,
-        'gamma': EXPERIMENT_GAMMA,
-    }
-
-
 def _rlccpso_pair():
     return {
         'name': 'RLCCPSO',
         'phase_name': 'RLCCPSO',
         'train_optimizer': ConvPsoSwarm,
         'evaluate_optimizer': ConvPsoSwarm,
-        'env_class': NormalEnv,
+        'env_class': CcPSOEnv,
         'optimizer_config': copy.deepcopy(EXPERIMENT_CCPSO_CONFIG),
         'env_config': copy.deepcopy(EXPERIMENT_CCPSO_ENV_CONFIG),
         'lr_actor': EXPERIMENT_CCPSO_LR_ACTOR,
@@ -60,7 +45,6 @@ def all_tasks_generate():
         'type': 'top',
         'baseline_optimizers': [PsoSwarm],
         'rl_optimizer_pairs': [
-            _rlpso_pair(),
             _rlccpso_pair(),
         ],
         'evaluate_function': EXPERIMENT_FUNCTIONS,

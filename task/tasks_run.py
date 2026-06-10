@@ -28,6 +28,86 @@ DEFAULT_GAMMA = 0.85
 DEFAULT_NOISE = 'norm'
 DEFAULT_SIGMA = 0.15
 
+TASK_TYPE_LABELS = {
+    'all': '旧版总任务',
+    'train': '训练调度',
+    'single_train': '训练',
+    'evaluate_models': '模型筛选',
+    'evaluate_multi_times': '测试调度',
+    'single_evaluate': '测试',
+    'result_evaluate': '旧版结果汇总',
+    'new_result_evaluate': '最终对比',
+    'top': '总任务',
+}
+
+
+def _format_function(fun_num):
+    return f"F{fun_num}函数"
+
+
+def _format_functions(fun_nums):
+    if fun_nums is None:
+        return "函数未指定"
+    if not isinstance(fun_nums, (list, tuple, set)):
+        fun_nums = [fun_nums]
+    return "、".join(_format_function(fun_num) for fun_num in fun_nums)
+
+
+def _phase_label(task, fallback=None):
+    phase_name = task.get('phase_name')
+    if phase_name and phase_name != '最终对比':
+        return str(phase_name)
+
+    optimizer = (
+        task.get('optimizer')
+        or task.get('evaluate_optimizer')
+        or fallback
+    )
+    if optimizer is None:
+        return "未命名算法"
+
+    optimizer_name = getattr(optimizer, 'optimizer_name', getattr(optimizer, '__name__', str(optimizer)))
+    if optimizer_name == 'PSO':
+        return 'PSO'
+    if str(optimizer_name).startswith('Conv_PSO'):
+        return 'RLCCPSO'
+    return optimizer_name
+
+
+def _train_optimizer_label(task):
+    optimizer = task.get('optimizer')
+    if optimizer is None:
+        return _phase_label(task)
+
+    optimizer_name = getattr(optimizer, 'optimizer_name', getattr(optimizer, '__name__', str(optimizer)))
+    if optimizer_name == 'PSO':
+        return 'PSO'
+    if str(optimizer_name).startswith('Conv_PSO'):
+        return 'CCPSO'
+    return optimizer_name
+
+
+def _task_label(task):
+    task_type = task.get('type')
+    phase = _phase_label(task)
+
+    if task_type == 'single_train':
+        phase = _train_optimizer_label(task)
+        return f"训练：{phase} + {_format_functions(task.get('fun_nums'))}"
+    if task_type == 'train':
+        phase = _train_optimizer_label(task)
+        return f"训练调度：{phase} + {_format_functions(task.get('fun_nums'))}"
+    if task_type in ('single_evaluate', 'evaluate_multi_times'):
+        return f"测试：{phase} + {_format_function(task.get('evaluate_function'))}"
+    if task_type == 'evaluate_models':
+        return f"模型筛选：{phase} + {_format_functions(task.get('evaluate_functions'))}"
+    if task_type in ('new_result_evaluate', 'result_evaluate'):
+        return f"最终对比：{_format_functions(task.get('evaluate_function'))}"
+    if task_type == 'top':
+        return f"总任务：{_format_functions(task.get('evaluate_function'))}"
+
+    return TASK_TYPE_LABELS.get(task_type, str(task_type))
+
 
 def _save_train_result_to_db(task, train_result):
     optimizer = task['optimizer']
@@ -42,18 +122,38 @@ def _save_train_result_to_db(task, train_result):
     }])
 
 
-def _summarize_conv_runs(conv_runs):
-    if not conv_runs:
-        return None
+def _trace_fe(row):
+    if isinstance(row, dict):
+        return int(row.get('fe', 0))
+    return int(row[0])
 
+
+def _trace_value(row, key='conv_a'):
+    if isinstance(row, dict):
+        if key not in row:
+            return None
+        return float(row[key])
+    if key == 'conv_a' and len(row) > 1:
+        return float(row[1])
+    return None
+
+
+def _summarize_trace_metric(trace_runs, key='conv_a'):
+    if not trace_runs:
+        return None
     fe_value_map = {}
-    for run_trace in conv_runs:
-        for fe, conv_a in run_trace:
-            fe = int(fe)
-            conv_a = float(conv_a)
+    for run_trace in trace_runs:
+        for row in run_trace:
+            value = _trace_value(row, key)
+            if value is None:
+                continue
+            fe = _trace_fe(row)
             if fe not in fe_value_map:
                 fe_value_map[fe] = []
-            fe_value_map[fe].append(conv_a)
+            fe_value_map[fe].append(value)
+
+    if not fe_value_map:
+        return None
 
     fe_points = sorted(fe_value_map.keys())
     mean_vals = []
@@ -77,14 +177,44 @@ def _summarize_conv_runs(conv_runs):
     }
 
 
+def _summarize_control_runs(trace_runs):
+    metric_keys = [
+        'conv_a',
+        'raw_action',
+        'conv_a_norm',
+        'progress',
+        'swarm_diversity',
+        'pbest_diversity',
+        'q_diversity',
+        'q_gbest_distance',
+        'x_q_distance',
+        'collapse_risk',
+        'recent_gbest_improvement',
+        'recent_mean_improvement',
+        'boundary_ratio',
+        'velocity_clip_ratio',
+        'instability_penalty',
+    ]
+    stats = {}
+    for key in metric_keys:
+        metric_stats = _summarize_trace_metric(trace_runs, key)
+        if metric_stats is not None:
+            stats[key] = metric_stats
+    return stats or None
+
+
+def _summarize_conv_runs(conv_runs):
+    return _summarize_trace_metric(conv_runs, 'conv_a')
+
+
 def task_run(task, mq=None):
     task_md5 = get_task_hash(task)
-    logger.info(f"run task {task_md5}-{task.get('type')}-{task}")
+    logger.info(f"开始任务 | {_task_label(task)} | 类型={TASK_TYPE_LABELS.get(task.get('type'), task.get('type'))} | 任务ID={task_md5}")
 
     result = get_task_result(task) if task['type'] not in ['top', 'new_result_evaluate'] else None
     try:
         if result:
-            logger.info(f'{task_md5} cache hit')
+            logger.info(f"命中缓存 | {_task_label(task)} | 任务ID={task_md5}")
             if task['type'] == 'train' and result.get('result') is not None:
                 _save_train_result_to_db(task, result['result'])
             return result_process(task, result, write=False, mq=mq)
@@ -110,9 +240,9 @@ def task_run(task, mq=None):
     except Exception as exc:
         with open('error.txt', 'a') as file:
             traceback.print_exc(file=file)
-        logger.info(f"error-start-{task_md5}-{task.get('type')}-{task}")
+        logger.info(f"任务出错开始 | {_task_label(task)} | 任务ID={task_md5}")
         traceback.print_exc()
-        logger.info(f"error-end-{task_md5}-{task.get('type')}-{task}")
+        logger.info(f"任务出错结束 | {_task_label(task)} | 任务ID={task_md5}")
         time.sleep(20)
         raise exc
 
@@ -140,6 +270,8 @@ def all_task_run(task, mq=None):
         'gamma': task.get('gamma', DEFAULT_GAMMA),
         'noise': task.get('noise', DEFAULT_NOISE),
         'sigma': task.get('sigma', DEFAULT_SIGMA),
+        'actor_units': task.get('actor_units'),
+        'critic_units': task.get('critic_units'),
         'optimizer_config': copy.deepcopy(task.get('optimizer_config', {})),
         'env_config': copy.deepcopy(task.get('env_config', {})),
     }
@@ -228,6 +360,8 @@ def train_task_run(task, mq=None):
                 'gamma': task.get('gamma', DEFAULT_GAMMA),
                 'noise': task.get('noise', DEFAULT_NOISE),
                 'sigma': task.get('sigma', DEFAULT_SIGMA),
+                'actor_units': task.get('actor_units'),
+                'critic_units': task.get('critic_units'),
                 'optimizer_config': copy.deepcopy(task.get('optimizer_config', {})),
                 'env_config': copy.deepcopy(task.get('env_config', {})),
             }
@@ -252,6 +386,8 @@ def train_task_run(task, mq=None):
             'gamma': task.get('gamma', DEFAULT_GAMMA),
             'noise': task.get('noise', DEFAULT_NOISE),
             'sigma': task.get('sigma', DEFAULT_SIGMA),
+            'actor_units': task.get('actor_units'),
+            'critic_units': task.get('critic_units'),
             'optimizer_config': copy.deepcopy(task.get('optimizer_config', {})),
             'env_config': copy.deepcopy(task.get('env_config', {})),
         }
@@ -335,6 +471,8 @@ def single_train_task_run(task, mq=None):
     gamma = task.get('gamma', DEFAULT_GAMMA)
     noise = task.get('noise', DEFAULT_NOISE)
     sigma = task.get('sigma', DEFAULT_SIGMA)
+    actor_units = task.get('actor_units')
+    critic_units = task.get('critic_units')
 
     gym_env, train_limits = _build_train_env_and_limits(task)
 
@@ -343,16 +481,16 @@ def single_train_task_run(task, mq=None):
     task_md5 = get_task_hash(task)
     task_dir = TASK_PATH.joinpath(f'{task_md5}/')
     logger.info(
-        f"[{task.get('phase_name', optimizer.optimizer_name)}] "
-        f"train_config task_md5={task_md5} noise={noise} sigma={sigma} "
-        f"lr_actor={lr_actor} lr_critic={lr_critic} gamma={gamma}"
+        f"训练配置 | {_task_label(task)} | 任务ID={task_md5} | "
+        f"噪声={noise} | sigma={sigma} | "
+        f"actor学习率={lr_actor} | critic学习率={lr_critic} | gamma={gamma}"
     )
 
     for train_index in range(task['train_num']):
         if os.path.exists(task_dir.joinpath(f"ddpg_actor_final_round{train_index}.h5")):
             logger.info(
-                f"[{task.get('phase_name', optimizer.optimizer_name)}] "
-                f"skip existing final actor round={train_index} task_md5={task_md5}"
+                f"跳过训练 | {_task_label(task)} | round={train_index} | "
+                f"原因=最终Actor已存在 | 任务ID={task_md5}"
             )
             continue
 
@@ -365,6 +503,8 @@ def single_train_task_run(task, mq=None):
             gamma=gamma,
             noise=noise,
             sigma=sigma,
+            actor_units=actor_units,
+            critic_units=critic_units,
         )
         ddpg.train(
             max_episodes=train_limits['max_episodes'],
@@ -396,10 +536,8 @@ def single_train_task_run(task, mq=None):
         })
 
     logger.info(
-        f"[{task.get('phase_name', optimizer.optimizer_name)}] "
-        f"model_selection candidates={len(model_candidates)} "
-        f"evaluate_multi_times={len(model_candidates)} "
-        f"expected_single_evaluate={len(model_candidates) * new_task['runtimes']}"
+        f"模型筛选 | {_task_label(task)} | 候选模型={len(model_candidates)} | "
+        f"测试调度数={len(model_candidates)} | 预计单次测试数={len(model_candidates) * new_task['runtimes']}"
     )
 
     results = get_tasks_result([new_task])
@@ -460,8 +598,7 @@ def evaluate_models_task_run(task, mq=None):
                     })
 
     logger.info(
-        f"[{task.get('phase_name', 'UnlabeledPhase')}] "
-        f"evaluate_models discovered={len(tasks)} evaluate_multi_times tasks"
+        f"模型筛选展开 | {_task_label(task)} | 生成测试调度任务={len(tasks)}"
     )
 
     results = get_tasks_result(tasks)
@@ -493,8 +630,7 @@ def evaluate_multi_times_task_run(task, mq=None):
         tasks.append(copy_task)
 
     logger.info(
-        f"[{task.get('phase_name', 'UnlabeledPhase')}] "
-        f"evaluate_multi_times runtimes={len(tasks)} model={task.get('model')}"
+        f"测试调度 | {_task_label(task)} | 重复次数={len(tasks)} | 模型={task.get('model')}"
     )
 
     results = get_tasks_result(tasks)
@@ -509,6 +645,7 @@ def evaluate_multi_times_task_run(task, mq=None):
     average_ress = np.average(np.array([result['result'] for result in results]), axis=0)
     conv_runs = [result.get('conv_trace', []) for result in results if result.get('conv_trace')]
     conv_stats = _summarize_conv_runs(conv_runs)
+    control_stats = _summarize_control_runs(conv_runs)
 
     task_result = copy.deepcopy(task)
     task_result['result'] = average_ress
@@ -516,6 +653,8 @@ def evaluate_multi_times_task_run(task, mq=None):
     task_result['conv_runs'] = conv_runs
     if conv_stats is not None:
         task_result['conv_stats'] = conv_stats
+    if control_stats is not None:
+        task_result['control_stats'] = control_stats
     return result_process(task, task_result, mq)
 
 

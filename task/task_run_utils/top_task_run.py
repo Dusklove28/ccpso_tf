@@ -12,10 +12,10 @@ from utils.task_hash import get_task_hash
 def _get_train_phase_name(optimizer_class):
     optimizer_name = getattr(optimizer_class, 'optimizer_name', optimizer_class.__name__)
     if optimizer_name == 'PSO':
-        return 'Stage1-RL+BasicPSO'
+        return 'RLPSO'
     if optimizer_name.startswith('Conv_PSO'):
-        return 'Stage2-RL+BasicPSO+Convergence'
-    return f"Train-{optimizer_name}"
+        return 'RLCCPSO'
+    return optimizer_name
 
 
 def _build_train_tasks(task):
@@ -28,6 +28,8 @@ def _build_train_tasks(task):
     default_gamma = task.get('gamma', 0.85)
     default_noise = task.get('noise', 'norm')
     default_sigma = task.get('sigma', 0.15)
+    default_actor_units = task.get('actor_units')
+    default_critic_units = task.get('critic_units')
 
     for optimizer_pair in task['rl_optimizer_pairs']:
         train_optimizer = optimizer_pair['train_optimizer']
@@ -38,7 +40,15 @@ def _build_train_tasks(task):
         gamma = optimizer_pair.get('gamma', default_gamma)
         noise = optimizer_pair.get('noise', default_noise)
         sigma = optimizer_pair.get('sigma', default_sigma)
+        actor_units = optimizer_pair.get('actor_units', default_actor_units)
+        critic_units = optimizer_pair.get('critic_units', default_critic_units)
+        train_max_steps = optimizer_pair.get('train_max_steps', task['train_max_steps'])
+        train_max_episode = optimizer_pair.get('train_max_episode', task['train_max_episode'])
         optimizer_config = copy.deepcopy(optimizer_pair.get('optimizer_config', {}))
+        if actor_units is not None:
+            optimizer_config['actor_units'] = actor_units
+        if critic_units is not None:
+            optimizer_config['critic_units'] = critic_units
         env_config = copy.deepcopy(optimizer_pair.get('env_config', {}))
         phase_name = optimizer_pair.get('phase_name') or _get_train_phase_name(train_optimizer)
 
@@ -51,8 +61,8 @@ def _build_train_tasks(task):
                         'optimizer': train_optimizer,
                         'evaluate_optimizer': evaluate_optimizer,
                         'group': group,
-                        'train_max_steps': task['train_max_steps'],
-                        'train_max_episode': task['train_max_episode'],
+                        'train_max_steps': train_max_steps,
+                        'train_max_episode': train_max_episode,
                         'fun_nums': task['evaluate_function'],
                         'train_num': task['train_times'],
                         'separate_train': separate_train,
@@ -66,6 +76,8 @@ def _build_train_tasks(task):
                         'gamma': gamma,
                         'noise': noise,
                         'sigma': sigma,
+                        'actor_units': actor_units,
+                        'critic_units': critic_units,
                         'optimizer_config': copy.deepcopy(optimizer_config),
                         'env_config': copy.deepcopy(env_config),
                     }
@@ -112,7 +124,7 @@ def _build_compare_tasks(task, train_tasks, train_results):
     for (separate_train, group, dim), optimizer_model_list in compare_task_map.items():
         compare_tasks.append({
             'type': 'new_result_evaluate',
-            'phase_name': 'Stage3-FinalCompare',
+            'phase_name': '最终对比',
             'optimizer_model_list': optimizer_model_list,
             'evaluate_function': task['evaluate_function'],
             'group': group,
@@ -185,14 +197,14 @@ def top_task_run(task, mq=None):
     task_result['compare_result'] = compare_results
     task_result['md5'] = get_task_hash(task)
 
-    logger.info(f"final compare task path {task_result['md5']}")
+    logger.info(f"最终对比任务已生成 | 任务ID={task_result['md5']}")
     final_result = result_process(task, task_result, mq)
 
-    logger.info("start auto plotting")
+    logger.info("开始自动绘图")
     try:
         plot_func.generate_all_plots(task_result['md5'])
-        logger.info("auto plotting complete")
+        logger.info("自动绘图完成")
     except Exception:
-        logger.exception(f"auto plotting failed task_md5={task_result['md5']}")
+        logger.exception(f"自动绘图失败 | 任务ID={task_result['md5']}")
 
     return final_result

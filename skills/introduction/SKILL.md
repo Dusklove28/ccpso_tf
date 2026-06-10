@@ -13,14 +13,14 @@ The runnable project has been narrowed to the mainline:
 
 ```text
 PSO baseline
-RLPSO: NormalEnv + binary reward
-RLCCPSO: second-order CCPSO + delayed progress prior + continuous reward
+RLCCPSO: second-order CCPSO + 10-D evolution-state CcPSOEnv + direct Conv_a action + gap-progress reward
 ```
 
 `task/all_tasks_generate.py` no longer reads a mode-selection environment
-variable. Do not suggest old ablation, noise-sweep, pbest-reset,
-evolutionary-state-control, or center-trust commands unless the user explicitly
-asks to restore those branches.
+variable. RLPSO and RLEPSO are currently removed from the runnable task
+generator. Do not suggest old ablation, noise-sweep, pbest-reset, hard
+progress-prior, or center-trust commands unless the user explicitly asks to
+restore those branches.
 
 Run the current experiment with:
 
@@ -51,59 +51,60 @@ early pbest/gbest collapse -> Q collapse -> Conv_a only scales motion around
 the wrong Q
 ```
 
-## Current Conv_a Prior
+## Current Conv_a Action
 
-The current mainline replaces the old linear `1.5 -> 0.2` prior with:
-
-```python
-progress = fe / max_fe
-
-if progress <= 0.6:
-    conv_a_base = 1.5 - 0.48 * (progress / 0.6) ** 1.2
-else:
-    conv_a_base = 1.0 - 0.8 * ((progress - 0.6) / 0.4) ** 0.7
-```
-
-Final value:
+The current mainline removes the hard progress prior. The actor directly maps
+one continuous action to `Conv_a`:
 
 ```text
-Conv_a = conv_a_base + actor_residual + stagnation_boost
-actor_residual = raw_action * conv_a_delta_scale
+raw_action in [-1, 1]
+Conv_a = Conv_a_min + (raw_action + 1) / 2 * (Conv_a_max - Conv_a_min)
 ```
 
-Default config:
+Default range:
 
 ```text
-conv_a_delta_scale = 0.2
-conv_a_clip_min = 0.05
-conv_a_clip_max = 1.8
-stagnation_boost_max = 0.25
-stagnation_boost_fe_ratio = 0.2
+Conv_a_min = 0.0
+Conv_a_max = 2.0
 ```
 
-Interpretation: keep exploration/convergence radius larger until about 60% FE,
-then decrease faster in the last 40% FE.
+Target behavior: Conv_a should be globally larger early and smaller late, but
+local sharp rises/falls are allowed. Do not reintroduce a smooth hand-written
+progress-prior curve unless explicitly asked.
+
+## Evolution State
+
+RLCCPSO uses `CcPSOEnv` with 10 raw, clipped state features:
+
+```text
+FE progress
+recent gbest improvement
+recent mean improvement
+swarm diversity
+pbest diversity
+Q diversity
+mean distance(x, Q)
+mean distance(Q, gbest)
+current Conv_a
+stagnation length
+```
+
+Do not apply the old `sin_encode` expansion to this state.
 
 ## Reward
 
-RLPSO uses binary reward:
-
-```text
-gbest improves -> +1
-otherwise      -> -1
-```
-
-RLCCPSO uses continuous reward:
+RLCCPSO uses gap-progress reward:
 
 ```text
 reward =
-  8.0 * normalized_gbest_improvement
-+ 2.0 * normalized_mean_improvement
-+ 0.5 * diversity_term
-- 0.3 * instability_penalty
+  1.0  * gbest_gap_progress
++ 0.25 * mean_gap_progress
+- 0.2  * instability_penalty
 ```
 
-with default clip `[-2.0, 2.0]`.
+where `gap = fitness - f_opt` and progress is the log ratio between old and new
+gap. Do not add positive diversity reward in this version; diversity and
+Q-collapse metrics belong in state/diagnosis.
 
 ## Plotting And Diagnosis
 

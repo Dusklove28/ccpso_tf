@@ -6,6 +6,38 @@ from functions import CEC_functions
 import random
 
 
+CEC2013_OPTIMUM = {
+    1: -1400,
+    2: -1300,
+    3: -1200,
+    4: -1100,
+    5: -1000,
+    6: -900,
+    7: -800,
+    8: -700,
+    9: -600,
+    10: -500,
+    11: -400,
+    12: -300,
+    13: -200,
+    14: -100,
+    15: 100,
+    16: 200,
+    17: 300,
+    18: 400,
+    19: 500,
+    20: 600,
+    21: 700,
+    22: 800,
+    23: 900,
+    24: 1000,
+    25: 1100,
+    26: 1200,
+    27: 1300,
+    28: 1400,
+}
+
+
 def fit(x):
     return np.sum(np.power(x, 2))
 
@@ -130,6 +162,16 @@ class NormalEnv(Env):
         scale = max(abs(float(old_value)), abs(float(new_value)), 1.0)
         return float(improvement / scale)
 
+    def _get_function_optimum(self):
+        return float(CEC2013_OPTIMUM.get(getattr(self, 'fun_num', None), 0.0))
+
+    def _gap_progress(self, old_value, new_value):
+        f_opt = self._get_function_optimum()
+        eps = 1e-12
+        old_gap = max(float(old_value) - f_opt, eps)
+        new_gap = max(float(new_value) - f_opt, eps)
+        return float(np.log((old_gap + eps) / (new_gap + eps)))
+
     def _binary_reward(self, deta_best):
         if deta_best < 0:
             reward = 1
@@ -144,29 +186,24 @@ class NormalEnv(Env):
         return reward
 
     def _ccpso_continuous_reward(self, old_best, new_best, old_mean, new_mean):
-        normalized_gbest_improvement = self._normalized_improvement(old_best, new_best)
-        normalized_mean_improvement = self._normalized_improvement(old_mean, new_mean)
-        gbest_reward = self.reward_gbest_weight * normalized_gbest_improvement
-        mean_reward = self.reward_mean_weight * normalized_mean_improvement
+        gbest_progress = self._gap_progress(old_best, new_best)
+        mean_progress = self._gap_progress(old_mean, new_mean)
+        gbest_reward = self.reward_gbest_weight * gbest_progress
+        mean_reward = self.reward_mean_weight * mean_progress
 
-        diversity_term, diversity, target_diversity = self._get_diversity_term()
-        diversity_reward = self.reward_diversity_weight * diversity_term
         instability_penalty = self.reward_instability_weight * self._get_instability_penalty()
 
-        reward = gbest_reward + mean_reward + diversity_reward - instability_penalty
+        reward = gbest_reward + mean_reward - instability_penalty
         if self.reward_clip is not None:
             reward = float(np.clip(reward, -self.reward_clip, self.reward_clip))
 
         self.last_reward_terms = {
             'reward_mode': 'ccpso_continuous',
-            'normalized_gbest_improvement': float(normalized_gbest_improvement),
-            'normalized_mean_improvement': float(normalized_mean_improvement),
+            'f_opt': float(self._get_function_optimum()),
+            'gbest_progress': float(gbest_progress),
+            'mean_progress': float(mean_progress),
             'gbest_reward': float(gbest_reward),
             'mean_reward': float(mean_reward),
-            'diversity': float(diversity),
-            'target_diversity': float(target_diversity),
-            'diversity_term': float(diversity_term),
-            'diversity_reward': float(diversity_reward),
             'instability_penalty': float(instability_penalty),
             'reward': float(reward),
         }
@@ -193,6 +230,7 @@ class NormalEnv(Env):
         show = self.show_flag
 
         self.fun_num = random.choice(self.fun_nums)
+        self.min_value = self._get_function_optimum()
 
         fun_class = function_wrapper(n_dim, self.fun_num)
         optimizer_config = dict(self.optimizer_config)
@@ -287,23 +325,20 @@ class NormalEnv(Env):
                                                                              self.optimizer.history_best_fit))
 
         if done:
-            # 2. 【核心改造】：计算进度百分比并使用 logger 输出
+            # 训练环境回合结束时，输出本轮函数、FE进度和最优值。
             fe_progress = min(self.optimizer.fe_num, self.max_fe)
             progress_pct = (fe_progress / self.max_fe) * 100
 
-            # 使用 getattr 安全获取当前算法名称，防止找不到报错
             alg_name = getattr(self.optimizer, 'name', 'Unknown_Alg')
+            phase_name = getattr(self, 'phase_name', alg_name) or alg_name
 
-            res = (f"[{alg_name}] Func: {self.fun_num} | "
-                   f"FE: {fe_progress}/{self.max_fe} ({progress_pct:.1f}%) | "
-                   f"Iter: {self.step_num}/{self.n_run} | "
-                   f"Target: {self.min_value} | Result: {self.optimizer.history_best_fit:.4e}")
+            res = (f"训练回合完成 | 算法={phase_name} | 函数=F{self.fun_num} | "
+                   f"FE={fe_progress}/{self.max_fe} ({progress_pct:.1f}%) | "
+                   f"迭代(轮数)={self.step_num}/{self.n_run} | "
+                   f"当前最优={self.optimizer.history_best_fit:.4e}")
             logger.info(res)
 
-            # 使用你配置好的 logger！
-            logger.info(res)
-
-            # (可选) 保留你原有的 json 写入作为备份
+            # 保留原来的文本备份文件，便于服务器上直接查看最近回合结果。
             with open('res2.json', 'a', encoding='utf-8') as f:
                 f.write(f'{res}\n')
 

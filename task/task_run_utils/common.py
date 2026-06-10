@@ -38,9 +38,9 @@ def result_process(task, result, mq=None, result_num='', write=True):
         result_path_pickle = task_dir.joinpath(f'result{result_num}.pickle')
         with open(result_path_pickle, 'wb') as f:
             pickle.dump(result, f, 0)
-        logger.info(f'result write into:{result_path_pickle}')
+        logger.info(f'结果已写入 | 路径={result_path_pickle}')
     if mq:
-        logger.info(f'queue size:{mq.qsize()}')
+        logger.info(f'结果队列大小={mq.qsize()}')
         mq.put(result)
         return
 
